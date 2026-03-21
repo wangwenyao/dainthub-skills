@@ -41,33 +41,20 @@ description: |
 
 ## 参考文档
 
-根据需求类型加载：
-
-1. **必须**：`code-templates.md`
-2. **按需**：
-   - 字段变更/SQL → `data-layer.md` + `ddl-templates.md`
-   - 缓存/事务 → `service-layer.md`
-   - 并发 → `concurrency.md`
-   - 接口 → `api-design.md`
-   - 配置 → `application-config.md`
-   - 测试 → `test-standards.md`
-3. **可选**：`design-principles.md`, `maven-standards.md`
-
-### 文档索引
-
-| 场景 | 文件 |
-|------|------|
-| 集合/Stream/枚举/异常/Hutool/JSON | `java-best-practices.md` |
-| Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` |
-| 事务/缓存/Redis/日志/幂等/定时任务 | `service-layer.md` |
-| Maven/依赖管理/pom.xml | `maven-standards.md` |
-| DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` |
-| YAML 配置/环境分离 | `application-config.md` |
-| 单元测试/集成测试/Mock | `test-standards.md` |
-| API 版本/参数校验/响应格式 | `api-design.md` |
-| SOLID/DRY/KISS/设计模式 | `design-principles.md` |
-| DDL 模板/字段类型 | `ddl-templates.md` |
-| 并发/线程安全/分布式锁 | `concurrency.md` |
+| 场景 | 文件 | 优先级 |
+|------|------|--------|
+| DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` | 必须 |
+| 质量门控清单（代码生成前后自检） | `quality-gates.md` | 必须 |
+| Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` | 按需 |
+| DDL 模板/字段类型 | `ddl-templates.md` | 按需 |
+| 事务/缓存/Redis/日志/幂等/定时任务 | `service-layer.md` | 按需 |
+| 并发/线程安全/分布式锁 | `concurrency.md` | 按需 |
+| API 版本/参数校验/响应格式 | `api-design.md` | 按需 |
+| YAML 配置/环境分离 | `application-config.md` | 按需 |
+| 单元测试/集成测试/Mock | `test-standards.md` | 按需 |
+| 集合/Stream/枚举/异常/Hutool/JSON | `java-best-practices.md` | 按需 |
+| SOLID/DRY/KISS/设计模式 | `design-principles.md` | 可选 |
+| Maven/依赖管理/pom.xml | `maven-standards.md` | 可选 |
 
 ---
 
@@ -115,9 +102,7 @@ new_feature > interface_change > field_change > cache_change > task_add > client
 
 ---
 
-## 约束总表（Constraints）
-
-> 违反任何一条均视为规范错误。
+## 约束总表
 
 ### 架构约束 (C-ARCH)
 
@@ -131,7 +116,7 @@ new_feature > interface_change > field_change > cache_change > task_add > client
 | C-ARCH-006 | 排序用 DO/ServiceImpl 静态 Comparator |
 | C-ARCH-007 | 外部调用封装在 `{Entity}Client` |
 
-### 代码规范约束 (C-CODE)
+### 代码规范 (C-CODE)
 
 | ID | 规则 |
 |----|------|
@@ -140,7 +125,7 @@ new_feature > interface_change > field_change > cache_change > task_add > client
 | C-CODE-006~007 | 关键分支有日志，方法参数>3 封装为 VO |
 | C-CODE-008~012 | Javadoc 用中文，注释说"为什么"，代码用分区格式 |
 
-### 数据层约束 (C-DATA)
+### 数据层 (C-DATA)
 
 | ID | 规则 |
 |----|------|
@@ -148,56 +133,43 @@ new_feature > interface_change > field_change > cache_change > task_add > client
 | C-DATA-002 | 批量操作用 insertBatch/updateBatchById |
 | C-DATA-003 | Mapper.xml 定义 `<sql id="columns">` 片段 |
 
-### 配置约束 (C-CONF)
+### 配置 (C-CONF)
 
 | ID | 规则 |
 |----|------|
 | C-CONF-001~007 | YAML 分区注释，环境配置分离，禁止硬编码密码 |
 
-### 安全约束 (C-SEC)
+### 安全 (C-SEC)
 
 | ID | 规则 |
 |----|------|
 | C-SEC-001~010 | 密码 BCrypt，Token ≤2h，敏感字段加密，SQL 用 #{} |
 
-### 设计原则约束 (C-DESIGN)
+### 设计原则 (C-DESIGN)
 
 | ID | 规则 |
 |----|------|
 | C-DESIGN-001~010 | 方法职责单一，分支>3 用策略模式，禁止 null 返回 |
 
-> 详细约束说明 → 各 references 文件
+> 详细说明 → 各 references 文件
 
 ---
 
 ## 开发工作流
 
-### Step 0：影响范围分析（存量变更必做）
+### Step 0：影响范围分析
 
-```
-变更类型                影响文件范围                                         注意事项
-─────────────────────────────────────────────────────────────────────────────────
-新增字段            DDL(ALTER)·DO·VO(SaveReq+Resp)·Mapper.xml(columns片段)   新字段设默认值，防锁表
-                    Service(唯一性校验)                                       历史数据回填评估
-删除字段            DDL(ALTER)·DO·VO·Mapper(columns片段+条件清除)             确认所有引用已清除
-                    Service(清除相关校验逻辑)                                  评估是否破坏接口兼容
-字段改名            DDL(RENAME COLUMN)·DO·Mapper.xml(列映射)·VO               全局 grep 检索旧字段名
-字段类型/长度变更   DDL(MODIFY)·DO·VO(校验注解同步)·Mapper.xml                评估是否需要数据迁移
-新增关联关系        DDL(新增 FK 字段)·DO·Mapper(关联查询)·Service(级联逻辑)   N+1 风险评估
-删除关联关系        DDL(DROP COLUMN)·DO·Mapper·Service(移除级联逻辑)           确认无遗留引用
-新增接口            Controller·Service(接口+实现)·Mapper·ErrorCode             权限注解不能遗漏
-修改接口签名        Controller·Service接口·ServiceImpl·VO(新增/修改)           评估调用方兼容性
-删除接口            Controller·Service·Mapper(若仅此方法使用)                  确认无外部调用方
-枚举值新增/变更     枚举类·数据库注释·VO(校验注解@InEnum)·文档                  旧数据兼容处理
-错误码变更          ErrorCodeConstants·ServiceImpl(引用点)                     对外 API 影响评估
-逻辑重构            ServiceImpl·单元测试                                        行为一致性验证
-新增缓存            ServiceImpl(@Cacheable/@CacheEvict)·CacheConfig             缓存穿透/击穿防范
-新增定时任务        Job类·JobConfig(Trigger+JobDetail)                          Quartz 分布式防重
-新增外部调用        {Entity}Client·{Entity}DTO·ServiceImpl                      超时/重试/降级策略
-批量操作改造        Mapper(insertBatch/updateBatchById)·ServiceImpl             分批大小(500)评估
-性能优化            Mapper/SQL·EXPLAIN 验证·缓存策略                           索引变更评估回归
-新增/修改配置       application.yaml·application-{profile}.yaml               所有 profile 同步
-```
+| 变更类型 | 影响文件 |
+|---------|---------|
+| 新增字段 | DDL·DO·VO·Mapper.xml·Service |
+| 删除字段 | DDL·DO·VO·Mapper·Service |
+| 字段改名 | DDL·DO·Mapper.xml·VO（全局检索旧名） |
+| 字段类型变更 | DDL·DO·VO·Mapper.xml（评估数据迁移） |
+| 新增接口 | Controller·Service·Mapper·ErrorCode |
+| 修改接口 | Controller·Service·VO（评估兼容性） |
+| 新增缓存 | ServiceImpl·CacheConfig |
+| 新增定时任务 | Job·JobConfig |
+| 新增外部调用 | Client·DTO·ServiceImpl |
 
 ### Step 1：包路径与命名规范
 
@@ -263,49 +235,4 @@ com.dainthub.{project}.module.{module}
 | **Mapper** | 简单查询用 default 方法 · 复杂查询用 XML · `<sql id="columns">`(C-DATA-003) · 条件构造在 Mapper 层(C-ARCH-002) |
 | **ErrorCode** | interface(字段默认 `public static final`) · 错误码 = `1` + 模块3位码 + 业务序号3位 |
 | **Service** | 单条查询返回 `Optional<DO>`(C-ARCH-004) · `@Transactional(rollbackFor=Exception.class)` · 唯一性校验用 `exist{Entity}Name` |
-| **Controller** | 入参/出参只用 VO(C-ARCH-001) · `@PreAuthorize` 权限注解 · 单条查询"不存在"异常可在 Controller 抛出（因 Service 返回 Optional，由调用方决定处理方式） |
-
----
-
-## 质量门控（Quality Gates）
-
-生成代码前，逐条自检：
-
-```
-架构层：
-□ [C-ARCH-001] Controller 参数/返回值无 DO
-□ [C-ARCH-002] Service 层无 Wrapper 构造
-□ [C-ARCH-003] 转换方法在目标 Bean，无批量 setter
-□ [C-ARCH-004] 单条查询返回 Optional<DO>；列表/分页返回集合
-□ [C-ARCH-005] DO 业务方法无 Service/Mapper 依赖
-□ [C-ARCH-006] 排序用 DO/ServiceImpl 静态 Comparator
-□ [C-ARCH-007] 外部调用封装在 {Entity}Client
-
-代码规范：
-□ [C-CODE-001] 无数组类型
-□ [C-CODE-002] 无魔法数字，状态/类型有枚举
-□ [C-CODE-003] 无 RuntimeException，统一用 ServiceExceptionUtil.exception()
-□ [C-CODE-004] 工具类用 Hutool
-□ [C-CODE-005] JSON 用 JsonUtils
-□ [C-CODE-006] 关键分支有日志，携带业务参数
-□ [C-CODE-007] 方法参数 >3 个时封装为 VO/DO
-□ [C-CODE-008] Javadoc 和注释使用中文
-□ [C-CODE-009] Service 接口 public 方法有 Javadoc（含 @param/@return/@throws）
-□ [C-CODE-010] DO 字段有 Javadoc（业务含义+约束，枚举字段 @see）
-□ [C-CODE-011] 行内注释说"为什么"，不说"做什么"
-□ [C-CODE-012] 代码分区用 // ========== 分区标题 ========== 格式
-
-数据层：
-□ [C-DATA-001] UNIQUE KEY 仅用于业务必须的唯一性约束（如用户名、手机号）
-□ [C-DATA-002] 批量操作用 insertBatch/updateBatchById
-□ [C-DATA-003] Mapper.xml 定义 <sql id="columns"> 片段，SELECT 通过 <include> 引用
-
-配置文件（涉及 YAML 变更时检查）：
-□ [C-CONF-001] 功能分区有 --- 分隔符和标题注释
-□ [C-CONF-002] 重复值用 ${} 引用
-□ [C-CONF-003] 环境相关配置只在 profile 文件中
-□ [C-CONF-004] JDBC URL 参数齐全
-□ [C-CONF-005] 自定义配置在 {project}: 命名空间下
-□ [C-CONF-006] 所有 profile 文件（local/dev/prod）已同步
-□ [C-CONF-007] 无硬编码明文密码（生产环境）
-```
+| **Controller** | 入参/出参只用 VO(C-ARCH-001) · `@PreAuthorize` 权限注解 |
