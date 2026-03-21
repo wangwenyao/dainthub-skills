@@ -347,6 +347,7 @@ shadow-lg → 命令面板（Command Palette）
 | 品牌个性化指导 | `references/brand-personality.md` |
 | 复杂组件规范 | `references/complex-components.md` |
 | 情感化设计指导 | `references/emotional-design.md` |
+| 可访问性规范 | `references/accessibility.md` |
 | 页面设计示例 | `references/page-examples.md` |
 | 代码实现 | 配合 `vue-saas-frontend` skill 使用 |
 
@@ -414,7 +415,7 @@ shadow-lg → 命令面板（Command Palette）
 | C-TYPE-003 | 禁止正文行长超过 75 个字符，否则加 max-w 约束 |
 | C-TYPE-004 | 禁止全大写中文 |
 | C-TYPE-005 | 禁止 letter-spacing 用于中文（只可用于全英文标题） |
-| C-TYPE-006 | 中文正文行高不低于 1.6 |
+| C-TYPE-006 | 中文正文行高不低于 1.5（UI 默认 text-sm 可为 1.54，text-base 及以上≥1.6） |
 | C-TYPE-007 | 表格数字列右对齐 + 等宽数字（tabular-nums） |
 
 ### 间距约束
@@ -470,6 +471,19 @@ shadow-lg → 命令面板（Command Palette）
 | C-CJK-002 | 中英文混排时使用 text-spacing 或手动间距 |
 | C-CJK-003 | 行尾禁止出现：`、，。：；！？》」』】"` |
 | C-CJK-004 | 行首禁止出现：`《「『【"`'` |
+
+### 可访问性约束
+
+> 详见 `references/accessibility.md`
+
+| ID | 规则 |
+|----|------|
+| C-A11Y-001 | 所有交互元素必须可通过键盘操作 |
+| C-A11Y-002 | 图标按钮必须有 aria-label |
+| C-A11Y-003 | 模态框必须实现 focus trap |
+| C-A11Y-004 | 正文对比度不低于 4.5:1（WCAG AA） |
+| C-A11Y-005 | 禁止仅靠颜色区分信息（需配合图标/文字） |
+| C-A11Y-006 | 表单错误必须通过 aria-describedby 关联 |
 
 ---
 

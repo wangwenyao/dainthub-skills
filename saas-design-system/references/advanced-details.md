@@ -239,12 +239,12 @@ const display = (v: unknown): string => {
 
 ## 四、禁止事项
 
-- ❌ 禁止动画时长超过 200ms
-- ❌ 禁止使用 `transition-all`（指定具体属性）
+- ❌ 禁止动画时长超过 200ms（C-INTERACT-007）
+- ❌ 禁止使用 `transition-all`，指定具体属性（C-INTERACT-008）
 - ❌ 禁止装饰性动画
 - ❌ 禁止图标尺寸非标准（只用 12/14/16/20/24px）
-- ❌ 禁止图标按钮无 `aria-label`
-- ❌ 禁止数字使用非等宽字体（需 `tabular-nums`）
+- ❌ 禁止图标按钮无 `aria-label`（C-A11Y-002）
+- ❌ 禁止数字使用非等宽字体，需 `tabular-nums`（C-TYPE-007）
 - ❌ 禁止空值显示为空白或"无"（统一用 `—`）
 - ❌ 禁止相对时间超过 7 天（应显示绝对日期）
 - ❌ 禁止百分比不带正负号

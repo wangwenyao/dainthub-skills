@@ -51,6 +51,38 @@ vue-saas-frontend/
 
 ## 📋 核心规范速查
 
+### 输入参数
+
+| 参数 | 说明 | 获取方式 |
+|------|------|---------|
+| **输出粒度** | `component` / `page` / `module` | 从用户描述推断 |
+| **组件层级** | `ui` / `common` / `business` / `layout` | 从组件用途推断 |
+| **页面类型** | `list` / `detail` / `form` / `dashboard` / `auth` / `settings` | 若涉及页面则询问 |
+| **状态策略** | `server-state` / `client-state` / `local` | 默认 `server-state` |
+
+### 输出清单
+
+| 输出类型 | 产出文件 |
+|---------|---------|
+| `component` | .vue 文件 + types.ts（如有）+ __tests__/*.spec.ts |
+| `page` | Page.vue + composables/*.ts + _components/*.vue |
+| `module` | pages/ + composables/ + services/ + types/ |
+
+### 约束体系
+
+本技能包含 **32 条 ID 化约束**，分为 6 大类：
+
+| 类别 | 前缀 | 数量 | 说明 |
+|------|------|------|------|
+| 组件约束 | C-COMP-xxx | 10 | 组件分层、依赖方向、禁止事项 |
+| 状态管理约束 | C-STATE-xxx | 4 | TanStack Query / Pinia 使用规范 |
+| TypeScript 约束 | C-TS-xxx | 4 | 类型定义、泛型语法、Zod 验证 |
+| 样式约束 | C-STYLE-xxx | 3 | Tailwind CSS、类名合并、图标尺寸 |
+| 路由约束 | C-ROUTE-xxx | 6 | 路由配置、缓存策略、权限控制 |
+| 表格/表单约束 | C-FORM-xxx | 5 | 数据表格、表单验证、渲染规范 |
+
+> 详细约束内容见 `SKILL.md` 约束总表章节。
+
 ### 组件分层
 
 | 层级 | 用途 | 示例 |

@@ -6,6 +6,16 @@ description: |
   任何涉及 Java 后端开发的请求都必须使用此技能，包括但不限于新建模块、字段变更、接口开发、SQL 优化、缓存策略。
   即使用户没有明确说"后端开发"，只要涉及 SpringBoot/MyBatis/MySQL 相关的 Java 代码生成或修改，都应触发此技能。
   纯后端，不含前端代码。
+license: MIT
+compatibility:
+  - Claude Code
+  - OpenCode
+  - Cursor
+  - Codex
+metadata:
+  author: dainthub
+  version: "2.0"
+  tags: java, spring-boot, mybatis-plus, mysql, backend
 ---
 
 # 后端代码开发技能
@@ -156,7 +166,7 @@ description: |
 
 | ID | 规则 |
 |----|------|
-| C-DATA-001 | 索引只创建普通索引（`KEY`）；禁止创建唯一索引（`UNIQUE KEY`），唯一性由业务层 `exist{Entity}Name` 校验 |
+| C-DATA-001 | 索引优先创建普通索引（`KEY`）；唯一索引（`UNIQUE KEY`）仅用于业务必须的唯一性约束（如用户名、手机号），其他唯一性由业务层 `exist{Entity}Name` 校验 |
 | C-DATA-002 | 索引字段中不包含 `deleted` 字段 |
 | C-DATA-003 | 金额字段使用 `decimal(19,4)`；禁止 `float`/`double` |
 | C-DATA-004 | 时间范围查询条件使用 `startTime` / `endTime` 两个独立字段（`LocalDateTime` 类型），禁止用数组或 `List` |
@@ -174,6 +184,36 @@ description: |
 | C-CONF-005 | 项目自定义配置统一使用 `{project}:` 命名空间，禁止顶层自定义 key |
 | C-CONF-006 | 新增配置项后必须同步更新所有 profile 文件（local/dev/prod），保持 key 结构一致 |
 | C-CONF-007 | 禁止在配置文件中硬编码明文密码用于生产环境；生产环境使用环境变量或配置中心 |
+
+### 安全约束
+
+| ID | 规则 |
+|----|------|
+| C-SEC-001 | 密码必须使用 BCrypt 加密存储，禁止明文或 MD5 |
+| C-SEC-002 | Token 有效期不超过 2 小时，Refresh Token 不超过 7 天 |
+| C-SEC-003 | 敏感字段（手机号、身份证、银行卡）必须加密存储 |
+| C-SEC-004 | 敏感数据返回前端前必须脱敏（日志、接口响应） |
+| C-SEC-005 | 所有写操作接口必须有权限校验（@PreAuthorize） |
+| C-SEC-006 | 密码强度：至少8位，包含大小写字母、数字、特殊字符中的3种 |
+| C-SEC-007 | 登录失败超过5次锁定账户15分钟（防暴力破解） |
+| C-SEC-008 | JWT Secret 必须从环境变量注入，禁止硬编码 |
+| C-SEC-009 | 生产环境必须使用 HTTPS，Cookie 设置 Secure 属性 |
+| C-SEC-010 | SQL 查询禁止拼接用户输入，必须使用 `#{}` 预编译 |
+
+### 设计原则约束
+
+| ID | 规则 |
+|----|------|
+| C-DESIGN-001 | Service 方法职责单一，一个方法只做一件事 |
+| C-DESIGN-002 | 分支判断超过 3 种时使用策略模式，禁止多层 if-else |
+| C-DESIGN-003 | 重复代码出现 2 次以上必须提取公共方法或工具类 |
+| C-DESIGN-004 | 仅依赖 DO 自身字段的方法放在 DO；需要外部依赖的放在 Service |
+| C-DESIGN-005 | 跨多个实体的业务规则抽取到 Helper 类 |
+| C-DESIGN-006 | 所有公共方法必须有输入防御（非空、边界值校验） |
+| C-DESIGN-007 | 查询方法永不返回 null，单条用 Optional，列表用空集合 |
+| C-DESIGN-008 | 状态变更必须有状态机校验，禁止非法状态转换 |
+| C-DESIGN-009 | 依赖注入使用 @Resource 注解（与现有代码保持一致），禁止 @Autowired |
+| C-DESIGN-010 | 优先选择简单实现，避免过度抽象 |
 
 ---
 
@@ -324,7 +364,7 @@ ALTER TABLE `{module}_{entity_snake}` DROP COLUMN `{field}`;
 □ [C-CODE-012] 代码分区用 // ========== 分区标题 ========== 格式
 
 数据层：
-□ [C-DATA-001] 无 UNIQUE KEY
+□ [C-DATA-001] UNIQUE KEY 仅用于业务必须的唯一性约束（如用户名、手机号）
 □ [C-DATA-002] 索引字段无 deleted
 □ [C-DATA-003] 金额用 decimal(19,4)
 □ [C-DATA-004] 时间范围用 startTime/endTime 独立字段

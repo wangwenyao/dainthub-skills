@@ -1246,7 +1246,7 @@ public class OrderServiceImpl {
 | C-DESIGN-006 | 所有公共方法必须有输入防御（非空、边界值校验） |
 | C-DESIGN-007 | 查询方法永不返回 null，单条用 Optional，列表用空集合 |
 | C-DESIGN-008 | 状态变更必须有状态机校验，禁止非法状态转换 |
-| C-DESIGN-009 | 依赖注入使用构造器注入，禁止 @Resource 字段注入（测试友好） |
+| C-DESIGN-009 | 依赖注入使用 @Resource 注解（与现有代码保持一致），禁止 @Autowired |
 | C-DESIGN-010 | 优先选择简单实现，避免过度抽象 |
 
 ---

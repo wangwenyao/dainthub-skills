@@ -32,6 +32,7 @@ saas-design-system/
     ├── brand-personality.md        # 品牌个性化指导
     ├── complex-components.md       # 复杂组件规范（命令面板、行内编辑、看板）
     ├── emotional-design.md         # 情感化设计指导
+    ├── accessibility.md            # 可访问性规范（WCAG 2.1 AA）
     └── page-examples.md            # 页面设计示例
 ```
 
@@ -123,7 +124,7 @@ font-family: 'Geist', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 
 ## 📋 约束体系
 
-本技能包含 **39 条约束**，分为 7 大类，AI 可精确定位违规项：
+本技能包含 **45 条约束**，分为 8 大类，AI 可精确定位违规项：
 
 | 类别 | 约束 ID 范围 | 核心规则 |
 |------|-------------|---------|
@@ -134,6 +135,7 @@ font-family: 'Geist', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 | 视觉层级约束 | C-HIER-001 ~ 006 | 禁止同级等权、禁止三级深色粗体 |
 | 情感设计约束 | C-EMOTION-001 ~ 006 | 禁止庆祝动画、禁止游戏化元素 |
 | 中文排版约束 | C-CJK-001 ~ 004 | 多行省略行高、中英文间距、标点避让 |
+| 可访问性约束 | C-A11Y-001 ~ 006 | 键盘可操作、ARIA 标注、对比度≥4.5:1 |
 
 ### 输入参数
 

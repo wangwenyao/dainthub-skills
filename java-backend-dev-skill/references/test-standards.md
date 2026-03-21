@@ -174,12 +174,12 @@ class {Entity}ServiceImplTest {
 ### 使用 H2 内存数据库
 
 ```java
-@DataJpaTest
+@MybatisTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = "classpath:application-test.yaml")
 class {Entity}MapperIntegrationTest {
 
-    @Autowired
+    @Resource
     private {Entity}Mapper {entity}Mapper;
 
     @Test
@@ -217,10 +217,17 @@ spring:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
     username: sa
     password:
-  jpa:
-    hibernate:
-      ddl-auto: create-drop  # 自动创建/删除表
-    show-sql: true
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.dainthub.{project}.module.*.dal.dataobject
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
   sql:
     init:
       mode: always
@@ -235,7 +242,7 @@ spring:
 @Transactional  // 测试结束后自动回滚
 class {Entity}ServiceIntegrationTest {
 
-    @Autowired
+    @Resource
     private {Entity}Service {entity}Service;
 
     @Test
@@ -274,7 +281,7 @@ class {Entity}ServiceIntegrationTest {
 @Import({Entity}ServiceImpl.class)
 class {Entity}ControllerTest {
 
-    @Autowired
+    @Resource
     private MockMvc mockMvc;
 
     @MockBean

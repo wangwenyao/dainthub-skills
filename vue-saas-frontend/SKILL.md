@@ -2,6 +2,16 @@
 name: vue-saas-frontend
 description: >
   SaaS 级 Vue 3.5+/TypeScript 5.7+ 前端开发技能。当用户需要使用 Vue 3、TypeScript、Tailwind CSS、Shadcn-vue、Pinia、TanStack Query 等技术栈开发前端页面、UI 组件、SaaS 仪表盘、数据表格、复杂表单时触发。触发词：Vue 组件、SaaS 页面、shadcn、数据表格、表单、仪表盘。
+license: MIT
+compatibility:
+  - Claude Code
+  - OpenCode
+  - Cursor
+  - Codex
+metadata:
+  author: dainthub
+  version: "1.0"
+  tags: vue, typescript, frontend, saas, shadcn-vue, tanstack-query
 ---
 
 # Vue SaaS Frontend 开发 Skill
@@ -201,6 +211,133 @@ pnpm test
 ## 注释风格
 使用 JSDoc 注释
 ```
+
+---
+
+## 输入参数
+
+执行前端开发任务时，需要确定以下参数：
+
+| 参数 | 说明 | 获取方式 |
+|------|------|---------|
+| **输出粒度** | `component` / `page` / `module` | 从用户描述推断 |
+| **组件层级** | `ui` / `common` / `business` / `layout` | 从组件用途推断 |
+| **页面类型** | `list` / `detail` / `form` / `dashboard` / `auth` / `settings` | 若涉及页面则询问 |
+| **状态策略** | `server-state` / `client-state` / `local` | 默认 `server-state` |
+
+---
+
+## 输出清单
+
+| 输出类型 | 产出文件 |
+|---------|---------|
+| `component` | .vue 文件 + types.ts（如有）+ __tests__/*.spec.ts |
+| `page` | Page.vue + composables/*.ts + _components/*.vue |
+| `module` | pages/ + composables/ + services/ + types/ |
+
+---
+
+## 与 saas-design-system 协作
+
+本技能负责"代码怎么写"，`saas-design-system` 技能负责"设计长什么样"。
+
+### Token 映射
+
+| 设计 Token | Tailwind Class | 使用场景 |
+|-----------|---------------|---------|
+| `--color-brand-500` | `bg-primary` | 主按钮背景（交互锚点） |
+| `text-sm`（13px） | `text-sm` | UI 默认字号 |
+| `text-base`（15px） | `text-base` | 正文、表单输入 |
+| `space-4`（16px） | `p-4` / `gap-4` | 标准间距 |
+| `space-6`（24px） | `p-6` | 卡片内边距 |
+| `border-default` | `border-border` | 通用分割线 |
+| `bg-elevated` | `bg-card` | 卡片背景 |
+| `bg-sunken` | `bg-muted` | 输入框背景 |
+
+### 设计约束引用
+
+编写组件时，需遵循 `saas-design-system` 定义的设计约束：
+
+| 领域 | 约束范围 | 关键规则 |
+|------|---------|---------|
+| 色彩 | C-COLOR-001~007 | 主色占比≤5%，禁止渐变 |
+| 排版 | C-TYPE-001~007 | UI 默认 13px，行高≥1.5 |
+| 间距 | C-SPACE-001~003 | 4px 栅格 |
+| 交互 | C-INTERACT-001~008 | 主按钮≤1，动画≤200ms |
+
+### 协作流程
+
+1. 设计决策（配色、间距、组件选型）→ 使用 `saas-design-system` skill
+2. 代码实现（Vue 组件、状态管理、路由）→ 使用本 skill
+3. 两者冲突时，以 `saas-design-system` 的设计约束为准
+
+---
+
+## 约束总表
+
+> 从 `references/` 文档中提取的 ID 化约束，执行任务时必须遵守。
+
+### 组件约束 C-COMP-xxx
+
+| ID | 约束 | 来源 |
+|----|------|------|
+| C-COMP-001 | 禁止修改 `ui/` 目录下的 shadcn-vue 源码，升级时会丢失修改 | components-guide.md |
+| C-COMP-002 | 组件依赖方向：`business → common → ui`，禁止反向依赖 | components-guide.md |
+| C-COMP-003 | 禁止 `ui/` 组件依赖 `common/` 或 `business/` | components-guide.md |
+| C-COMP-004 | 禁止 `common/` 组件依赖 `business/` | components-guide.md |
+| C-COMP-005 | 禁止在 `ui/` 组件中硬编码业务文案，应通过 props 传入 | components-guide.md |
+| C-COMP-006 | 禁止使用 Mixins，应使用 Composables | components-guide.md |
+| C-COMP-007 | 禁止使用 Filters（Vue 3 已移除），应使用 computed 或方法 | components-guide.md |
+| C-COMP-008 | 禁止使用 `$on/$off`（已移除），应使用 mitt 或 useEventBus | components-guide.md |
+| C-COMP-009 | 禁止直接修改 props，应使用 emit 或 v-model | components-guide.md |
+| C-COMP-010 | 禁止 provide/inject 跨模块传递业务数据，禁止超过 3 层嵌套 | components-guide.md |
+
+### 状态管理约束 C-STATE-xxx
+
+| ID | 约束 | 来源 |
+|----|------|------|
+| C-STATE-001 | 服务端状态必须使用 TanStack Query（缓存、重试、同步） | architecture.md |
+| C-STATE-002 | 客户端状态必须使用 Pinia Setup Store 风格 | architecture.md |
+| C-STATE-003 | 禁止在 computed 中修改状态 | SKILL.md |
+| C-STATE-004 | 异步操作必须有 loading/error 状态处理 | SKILL.md |
+
+### TypeScript 约束 C-TS-xxx
+
+| ID | 约束 | 来源 |
+|----|------|------|
+| C-TS-001 | 禁止使用 `any` 类型，必须明确类型定义 | components-guide.md |
+| C-TS-002 | Props 必须使用 `defineProps<T>()` 泛型语法 | SKILL.md |
+| C-TS-003 | Emits 必须使用 `defineEmits<{ (e: 'event', payload: T): void }>()` 类型签名 | SKILL.md |
+| C-TS-004 | API 响应必须有 Zod schema 进行类型推导和验证 | SKILL.md |
+
+### 样式约束 C-STYLE-xxx
+
+| ID | 约束 | 来源 |
+|----|------|------|
+| C-STYLE-001 | 禁止内联样式，必须使用 Tailwind CSS 工具类 | SKILL.md |
+| C-STYLE-002 | 使用 `cn()` 合并类名，避免类名冲突 | SKILL.md |
+| C-STYLE-003 | 图标尺寸规范：按钮内 `h-4 w-4`，导航内 `h-5 w-5` | SKILL.md |
+
+### 路由约束 C-ROUTE-xxx
+
+| ID | 约束 | 来源 |
+|----|------|------|
+| C-ROUTE-001 | 禁止在路由组件中使用匿名函数定义 name，必须使用 `defineOptions({ name: 'xxx' })` | route-config.md |
+| C-ROUTE-002 | 禁止在 meta 中存储大对象或函数，仅限原始类型 | route-config.md |
+| C-ROUTE-003 | 禁止动态修改路由配置，应通过权限控制显示 | route-config.md |
+| C-ROUTE-004 | 禁止在 beforeEach 中执行异步操作不加 loading 状态 | route-config.md |
+| C-ROUTE-005 | 禁止缓存页面超过 10 个，影响内存性能 | route-config.md |
+| C-ROUTE-006 | 禁止使用 path 作为缓存 key，必须使用组件 name | route-config.md |
+
+### 表格/表单约束 C-FORM-xxx
+
+| ID | 约束 | 来源 |
+|----|------|------|
+| C-FORM-001 | 禁止在 render 函数中使用 async，渲染函数必须同步返回 | ui-config.md |
+| C-FORM-002 | 禁止直接修改 props.data，违反单向数据流 | ui-config.md |
+| C-FORM-003 | 禁止使用 index 作为 rowKey，分页时选中状态错乱 | ui-config.md |
+| C-FORM-004 | 禁止忽略 loading 状态，易产生竞态问题 | ui-config.md |
+| C-FORM-005 | 表单验证必须使用 Zod Schema | ui-config.md |
 
 ---
 

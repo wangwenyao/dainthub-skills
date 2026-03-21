@@ -49,6 +49,10 @@ KEY `idx_{entity}_user_status`(`user_id`, `status`)
 -- ❌ 禁止唯一索引（C-DATA-001）
 UNIQUE KEY `uk_name` (`name`)       -- 禁止，唯一性在业务层 exist{Entity}Name 校验
 
+-- ✅ 例外：业务需要唯一性约束时可使用 UNIQUE KEY（如用户名、手机号、邮箱）
+UNIQUE KEY `uk_username` (`username`)  -- 用户名唯一
+UNIQUE KEY `uk_mobile` (`mobile`)      -- 手机号唯一
+
 -- ❌ 禁止索引包含 deleted（C-DATA-002）
 KEY `idx_xxx` (`user_id`, `deleted`) -- 禁止
 ```

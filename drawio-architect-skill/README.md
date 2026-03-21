@@ -32,6 +32,32 @@ drawio-architect-skill/
 - `架构图`、`部署图`、`功能架构`、`系统架构`
 - `流程图`、`泳道图`、`拓扑图`
 
+## 🎯 何时使用
+
+使用此技能当：
+- 用户请求创建 `.drawio` 或 `.xml` 架构图文件
+- 用户提及"画一个架构图"、"绘制流程图"、"系统拓扑"
+- 用户需要将文字描述转为可视化图表
+- 用户需要修改现有 draw.io 文件
+
+## 🚫 何时不使用
+
+不使用此技能当：
+- 纯文字描述输出（无图表需求）
+- 图片编辑（PNG/JPG 处理）
+- 非 draw.io 格式的图表工具（Visio、Lucidchart、Mermaid）
+- UML 类图/时序图（建议用 PlantUML 或 Mermaid）
+- 数据可视化图表（ECharts、D3）
+
+## 📥 输入参数
+
+| 参数 | 说明 | 获取方式 |
+|------|------|---------|
+| **图类型** | `deploy` / `functional` / `flowchart` | 从用户描述推断 |
+| **云厂商** | `alibaba` / `aws` / `gcp` / `azure` / `none` | 默认 `alibaba`，用户指定则覆盖 |
+| **是否修改存量** | `true` / `false` | 用户是否提供现有文件 |
+| **页面尺寸** | `auto` / 指定 width×height | 默认 `auto`，根据内容自动计算 |
+
 ## 📋 核心规范速查
 
 ### XML 必须遵守的规则
@@ -107,6 +133,32 @@ value="A &amp; B"  <!-- & → &amp; -->
 | 图标空白方块 | shape name 格式错 | 用小写下划线 |
 | 图标空轮廓 | 缺 fillColor | 加渲染属性 |
 | 内容被背景遮挡 | Z-order 错 | 背景写在内容之前 |
+
+## 📐 约束体系
+
+本技能采用 ID 化约束体系，便于快速定位问题。完整约束见 `SKILL.md` 第十节。
+
+### 约束分类速查
+
+| 类别 | 前缀 | 数量 | 典型约束 |
+|------|------|------|---------|
+| XML 结构 | `C-XML-xxx` | 7 条 | mxGeometry 必须有 as="geometry"、特殊字符转义 |
+| 文件结构 | `C-FILE-xxx` | 3 条 | 根 cell 必须存在、页面尺寸调整 |
+| 布局 | `C-LAYOUT-xxx` | 11 条 | 同排宽高一致、层间距统一、调用方在上 |
+| 图标 | `C-ICON-xxx` | 8 条 | shape name 小写下划线、fillColor 必填 |
+| 连线 | `C-EDGE-xxx` | 5 条 | 方向一致、减少交叉、ID 匹配 |
+| Z-order | `C-ZORDER-xxx` | 2 条 | 先写元素在底层、严格顺序 |
+| 配色 | `C-COLOR-xxx` | 2 条 | 按职责分类、最多 4-5 种底色 |
+
+### 高频约束 Top 5
+
+| ID | 约束 | 常见错误 |
+|----|------|---------|
+| C-XML-001 | mxGeometry 必须有 as="geometry" | `Could not add object mxGeometry` |
+| C-XML-002 | `&` 必须转义为 `&amp;` | `xmlParseEntityRef: no name` |
+| C-ICON-001 | 阿里云 shape name 用小写下划线 | 图标空白方块 |
+| C-ICON-002 | 图标必须有 fillColor | 图标空轮廓 |
+| C-ZORDER-002 | 严格顺序：背景 → 嵌套框 → 文字 → 组件 → 连线 | 内容被遮挡 |
 
 ## 📄 许可证
 
