@@ -548,3 +548,196 @@ try {
 □ 有超时配置（RestTemplate connectTimeout / readTimeout）
 □ 日志携带 url 和业务参数
 ```
+
+---
+
+## 九、性能验证模板
+
+### EXPLAIN 结果解读
+
+```sql
+-- 执行计划分析
+EXPLAIN SELECT id, name, status FROM {module}_{entity}
+WHERE status = 1 AND create_time >= '2024-01-01' ORDER BY id DESC LIMIT 100;
+
+-- 关键指标解读
+```
+
+| 字段 | 关注点 | 优化建议 |
+|------|-------|---------|
+| **type** | ALL=全表扫描，index=索引扫描，range=范围扫描，ref=索引查找，const=常量 | 避免 ALL，争取 range 及以上 |
+| **key** | 实际使用的索引 | NULL 表示未走索引 |
+| **rows** | 预估扫描行数 | 越小越好，理想值 < 1000 |
+| **Extra** | Using filesort=额外排序，Using temporary=临时表 | 避免 filesort 和 temporary |
+
+```sql
+-- ✅ 良好的执行计划
+-- type: ref，key: idx_status，rows: 100，Extra: NULL
+
+-- ❌ 需要优化的执行计划
+-- type: ALL，key: NULL，rows: 1000000，Extra: Using where; Using filesort
+```
+
+### 索引效果验证
+
+```sql
+-- 强制使用索引测试
+SELECT id, name FROM {module}_{entity} FORCE INDEX (idx_create_time)
+WHERE create_time >= '2024-01-01';
+
+-- 禁用索引测试（对比性能）
+SELECT id, name FROM {module}_{entity} IGNORE INDEX (idx_create_time)
+WHERE create_time >= '2024-01-01';
+
+-- 查看索引基数（区分度）
+SHOW INDEX FROM {module}_{entity};
+
+-- Cardinality 越高，索引效果越好
+-- Cardinality / 总行数 > 0.1 表示区分度良好
+```
+
+### 缓存效果验证
+
+```java
+/**
+ * 缓存命中率监控
+ */
+@Component
+@Slf4j
+public class CacheMonitor {
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
+    /**
+     * 检查缓存命中率
+     */
+    public void checkCacheHitRate(String cacheName) {
+        // Redis INFO 命令获取统计
+        Properties info = redisTemplate.getRequiredConnectionFactory()
+                .getConnection().serverCommands().info("stats");
+
+        long hits = Long.parseLong(info.getProperty("keyspace_hits", "0"));
+        long misses = Long.parseLong(info.getProperty("keyspace_misses", "0"));
+        long total = hits + misses;
+
+        double hitRate = total > 0 ? (double) hits / total * 100 : 0;
+
+        log.info("[checkCacheHitRate][缓存命中率={}%，hits={}，misses={}]",
+                String.format("%.2f", hitRate), hits, misses);
+
+        // 命中率低于 80% 需要优化
+        if (hitRate < 80) {
+            log.warn("[checkCacheHitRate][缓存命中率过低，建议检查缓存策略]");
+        }
+    }
+}
+```
+
+### 慢查询分析
+
+```sql
+-- 开启慢查询日志（MySQL 配置）
+slow_query_log = 1
+long_query_time = 1  -- 超过 1 秒记录
+slow_query_log_file = /var/log/mysql/slow.log
+
+-- 分析慢查询日志
+mysqldumpslow -s t /var/log/mysql/slow.log | head -20
+
+-- 常见慢查询模式
+-- 1. 全表扫描：type=ALL
+-- 2. 索引失效：key=NULL
+-- 3. 大结果集：rows 过大
+-- 4. 额外排序：Using filesort
+-- 5. 临时表：Using temporary
+```
+
+### 性能基准测试
+
+```java
+/**
+ * 性能基准测试（简单版）
+ */
+@Test
+@DisplayName("性能基准 - 分页查询响应时间")
+void performanceBenchmark_pageQuery() {
+    // 准备测试数据
+    {Entity}PageReqVO reqVO = new {Entity}PageReqVO();
+    reqVO.setPageNo(1);
+    reqVO.setPageSize(20);
+
+    // 预热（JIT 编译）
+    for (int i = 0; i < 5; i++) {
+        {entity}Service.get{Entity}Page(reqVO);
+    }
+
+    // 正式测试
+    int iterations = 100;
+    long totalTime = 0;
+    long maxTime = 0;
+    long minTime = Long.MAX_VALUE;
+
+    for (int i = 0; i < iterations; i++) {
+        long start = System.currentTimeMillis();
+        {entity}Service.get{Entity}Page(reqVO);
+        long elapsed = System.currentTimeMillis() - start;
+
+        totalTime += elapsed;
+        maxTime = Math.max(maxTime, elapsed);
+        minTime = Math.min(minTime, elapsed);
+    }
+
+    double avgTime = (double) totalTime / iterations;
+
+    log.info("性能测试结果：平均={}ms，最大={}ms，最小={}ms",
+            String.format("%.2f", avgTime), maxTime, minTime);
+
+    // 性能基准：分页查询平均响应 < 100ms
+    assertThat(avgTime).isLessThan(100.0);
+}
+```
+
+### 性能优化验证流程
+
+```
+1. 问题发现
+   □ 慢查询日志告警
+   □ 监控面板响应时间异常
+   □ 用户反馈页面卡顿
+
+2. 问题定位
+   □ 使用 EXPLAIN 分析执行计划
+   □ 检查是否走索引
+   □ 检查扫描行数
+   □ 检查是否有额外排序/临时表
+
+3. 方案设计
+   □ 新增/优化索引
+   □ 改写 SQL
+   □ 引入缓存
+   □ 分库分表（极端情况）
+
+4. 方案实施
+   □ 测试环境验证
+   □ 灰度发布
+   □ 监控指标对比
+
+5. 效果验证
+   □ EXPLAIN 对比
+   □ 响应时间对比
+   □ 慢查询数量对比
+   □ 缓存命中率
+```
+
+### 性能验收标准
+
+| 指标 | 标准 | 说明 |
+|------|------|------|
+| 分页查询响应时间 | < 100ms | 含数据库查询 |
+| 单条查询响应时间 | < 50ms | 主键查询 |
+| 写操作响应时间 | < 200ms | 含事务提交 |
+| 慢查询数量 | 0 | 无超过 1s 的查询 |
+| 缓存命中率 | > 80% | 热点数据 |
+| 数据库 CPU | < 50% | 正常负载 |
+| 数据库连接池使用率 | < 80% | 峰值时段 |

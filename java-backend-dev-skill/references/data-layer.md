@@ -284,3 +284,183 @@ WHERE mobile = 13800138000
 -- ✅
 WHERE mobile = '13800138000'
 ```
+
+---
+
+## 五、数据迁移指南
+
+### 字段变更迁移策略
+
+| 变更类型 | 风险等级 | 推荐策略 |
+|---------|---------|---------|
+| 新增字段（可空/有默认值） | 低 | 直接 ALTER，无需停机 |
+| 新增字段（非空无默认值） | 中 | 先加可空 → 数据回填 → 改非空 |
+| 删除字段 | 高 | 先清理代码引用 → 验证无依赖 → ALTER |
+| 字段类型变更 | 高 | 新建字段 → 数据迁移 → 切换 → 删除旧字段 |
+| 字段改名 | 中 | 新建字段 → 数据迁移 → 代码切换 → 删除旧字段 |
+
+### 新增字段（非空无默认值）
+
+```sql
+-- Step 1：新增可空字段
+ALTER TABLE `{module}_{entity}`
+  ADD COLUMN `new_field` varchar(64) DEFAULT NULL COMMENT '新字段'
+  AFTER `existing_field`;
+
+-- Step 2：数据回填（分批执行，避免锁表）
+-- 每次更新 5000 条，避免长事务
+UPDATE `{module}_{entity}` SET `new_field` = 'default_value'
+WHERE `new_field` IS NULL LIMIT 5000;
+
+-- Step 3：验证数据完整性
+SELECT COUNT(*) FROM `{module}_{entity}` WHERE `new_field` IS NULL;
+
+-- Step 4：改为非空
+ALTER TABLE `{module}_{entity}`
+  MODIFY COLUMN `new_field` varchar(64) NOT NULL COMMENT '新字段';
+```
+
+### 字段类型变更
+
+```sql
+-- 场景：将 status 从 tinyint 改为 varchar(20)
+
+-- Step 1：新建字段
+ALTER TABLE `{module}_{entity}`
+  ADD COLUMN `status_str` varchar(20) DEFAULT NULL COMMENT '状态（字符串）'
+  AFTER `status`;
+
+-- Step 2：数据迁移（状态码 → 状态名）
+UPDATE `{module}_{entity}` SET `status_str` =
+  CASE `status`
+    WHEN 0 THEN 'DISABLED'
+    WHEN 1 THEN 'ENABLED'
+    ELSE 'UNKNOWN'
+  END;
+
+-- Step 3：验证迁移结果
+SELECT `status`, `status_str`, COUNT(*) FROM `{module}_{entity}`
+GROUP BY `status`, `status_str`;
+
+-- Step 4：代码切换（部署新版本，使用 status_str）
+
+-- Step 5：删除旧字段（确认无引用后）
+ALTER TABLE `{module}_{entity}` DROP COLUMN `status`;
+ALTER TABLE `{module}_{entity}` CHANGE COLUMN `status_str` `status` varchar(20) NOT NULL COMMENT '状态';
+```
+
+### 大表数据迁移
+
+```java
+/**
+ * 大表数据迁移服务（分批处理，避免 OOM）
+ */
+@Service
+@Slf4j
+public class DataMigrationService {
+
+    @Resource
+    private JdbcTemplate jdbcTemplate;
+
+    private static final int BATCH_SIZE = 1000;
+
+    /**
+     * 分批迁移数据
+     */
+    public void migrateData(String sourceTable, String targetTable) {
+        log.info("[migrateData][开始迁移，source={}, target={}]", sourceTable, targetTable);
+
+        // 获取总数
+        Long total = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM " + sourceTable, Long.class);
+        log.info("[migrateData][总记录数={}]", total);
+
+        int migrated = 0;
+        int lastId = 0;
+
+        while (migrated < total) {
+            // 基于主键分批查询（避免深分页）
+            List<Map<String, Object>> batch = jdbcTemplate.queryForList(
+                    "SELECT * FROM " + sourceTable + " WHERE id > ? ORDER BY id LIMIT ?",
+                    lastId, BATCH_SIZE);
+
+            if (batch.isEmpty()) {
+                break;
+            }
+
+            // 转换并插入
+            for (Map<String, Object> row : batch) {
+                insertToTarget(targetTable, row);
+                lastId = (Integer) row.get("id");
+            }
+
+            migrated += batch.size();
+            log.info("[migrateData][进度：{}/{}]", migrated, total);
+
+            // 避免对数据库造成压力
+            Thread.sleep(100);
+        }
+
+        log.info("[migrateData][迁移完成，共{}条]", migrated);
+    }
+
+    private void insertToTarget(String targetTable, Map<String, Object> data) {
+        // 转换逻辑...
+    }
+}
+```
+
+### 迁移脚本模板
+
+```sql
+-- migration/V1.1.0__add_user_nickname.sql
+-- 描述：用户表新增昵称字段
+-- 作者：xxx
+-- 日期：2024-01-15
+
+-- ============================================
+-- Step 1: 新增字段
+-- ============================================
+ALTER TABLE `system_user`
+  ADD COLUMN `nickname` varchar(64) DEFAULT NULL COMMENT '昵称'
+  AFTER `username`;
+
+-- ============================================
+-- Step 2: 数据回填（使用用户名作为默认昵称）
+-- ============================================
+UPDATE `system_user` SET `nickname` = `username`
+WHERE `nickname` IS NULL;
+
+-- ============================================
+-- 验证脚本（迁移后执行）
+-- ============================================
+-- SELECT COUNT(*) FROM `system_user` WHERE `nickname` IS NULL;
+-- 预期结果：0
+
+-- ============================================
+-- 回滚脚本（如需回滚）
+-- ============================================
+-- ALTER TABLE `system_user` DROP COLUMN `nickname`;
+```
+
+### 迁移检查清单
+
+```
+迁移前：
+□ 已在测试环境验证迁移脚本
+□ 已备份相关表数据
+□ 已评估迁移时间窗口
+□ 已通知相关方
+
+迁移中：
+□ 使用事务（如可行）
+□ 分批执行大数据量迁移
+□ 监控数据库负载
+□ 记录迁移进度
+
+迁移后：
+□ 验证数据完整性（记录数、关键字段）
+□ 验证应用功能正常
+□ 确认旧字段/表可安全删除
+□ 清理迁移代码/脚本
+```

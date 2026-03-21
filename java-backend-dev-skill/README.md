@@ -24,10 +24,13 @@ java-backend-dev-skill/
 └── references/                        # 参考文档目录
     ├── java-best-practices.md         # Java 最佳实践（集合、Stream、枚举、异常、设计模式）
     ├── code-templates.md              # 各分层代码模板（DO/VO/Mapper/Service/Controller）
-    ├── data-layer.md                  # 数据层规范（Mapper、SQL、索引、批量操作）
-    ├── service-layer.md               # 服务层规范（事务、缓存、定时任务、外部调用）
+    ├── data-layer.md                  # 数据层规范（Mapper、SQL、索引、批量操作、数据迁移）
+    ├── service-layer.md               # 服务层规范（事务、缓存、定时任务、外部调用、性能验证）
     ├── maven-standards.md             # Maven 规范（模块结构、依赖管理）
-    └── application-config.md          # 配置文件规范（YAML 模板、环境分离）
+    ├── application-config.md          # 配置文件规范（YAML 模板、环境分离）
+    ├── test-standards.md              # 测试规范（单元测试、集成测试、Mock、覆盖率）
+    ├── security-standards.md          # 安全规范（认证授权、JWT、权限模型、敏感数据）
+    └── api-design.md                  # API 设计（版本管理、参数校验、响应格式）
 ```
 
 ## 🚀 使用方式
@@ -56,11 +59,14 @@ java-backend-dev-skill/
 | 场景 | 加载文件 |
 |------|---------|
 | 集合处理、Stream、枚举、异常处理、Hutool、JSON、设计模式 | [`references/java-best-practices.md`](references/java-best-practices.md) |
-| Mapper、SQL、索引设计、批量操作、MyBatis、分页、N+1 | [`references/data-layer.md`](references/data-layer.md) |
-| 事务、Spring Cache、Redis、并发、日志、幂等、定时任务、外部调用 | [`references/service-layer.md`](references/service-layer.md) |
+| Mapper、SQL、索引设计、批量操作、MyBatis、分页、N+1、数据迁移 | [`references/data-layer.md`](references/data-layer.md) |
+| 事务、Spring Cache、Redis、并发、日志、幂等、定时任务、外部调用、性能验证 | [`references/service-layer.md`](references/service-layer.md) |
 | Maven、模块结构、依赖管理、pom.xml、BOM | [`references/maven-standards.md`](references/maven-standards.md) |
 | 各分层代码模板（DO/VO/Mapper/Service/Controller 完整示例） | [`references/code-templates.md`](references/code-templates.md) |
 | Application YAML 配置文件规范、各组件配置模板 | [`references/application-config.md`](references/application-config.md) |
+| 单元测试、集成测试、Mock、测试覆盖率 | [`references/test-standards.md`](references/test-standards.md) |
+| 认证授权、JWT、权限模型、密码安全、敏感数据 | [`references/security-standards.md`](references/security-standards.md) |
+| API 版本管理、参数校验、响应格式、RESTful 规范 | [`references/api-design.md`](references/api-design.md) |
 
 ## 📋 核心约束速查
 

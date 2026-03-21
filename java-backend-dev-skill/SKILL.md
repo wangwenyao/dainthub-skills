@@ -54,6 +54,9 @@ description: |
 | Maven、模块结构、依赖管理、pom.xml、BOM | `references/maven-standards.md` |
 | 各分层代码模板（DO/VO/Mapper/Service/Controller 完整示例） | `references/code-templates.md` |
 | Application YAML 配置文件规范、各组件配置模板、环境分离 | `references/application-config.md` |
+| 单元测试、集成测试、Mock、测试覆盖率 | `references/test-standards.md` |
+| 认证授权、JWT、OAuth2、权限模型、密码安全、敏感数据 | `references/security-standards.md` |
+| API 版本管理、参数校验、响应格式、RESTful 规范 | `references/api-design.md` |
 
 ---
 
@@ -67,6 +70,31 @@ description: |
 | **project** | 项目标识符（如 mall、oms、crm），用于包路径 `com.dainthub.{project}` | 若缺失则询问用户 |
 | **module** | 业务模块名（如 trade、member），用于包路径和表名前缀 | 若缺失则询问用户 |
 | **entity** | 核心实体名，PascalCase（如 Order、ProductSku），用作类名前缀 | 若缺失则询问用户 |
+
+### 需求类型判断优先级
+
+当用户请求涉及多种需求类型时，按以下优先级判断：
+
+```
+1. new_feature       （最高：新建模块/实体，包含完整 CRUD）
+2. interface_change  （新增/修改接口，涉及 Controller/Service/VO）
+3. field_change      （字段增删改，需同步 DDL/DO/VO/Mapper）
+4. cache_change      （缓存策略变更，涉及 @Cacheable/@CacheEvict）
+5. task_add          （新增定时任务，涉及 Job/JobConfig）
+6. client_add        （新增外部调用，涉及 Client/DTO）
+7. config_change     （配置文件变更，涉及 YAML）
+8. logic_refactor    （逻辑重构，仅修改 ServiceImpl）
+9. perf_optimize     （性能优化，涉及 SQL/索引/缓存）
+```
+
+**组合场景处理**：
+
+| 用户请求 | 判断为 | 输出范围 |
+|---------|-------|---------|
+| "新建商品模块，包含 CRUD 接口" | `new_feature` | 完整模块 |
+| "给订单加一个发货时间字段，并新增发货接口" | `field_change` + `interface_change` | 按 `interface_change` 处理（包含字段变更） |
+| "优化订单列表查询性能" | `perf_optimize` | SQL/索引/缓存 |
+| "新增定时同步库存任务" | `task_add` | Job/JobConfig |
 
 存量变更场景：若用户未提供现有代码，应**主动搜索项目**找到相关文件（DO/VO/Mapper/Service 等），基于实际代码做精确的 diff 式改动，而非重写全部代码。
 
