@@ -21,16 +21,17 @@ B端 SaaS 产品设计规范技能，风格基准为专业克制（类 Linear/No
 
 ```
 saas-design-system/
-├── SKILL.md                        # 技能主文件（设计哲学、核心规范）
+├── SKILL.md                        # 技能主文件（设计哲学、核心规范、约束总表）
 └── references/                     # 参考文档目录
-    ├── dark-mode.md                # 暗色模式 Token 映射
+    ├── dark-mode.md                # 暗色模式规范（Token 映射、shadcn-vue 变量）
     ├── responsive.md               # 响应式断点策略
     ├── motion.md                   # 动画与过渡规范
     ├── visual-hierarchy.md         # 视觉层级规范
-    ├── advanced-details.md         # 高级质感细节
+    ├── advanced-details.md         # 高级质感细节（微交互、图标、数据展示）
     ├── brand-personality.md        # 品牌个性化指导
-    ├── complex-components.md       # 复杂组件规范
-    └── emotional-design.md         # 情感化设计指导
+    ├── complex-components.md       # 复杂组件规范（命令面板、行内编辑、看板）
+    ├── emotional-design.md         # 情感化设计指导
+    └── page-examples.md            # 页面设计示例
 ```
 
 ## 🚀 适用场景
@@ -104,6 +105,27 @@ saas-design-system/
 - ❌ 模态框内嵌套模态框
 - ❌ 用颜色作为**唯一**区分手段
 
+## 📋 约束体系
+
+本技能包含 **35 条约束**，分为 6 大类，AI 可精确定位违规项：
+
+| 类别 | 约束 ID 范围 | 核心规则 |
+|------|-------------|---------|
+| 色彩约束 | C-COLOR-001 ~ 007 | 主色占比≤5%、禁止渐变、禁止颜色作为唯一区分 |
+| 排版约束 | C-TYPE-001 ~ 005 | UI 默认 13px、字重≤3、行长≤75字符 |
+| 间距约束 | C-SPACE-001 ~ 003 | 4px 栅格、同排组件宽高一致 |
+| 交互约束 | C-INTERACT-001 ~ 008 | 主按钮≤1、删除必确认、动画≤200ms |
+| 视觉层级约束 | C-HIER-001 ~ 006 | 禁止同级等权、禁止三级深色粗体 |
+| 情感设计约束 | C-EMOTION-001 ~ 006 | 禁止庆祝动画、禁止游戏化元素 |
+
+### 输入参数
+
+| 参数 | 说明 | 可选值 |
+|------|------|--------|
+| **设计类型** | 设计任务类型 | `token` / `component` / `page` / `pattern` / `review` |
+| **页面类型** | 页面设计类型 | `list` / `detail` / `form` / `dashboard` / `auth` / `settings` |
+| **主题模式** | 明暗模式 | `light` / `dark` / `both`（默认） |
+
 ## 🔗 配合使用
 
 | 需求 | 使用技能 |
@@ -113,4 +135,4 @@ saas-design-system/
 
 ## 📄 许可证
 
-本项目仅供内部开发参考使用。
+MIT License
