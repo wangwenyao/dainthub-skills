@@ -161,7 +161,6 @@ dainthub-skills/
         ├── ui-config.md                # UI 配置
         ├── testing.md                  # 测试规范
         ├── utils.md                    # 工具函数
-        ├── compatibility.md            # 浏览器兼容性
         └── error-handling.md           # 错误处理规范
 ```
 
@@ -196,16 +195,6 @@ AI 在执行任务时会：
 name: skill-name
 description: |
   技能描述，用于 AI 判断是否触发
-license: MIT
-compatibility:
-  - Claude Code
-  - OpenCode
-  - Cursor
-  - Codex
-metadata:
-  author: author-name
-  version: "1.0"
-  tags: tag1, tag2, tag3
 ---
 ```
 

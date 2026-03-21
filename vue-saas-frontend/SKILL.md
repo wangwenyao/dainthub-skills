@@ -4,16 +4,6 @@ description: >
   Vue 3.5+ / TypeScript 5.7+ / Tailwind CSS 4 / Shadcn-vue 前端开发。
   触发：Vue组件/SaaS页面/管理页面/列表查询页面/图表页面/shadcn/数据表格/表单/仪表盘/TanStack Query/Pinia。
   不含后端。
-license: MIT
-compatibility:
-  - Claude Code
-  - OpenCode
-  - Cursor
-  - Codex
-metadata:
-  author: dainthub
-  version: "1.0"
-  tags: vue, typescript, frontend, saas, shadcn-vue, tanstack-query
 ---
 
 # Vue SaaS Frontend 开发 Skill

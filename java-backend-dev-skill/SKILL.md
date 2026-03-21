@@ -6,16 +6,6 @@ description: |
   任何涉及 Java 后端开发的请求都必须使用此技能，包括但不限于新建模块、字段变更、接口开发、SQL 优化、缓存策略。
   即使用户没有明确说"后端开发"，只要涉及 SpringBoot/MyBatis/MySQL 相关的 Java 代码生成或修改，都应触发此技能。
   纯后端，不含前端代码。
-license: MIT
-compatibility:
-  - Claude Code
-  - OpenCode
-  - Cursor
-  - Codex
-metadata:
-  author: dainthub
-  version: "2.0"
-  tags: java, spring-boot, mybatis-plus, mysql, backend
 ---
 
 # 后端代码开发技能
@@ -175,9 +165,9 @@ metadata:
 
 | ID | 规则 |
 |----|------|
-| C-DATA-001~002 | 优先普通索引，索引不含 deleted |
-| C-DATA-003~004 | 金额用 decimal(19,4)，禁止使用集合存放多个字段 |
-| C-DATA-005~006 | 批量操作用 insertBatch，Mapper.xml 定义 columns 片段 |
+| C-DATA-001 | UNIQUE KEY 仅用于业务必须的唯一性约束 |
+| C-DATA-002 | 批量操作用 insertBatch/updateBatchById |
+| C-DATA-003 | Mapper.xml 定义 `<sql id="columns">` 片段 |
 
 ### 配置约束 (C-CONF)
 
@@ -290,8 +280,8 @@ com.dainthub.{project}.module.{module}
 | 分层 | 关键规范 |
 |------|---------|
 | **DO** | 充血模型业务方法(C-ARCH-005) · 静态 Comparator(C-ARCH-006) · 静态 Function |
-| **VO** | 转换方法在目标 Bean(C-ARCH-003) · `toEntity`/`of`/`ofList`/`ofPage`/`indexById` · 时间范围用独立字段(C-DATA-004) |
-| **Mapper** | 简单查询用 default 方法 · 复杂查询用 XML · `<sql id="columns">`(C-DATA-006) · 条件构造在 Mapper 层(C-ARCH-002) |
+| **VO** | 转换方法在目标 Bean(C-ARCH-003) · `toEntity`/`of`/`ofList`/`ofPage`/`indexById` |
+| **Mapper** | 简单查询用 default 方法 · 复杂查询用 XML · `<sql id="columns">`(C-DATA-003) · 条件构造在 Mapper 层(C-ARCH-002) |
 | **ErrorCode** | interface(字段默认 `public static final`) · 错误码 = `1` + 模块3位码 + 业务序号3位 |
 | **Service** | 单条查询返回 `Optional<DO>`(C-ARCH-004) · `@Transactional(rollbackFor=Exception.class)` · 唯一性校验用 `exist{Entity}Name` |
 | **Controller** | 入参/出参只用 VO(C-ARCH-001) · `@PreAuthorize` 权限注解 · 单条查询"不存在"异常可在 Controller 抛出（因 Service 返回 Optional，由调用方决定处理方式） |
@@ -328,11 +318,8 @@ com.dainthub.{project}.module.{module}
 
 数据层：
 □ [C-DATA-001] UNIQUE KEY 仅用于业务必须的唯一性约束（如用户名、手机号）
-□ [C-DATA-002] 索引字段无 deleted
-□ [C-DATA-003] 金额用 decimal(19,4)
-□ [C-DATA-004] 时间范围用 startTime/endTime 独立字段
-□ [C-DATA-005] 批量操作用 insertBatch/updateBatchById
-□ [C-DATA-006] Mapper.xml 定义 <sql id="columns"> 片段，SELECT 通过 <include> 引用
+□ [C-DATA-002] 批量操作用 insertBatch/updateBatchById
+□ [C-DATA-003] Mapper.xml 定义 <sql id="columns"> 片段，SELECT 通过 <include> 引用
 
 配置文件（涉及 YAML 变更时检查）：
 □ [C-CONF-001] 功能分区有 --- 分隔符和标题注释

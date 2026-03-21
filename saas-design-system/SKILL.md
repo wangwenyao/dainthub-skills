@@ -2,16 +2,6 @@
 name: saas-design-system
 description: >
   B端 SaaS 产品设计规范 skill，风格基准为专业克制（类 Linear/Notion）。当用户需要定义色彩体系、字体排版、间距布局、组件选型决策，或者问"这里该用什么组件"、"配色怎么定"、"间距用多少"、"字号规范是什么"、"这个交互合不合理"时必须使用此 skill。适用于从零建立设计语言、审查设计一致性、生成设计 token、以及指导页面视觉实现。与 vue-saas-frontend skill 协同工作——本 skill 决定"设计长什么样"，vue-saas-frontend skill 决定"代码怎么实现"。
-license: MIT
-compatibility:
-  - Claude Code
-  - OpenCode
-  - Cursor
-  - Codex
-metadata:
-  author: dainthub
-  version: "2.0"
-  tags: design-system, UI, UX, SaaS, design-token, tailwind
 ---
 
 # SaaS Design System

@@ -101,12 +101,9 @@ java-backend-dev-skill/
 
 | ID | 规则 |
 |----|------|
-| C-DATA-001 | 索引只创建普通索引，禁止唯一索引 |
-| C-DATA-002 | 索引字段中不包含 `deleted` 字段 |
-| C-DATA-003 | 金额字段使用 `decimal(19,4)` |
-| C-DATA-004 | 时间范围查询使用 startTime/endTime 独立字段 |
-| C-DATA-005 | 批量操作使用 `insertBatch`/`updateBatchById` |
-| C-DATA-006 | Mapper.xml 必须定义 `<sql id="columns">` 列片段 |
+| C-DATA-001 | UNIQUE KEY 仅用于业务必须的唯一性约束 |
+| C-DATA-002 | 批量操作使用 `insertBatch`/`updateBatchById` |
+| C-DATA-003 | Mapper.xml 必须定义 `<sql id="columns">` 列片段 |
 
 ## 📦 输出清单
 

@@ -2,16 +2,6 @@
 name: drawio-architect
 description: >
   创建和编辑生产级 draw.io（.drawio / .xml）架构图和流程图文件。支持的图类型：云部署架构图、功能架构图、系统架构图、业务流程图、数据流图。支持阿里云/AWS/GCP/Azure 云厂商图标库和 Kubernetes 图标库。当用户需要创建、修改、修复 draw.io 图表，绘制任何类型的架构图或流程图，将架构描述或业务流程转为可视化图表，或排查 draw.io XML 格式问题时使用此技能。触发词包括：draw.io、diagrams.net、mxfile、架构图、部署图、功能架构、系统架构、流程图、泳道图、拓扑图。输出可直接在 draw.io 桌面版和网页版打开的独立 XML 文件。
-license: MIT
-compatibility:
-  - Claude Code
-  - OpenCode
-  - Cursor
-  - Codex
-metadata:
-  author: wwy
-  version: "3.0"
-  tags: draw.io, architecture, diagram, flowchart, cloud, kubernetes
 ---
 
 # draw.io 架构图与流程图技能

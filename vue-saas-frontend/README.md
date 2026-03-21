@@ -33,7 +33,6 @@ vue-saas-frontend/
     ├── ui-config.md              # UI 配置规范（表格、表单）
     ├── testing.md                # 测试规范
     ├── utils.md                  # 工具函数规范
-    ├── compatibility.md          # 浏览器兼容性规范
     └── error-handling.md         # 错误处理规范
 ```
 

@@ -116,7 +116,7 @@ List<String> fixed = List.of("A", "B", "C");
 ### 分批处理（大集合必用）
 
 ```java
-// ✅ Hutool CollUtil.split 分批，每批 500 条（C-DATA-005）
+// ✅ Hutool CollUtil.split 分批，每批 500 条（C-DATA-002）
 CollUtil.split(allIds, 500).forEach(batch ->
     orderMapper.selectBatchIds(batch)
 );
@@ -487,8 +487,7 @@ private Integer status;
 private Integer sortOrder;
 
 /**
- * 总金额
- * decimal(19,4)，单位：元
+ * 总金额（单位：元）
  */
 private BigDecimal totalAmount;
 

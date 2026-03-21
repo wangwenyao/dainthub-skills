@@ -17,10 +17,7 @@
 `remark`      varchar(500)  NOT NULL DEFAULT ''
 `content`     text                               -- 富文本/不定长大字段（无法建索引）
 
--- 金额：decimal(19,4)，禁止 float/double（C-DATA-003）
-`amount`      decimal(19,4) NOT NULL DEFAULT '0.0000'
-
--- 时间：datetime（C-DATA-004：范围查询用 startTime/endTime 独立字段）
+-- 时间：datetime
 `create_time` datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP
 `begin_time`  datetime      DEFAULT NULL
 `end_time`    datetime      DEFAULT NULL
@@ -35,10 +32,10 @@
 `extra_info`  json          DEFAULT NULL
 ```
 
-### 索引设计（C-DATA-001 / C-DATA-002）
+### 索引设计
 
 ```sql
--- ✅ 普通索引，不含 deleted 字段
+-- ✅ 普通索引
 KEY `idx_{entity}_user_id`    (`user_id`)
 KEY `idx_{entity}_status`     (`status`)
 KEY `idx_{entity}_create_time`(`create_time`)
@@ -52,9 +49,6 @@ UNIQUE KEY `uk_name` (`name`)       -- 禁止，唯一性在业务层 exist{Enti
 -- ✅ 例外：业务需要唯一性约束时可使用 UNIQUE KEY（如用户名、手机号、邮箱）
 UNIQUE KEY `uk_username` (`username`)  -- 用户名唯一
 UNIQUE KEY `uk_mobile` (`mobile`)      -- 手机号唯一
-
--- ❌ 禁止索引包含 deleted（C-DATA-002）
-KEY `idx_xxx` (`user_id`, `deleted`) -- 禁止
 ```
 
 **索引选择原则**：
@@ -65,7 +59,7 @@ KEY `idx_xxx` (`user_id`, `deleted`) -- 禁止
 
 ---
 
-## 二、Mapper.xml 规范（C-DATA-006）
+## 二、Mapper.xml 规范（C-DATA-003）
 
 ### 列 SQL 片段（必须定义）
 
@@ -76,7 +70,7 @@ KEY `idx_xxx` (`user_id`, `deleted`) -- 禁止
 <mapper namespace="com.dainthub.{project}.module.{module}.dal.mysql.{entity}.{Entity}Mapper">
 
     <!--
-      ✅ C-DATA-006：必须定义列 SQL 片段，禁止 SELECT *
+      ✅ C-DATA-003：必须定义列 SQL 片段，禁止 SELECT *
       修改字段时只需维护此一处，其他 SQL 自动生效
     -->
     <sql id="columns">
@@ -86,7 +80,6 @@ KEY `idx_xxx` (`user_id`, `deleted`) -- 禁止
 
     <!--
       ✅ 通过 <include refid="columns"/> 引用列片段
-      ✅ startTime/endTime 独立参数（C-DATA-004）
       ✅ <where> + <if> 替代手拼 WHERE 1=1
       ✅ #{} 防注入，禁止 ${}
     -->
@@ -178,10 +171,9 @@ KEY `idx_xxx` (`user_id`, `deleted`) -- 禁止
 
 ## 三、MyBatis Plus 使用规范
 
-### LambdaQueryWrapperX（时间范围用独立字段）
+### LambdaQueryWrapperX
 
 ```java
-// ✅ startTime/endTime 独立字段（C-DATA-004，禁止数组/List）
 default PageResult<{Entity}DO> selectPage({Entity}PageReqVO reqVO) {
     return selectPage(reqVO, new LambdaQueryWrapperX<{Entity}DO>()
             .likeIfPresent({Entity}DO::getName,       reqVO.getName())
@@ -202,7 +194,7 @@ for (OrderDO order : orders) {
     UserDO user = userMapper.selectById(order.getUserId()); // 每次都查！
 }
 
-// ✅ 批量查询 + Map 检索（O(1)，C-DATA-005）
+// ✅ 批量查询 + Map 检索（O(1)，C-DATA-002）
 List<OrderDO> orders  = orderMapper.selectList(null);
 Set<Long> userIds     = orders.stream().map(OrderDO::getUserId).collect(toSet());
 Map<Long, UserDO> map = userMapper.selectMapByIds(userIds); // Mapper default 方法
@@ -217,7 +209,7 @@ orders.forEach(order -> {
 // ❌ 循环单条（性能极差）
 for (ItemDO item : items) { itemMapper.insert(item); }
 
-// ✅ 批量插入（BaseMapperX，内部已分批 500 条，C-DATA-005）
+// ✅ 批量插入（BaseMapperX，内部已分批 500 条，C-DATA-002）
 itemMapper.insertBatch(items);
 
 // ✅ 批量更新

@@ -162,7 +162,7 @@ spring:
 | `serverTimezone` | `Asia/Shanghai` | 统一时区 |
 | `allowPublicKeyRetrieval` | `true` | MySQL 8 公钥检索 |
 | `nullCatalogMeansCurrent` | `true` | 仅查询当前数据库的表 |
-| `rewriteBatchedStatements` | `true` | 开启批量写入优化（配合 C-DATA-005） |
+| `rewriteBatchedStatements` | `true` | 开启批量写入优化（配合 C-DATA-002） |
 
 ### Redis
 

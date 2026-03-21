@@ -24,7 +24,6 @@ CREATE TABLE `{module}_{entity_snake}` (
                              ON UPDATE CURRENT_TIMESTAMP         COMMENT '更新时间',
   `deleted`     bit(1)       NOT NULL DEFAULT b'0'               COMMENT '是否删除',
   PRIMARY KEY (`id`),
-  -- 普通索引，不含 deleted（C-DATA-001/002）
   KEY `idx_{entity_snake}_status` (`status`),
   KEY `idx_{entity_snake}_create_time` (`create_time`)
 ) ENGINE = InnoDB COMMENT = '{entity 中文描述}';
@@ -71,7 +70,6 @@ ALTER TABLE `{module}_{entity_snake}`
 | 规则 ID | 规则 | 说明 |
 |---------|------|------|
 | C-DATA-001 | 优先普通索引 | 唯一索引仅用于业务必须的唯一性约束 |
-| C-DATA-002 | 索引不含 `deleted` | 软删除字段不参与索引 |
 
 ### 索引命名规范
 
@@ -125,7 +123,6 @@ uk_{表名简写}_{字段名}            -- 唯一索引（慎用）
 | 场景 | 类型 | 说明 |
 |------|------|------|
 | 主键 | `bigint` | 自增 |
-| 金额 | `decimal(19,4)` | 禁止 float/double |
 | 状态/类型 | `tinyint` | 配合枚举 |
 | 名称/标题 | `varchar(64-255)` | 按业务需要 |
 | 描述/内容 | `varchar(500-2000)` 或 `text` | 长文本 |

@@ -148,13 +148,13 @@ public class {Entity}PageReqVO extends PageParam {
     private Integer status;
 
     /**
-     * 创建时间范围-开始（C-DATA-004：用独立字段，禁止数组/List）
+     * 创建时间范围-开始
      */
     @Schema(description = "创建时间-开始")
     private LocalDateTime startTime;
 
     /**
-     * 创建时间范围-结束（C-DATA-004）
+     * 创建时间范围-结束
      */
     @Schema(description = "创建时间-结束")
     private LocalDateTime endTime;
@@ -249,7 +249,6 @@ public interface {Entity}Mapper extends BaseMapperX<{Entity}DO> {
 
     /**
      * 分页查询（条件构造在 Mapper，Service 只传 VO — C-ARCH-002）
-     * startTime/endTime 独立字段（C-DATA-004）
      */
     default PageResult<{Entity}DO> selectPage({Entity}PageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<{Entity}DO>()
@@ -269,7 +268,7 @@ public interface {Entity}Mapper extends BaseMapperX<{Entity}DO> {
     }
 
     /**
-     * 按 ID 批量查询，返回 Map 方便 O(1) 检索，避免 N+1（C-DATA-005）
+     * 按 ID 批量查询，返回 Map 方便 O(1) 检索，避免 N+1（C-DATA-002）
      */
     default Map<Long, {Entity}DO> selectMapByIds(Collection<Long> ids) {
         if (CollUtil.isEmpty(ids)) {
@@ -289,7 +288,7 @@ public interface {Entity}Mapper extends BaseMapperX<{Entity}DO> {
 }
 ```
 
-**Mapper.xml（复杂查询，C-DATA-006）**：
+**Mapper.xml（复杂查询，C-DATA-003）**：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -297,9 +296,9 @@ public interface {Entity}Mapper extends BaseMapperX<{Entity}DO> {
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dainthub.{project}.module.{module}.dal.mysql.{entity_snake}.{Entity}Mapper">
 
-    <!--
-      C-DATA-006：统一定义列 SQL 片段，所有 SELECT 通过 <include> 引用
-      禁止在各 SQL 语句中直接写列名或 SELECT *
+<!--
+       C-DATA-003：统一定义列 SQL 片段，所有 SELECT 通过 <include> 引用
+       禁止在各 SQL 语句中直接写列名或 SELECT *
     -->
     <sql id="columns">
         id, name, status, sort_order,
@@ -316,7 +315,6 @@ public interface {Entity}Mapper extends BaseMapperX<{Entity}DO> {
       使用 <include refid="columns"/> 引用列片段
       <where> + <if> 替代手拼 WHERE 1=1
       #{} 防注入，禁止 ${}
-      startTime/endTime 独立参数（C-DATA-004）
     -->
     <select id="selectStatByCondition" resultMap="StatResultMap">
         SELECT
