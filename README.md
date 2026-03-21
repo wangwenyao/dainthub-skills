@@ -100,7 +100,8 @@ dainthub-skills/
 │       ├── application-config.md       # 配置文件规范
 │       ├── test-standards.md           # 测试规范
 │       ├── security-standards.md       # 安全规范
-│       └── api-design.md               # API 设计规范
+│       ├── api-design.md               # API 设计规范
+│       └── design-principles.md        # 设计原则与最佳实践
 └── vue-saas-frontend/                  # Vue SaaS 前端开发技能
     ├── SKILL.md                        # 技能主文件
     └── references/                     # 参考文档

@@ -57,6 +57,7 @@ description: |
 | 单元测试、集成测试、Mock、测试覆盖率 | `references/test-standards.md` |
 | 认证授权、JWT、OAuth2、权限模型、密码安全、敏感数据 | `references/security-standards.md` |
 | API 版本管理、参数校验、响应格式、RESTful 规范 | `references/api-design.md` |
+| SOLID、DRY/KISS、设计模式、DDD、防御性编程、架构决策 | `references/design-principles.md` |
 
 ---
 
@@ -130,7 +131,7 @@ description: |
 | C-ARCH-002 | 数据库读写**仅**在 Mapper 层；Service 层禁止构造 Wrapper 或直接调用非接口方法 |
 | C-ARCH-003 | Bean 之间的转换逻辑定义在**目标 Bean** 的静态工厂方法（`of`/`toEntity`）中；Service/Controller 不出现批量 `setXxx` |
 | C-ARCH-004 | Service 接口查询单条返回 `Optional<DO>`（调用方决定是否抛异常）；查询列表/分页直接返回集合。禁止跨层暴露 Mapper |
-| C-ARCH-005 | DO 可定义业务方法（充血模型）和静态 Comparator/Function；方法实现不得注入或调用 Service/Mapper |
+| C-ARCH-005 | DO 仅定义简单判断方法（仅依赖自身字段，如 `isEnabled`/`isValid`）；复杂业务逻辑放在 Service；跨实体规则抽取到 Helper 类。禁止在 DO 中注入或调用 Service/Mapper |
 | C-ARCH-006 | 排序、比较等数据结构逻辑优先在 DO 中定义静态 `Comparator`；若依赖多个 DO 类型则在 ServiceImpl 中定义静态 `Comparator`；禁止在 Service 方法内匿名构造排序逻辑 |
 | C-ARCH-007 | 所有外部服务调用（HTTP/RPC 等）封装在 `{Entity}Client` 类中；Service 层只调用 Client 接口，不直接使用 RestTemplate/WebClient |
 

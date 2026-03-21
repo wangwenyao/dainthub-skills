@@ -30,7 +30,8 @@ java-backend-dev-skill/
     ├── application-config.md          # 配置文件规范（YAML 模板、环境分离）
     ├── test-standards.md              # 测试规范（单元测试、集成测试、Mock、覆盖率）
     ├── security-standards.md          # 安全规范（认证授权、JWT、权限模型、敏感数据）
-    └── api-design.md                  # API 设计（版本管理、参数校验、响应格式）
+    ├── api-design.md                  # API 设计（版本管理、参数校验、响应格式）
+    └── design-principles.md           # 设计原则（SOLID、DRY/KISS、设计模式、DDD、防御性编程）
 ```
 
 ## 🚀 使用方式
@@ -67,6 +68,7 @@ java-backend-dev-skill/
 | 单元测试、集成测试、Mock、测试覆盖率 | [`references/test-standards.md`](references/test-standards.md) |
 | 认证授权、JWT、权限模型、密码安全、敏感数据 | [`references/security-standards.md`](references/security-standards.md) |
 | API 版本管理、参数校验、响应格式、RESTful 规范 | [`references/api-design.md`](references/api-design.md) |
+| SOLID、DRY/KISS、设计模式、DDD、防御性编程 | [`references/design-principles.md`](references/design-principles.md) |
 
 ## 📋 核心约束速查
 
