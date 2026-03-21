@@ -54,7 +54,22 @@ metadata:
 
 ## 参考文档
 
-执行开发任务前，**必须**根据需求类型加载对应的参考文档到上下文中：
+执行开发任务前，**必须**根据需求类型加载对应的参考文档：
+
+### 加载优先级
+
+1. **必须加载**（核心约束）：`code-templates.md`
+2. **按需加载**：
+   - 字段变更/SQL优化 → `data-layer.md` + `ddl-templates.md`
+   - 缓存/事务/异步 → `service-layer.md`
+   - 并发安全 → `concurrency.md`
+   - 接口开发 → `api-design.md`
+   - 配置变更 → `application-config.md`
+   - 测试编写 → `test-standards.md`
+   - 安全相关 → `security-standards.md`
+3. **可选加载**：`design-principles.md`, `maven-standards.md`
+
+### 文档索引
 
 | 场景 | 加载文件 |
 |------|---------|
@@ -68,6 +83,8 @@ metadata:
 | 认证授权、JWT、OAuth2、权限模型、密码安全、敏感数据 | `references/security-standards.md` |
 | API 版本管理、参数校验、响应格式、RESTful 规范 | `references/api-design.md` |
 | SOLID、DRY/KISS、设计模式、DDD、防御性编程、架构决策 | `references/design-principles.md` |
+| DDL 模板、影响范围矩阵、字段类型规范 | `references/ddl-templates.md` |
+| 并发安全、线程安全、分布式锁、异步处理 | `references/concurrency.md` |
 
 ---
 
@@ -131,89 +148,56 @@ metadata:
 
 ## 约束总表（Constraints）
 
-> 约束编号贯穿所有参考文件，违反任何一条均视为规范错误。
+> 违反任何一条均视为规范错误。
 
-### 架构约束
-
-| ID | 规则 |
-|----|------|
-| C-ARCH-001 | DO 不得作为 Controller 方法的入参或出参；必须使用 VO |
-| C-ARCH-002 | 数据库读写**仅**在 Mapper 层；Service 层禁止构造 Wrapper 或直接调用非接口方法 |
-| C-ARCH-003 | Bean 之间的转换逻辑定义在**目标 Bean** 的静态工厂方法（`of`/`toEntity`）中；Service/Controller 不出现批量 `setXxx` |
-| C-ARCH-004 | Service 接口查询单条返回 `Optional<DO>`（调用方决定是否抛异常）；查询列表/分页直接返回集合。禁止跨层暴露 Mapper |
-| C-ARCH-005 | DO 仅定义简单判断方法（仅依赖自身字段，如 `isEnabled`/`isValid`）；复杂业务逻辑放在 Service；跨实体规则抽取到 Helper 类。禁止在 DO 中注入或调用 Service/Mapper |
-| C-ARCH-006 | 排序、比较等数据结构逻辑优先在 DO 中定义静态 `Comparator`；若依赖多个 DO 类型则在 ServiceImpl 中定义静态 `Comparator`；禁止在 Service 方法内匿名构造排序逻辑 |
-| C-ARCH-007 | 所有外部服务调用（HTTP/RPC 等）封装在 `{Entity}Client` 类中；Service 层只调用 Client 接口，不直接使用 RestTemplate/WebClient |
-
-### 代码规范约束
+### 架构约束 (C-ARCH)
 
 | ID | 规则 |
 |----|------|
-| C-CODE-001 | 禁止使用数组类型（`T[]`）作为方法参数或返回值；统一使用 `List<T>` |
-| C-CODE-002 | 禁止魔法数字；状态/类型字段必须有对应枚举 |
-| C-CODE-003 | 禁止 `throw new RuntimeException` 或其子类；统一使用 `ServiceExceptionUtil.exception(ErrorCode)` |
-| C-CODE-004 | 工具类统一使用 Hutool（`cn.hutool.*`）；禁止重复造轮子 |
-| C-CODE-005 | JSON 序列化/反序列化统一使用 `com.dainthub.{project}.framework.common.util.json.JsonUtils` |
-| C-CODE-006 | 关键逻辑分支必须打印日志；日志格式为 `[方法名][描述，key=value]`，必须携带主要业务参数 |
-| C-CODE-007 | Controller/Service/Mapper 方法参数超过 3 个时，必须封装为 VO 或 DO 对象传参 |
-| C-CODE-008 | 所有 Javadoc 和代码注释使用**中文**编写 |
-| C-CODE-009 | Service 接口的每个 `public` 方法必须写 Javadoc，包含：功能说明、`@param`、`@return`、`@throws`（如有） |
-| C-CODE-010 | DO 的每个字段必须写 Javadoc，说明业务含义和约束（如取值范围、长度、是否非空）；枚举字段用 `@see` 指向枚举类 |
-| C-CODE-011 | 行内注释说明**为什么**这么做，不说**做了什么**；禁止翻译式注释（如 `// 将 status 设为 0`） |
-| C-CODE-012 | 代码分区使用 `// ==================== 分区标题 ====================` 格式，用于 DO 充血方法、ServiceImpl 读写操作等逻辑分组 |
+| C-ARCH-001 | Controller 入参/出参只用 VO，禁止 DO |
+| C-ARCH-002 | 数据库读写仅在 Mapper 层，Service 禁止构造 Wrapper |
+| C-ARCH-003 | Bean 转换在目标 Bean 静态方法（`of`/`toEntity`） |
+| C-ARCH-004 | 单条查询返回 `Optional<DO>`，列表/分页返回集合 |
+| C-ARCH-005 | DO 可有业务方法，但禁止注入 Service/Mapper |
+| C-ARCH-006 | 排序用 DO/ServiceImpl 静态 Comparator |
+| C-ARCH-007 | 外部调用封装在 `{Entity}Client` |
 
-### 数据层约束
+### 代码规范约束 (C-CODE)
 
 | ID | 规则 |
 |----|------|
-| C-DATA-001 | 索引优先创建普通索引（`KEY`）；唯一索引（`UNIQUE KEY`）仅用于业务必须的唯一性约束（如用户名、手机号），其他唯一性由业务层 `exist{Entity}Name` 校验 |
-| C-DATA-002 | 索引字段中不包含 `deleted` 字段 |
-| C-DATA-003 | 金额字段使用 `decimal(19,4)`；禁止 `float`/`double` |
-| C-DATA-004 | 时间范围查询条件使用 `startTime` / `endTime` 两个独立字段（`LocalDateTime` 类型），禁止用数组或 `List` |
-| C-DATA-005 | 批量操作使用 `insertBatch` / `updateBatchById`；禁止循环单条操作 |
-| C-DATA-006 | Mapper.xml 必须定义 `<sql id="columns">` 列片段；`SELECT` 语句通过 `<include refid="columns"/>` 引用，禁止 `SELECT *` |
+| C-CODE-001~003 | 禁止数组类型，禁止魔法数字，禁止 RuntimeException |
+| C-CODE-004~005 | 工具类用 Hutool，JSON 用 JsonUtils |
+| C-CODE-006~007 | 关键分支有日志，方法参数>3 封装为 VO |
+| C-CODE-008~012 | Javadoc 用中文，注释说"为什么"，代码用分区格式 |
 
-### 配置文件约束
+### 数据层约束 (C-DATA)
 
 | ID | 规则 |
 |----|------|
-| C-CONF-001 | YAML 文件使用 `---` 多文档分隔符按功能分区，每区必须有 `## 区域标题 ##` 注释 |
-| C-CONF-002 | 跨配置项的重复值必须使用 `${}` 引用消除重复 |
-| C-CONF-003 | 环境相关配置（地址/凭证/开关）只能出现在 `application-{profile}.yaml`，禁止写入 `application.yaml` |
-| C-CONF-004 | JDBC URL 必须包含 `useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true` |
-| C-CONF-005 | 项目自定义配置统一使用 `{project}:` 命名空间，禁止顶层自定义 key |
-| C-CONF-006 | 新增配置项后必须同步更新所有 profile 文件（local/dev/prod），保持 key 结构一致 |
-| C-CONF-007 | 禁止在配置文件中硬编码明文密码用于生产环境；生产环境使用环境变量或配置中心 |
+| C-DATA-001~002 | 优先普通索引，索引不含 deleted |
+| C-DATA-003~004 | 金额用 decimal(19,4)，禁止使用集合存放多个字段 |
+| C-DATA-005~006 | 批量操作用 insertBatch，Mapper.xml 定义 columns 片段 |
 
-### 安全约束
+### 配置约束 (C-CONF)
 
 | ID | 规则 |
 |----|------|
-| C-SEC-001 | 密码必须使用 BCrypt 加密存储，禁止明文或 MD5 |
-| C-SEC-002 | Token 有效期不超过 2 小时，Refresh Token 不超过 7 天 |
-| C-SEC-003 | 敏感字段（手机号、身份证、银行卡）必须加密存储 |
-| C-SEC-004 | 敏感数据返回前端前必须脱敏（日志、接口响应） |
-| C-SEC-005 | 所有写操作接口必须有权限校验（@PreAuthorize） |
-| C-SEC-006 | 密码强度：至少8位，包含大小写字母、数字、特殊字符中的3种 |
-| C-SEC-007 | 登录失败超过5次锁定账户15分钟（防暴力破解） |
-| C-SEC-008 | JWT Secret 必须从环境变量注入，禁止硬编码 |
-| C-SEC-009 | 生产环境必须使用 HTTPS，Cookie 设置 Secure 属性 |
-| C-SEC-010 | SQL 查询禁止拼接用户输入，必须使用 `#{}` 预编译 |
+| C-CONF-001~007 | YAML 分区注释，环境配置分离，禁止硬编码密码 |
 
-### 设计原则约束
+### 安全约束 (C-SEC)
 
 | ID | 规则 |
 |----|------|
-| C-DESIGN-001 | Service 方法职责单一，一个方法只做一件事 |
-| C-DESIGN-002 | 分支判断超过 3 种时使用策略模式，禁止多层 if-else |
-| C-DESIGN-003 | 重复代码出现 2 次以上必须提取公共方法或工具类 |
-| C-DESIGN-004 | 仅依赖 DO 自身字段的方法放在 DO；需要外部依赖的放在 Service |
-| C-DESIGN-005 | 跨多个实体的业务规则抽取到 Helper 类 |
-| C-DESIGN-006 | 所有公共方法必须有输入防御（非空、边界值校验） |
-| C-DESIGN-007 | 查询方法永不返回 null，单条用 Optional，列表用空集合 |
-| C-DESIGN-008 | 状态变更必须有状态机校验，禁止非法状态转换 |
-| C-DESIGN-009 | 依赖注入使用 @Resource 注解（与现有代码保持一致），禁止 @Autowired |
-| C-DESIGN-010 | 优先选择简单实现，避免过度抽象 |
+| C-SEC-001~010 | 密码 BCrypt，Token ≤2h，敏感字段加密，SQL 用 #{} |
+
+### 设计原则约束 (C-DESIGN)
+
+| ID | 规则 |
+|----|------|
+| C-DESIGN-001~010 | 方法职责单一，分支>3 用策略模式，禁止 null 返回 |
+
+> 详细约束说明 → 各 references 文件
 
 ---
 
@@ -288,34 +272,13 @@ com.dainthub.{project}.module.{module}
 ### Step 2：DDL 设计
 
 > **表名格式**：`{module}_{entity_snake}`，例如 `trade_product_sku`。
+> **完整 DDL 模板 & 影响范围矩阵** → `references/ddl-templates.md`
 
-```sql
--- 新建表
-CREATE TABLE `{module}_{entity_snake}` (
-  `id`          bigint       NOT NULL AUTO_INCREMENT             COMMENT '主键',
-  `name`        varchar(64)  NOT NULL DEFAULT ''                 COMMENT '名称',
-  `status`      tinyint      NOT NULL DEFAULT 0                  COMMENT '状态（0=禁用 1=启用）',
-  `sort_order`  int          NOT NULL DEFAULT 0                  COMMENT '排序值（升序）',
-  -- 公共字段（固定顺序）
-  `creator`     varchar(64)  NOT NULL DEFAULT ''                 COMMENT '创建者',
-  `create_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT '创建时间',
-  `updater`     varchar(64)  NOT NULL DEFAULT ''                 COMMENT '更新者',
-  `update_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP
-                             ON UPDATE CURRENT_TIMESTAMP         COMMENT '更新时间',
-  `deleted`     bit(1)       NOT NULL DEFAULT b'0'               COMMENT '是否删除',
-  PRIMARY KEY (`id`),
-  -- 普通索引，不含 deleted（C-DATA-001/002）
-  KEY `idx_{entity_snake}_status` (`status`),
-  KEY `idx_{entity_snake}_create_time` (`create_time`)
-) ENGINE = InnoDB COMMENT = '{entity 中文描述}';
-
--- 存量新增字段（设默认值，避免 MDL 锁表）
-ALTER TABLE `{module}_{entity_snake}`
-  ADD COLUMN `{field}` {type} NOT NULL DEFAULT {default} COMMENT '{描述}'
-  AFTER `{prev_field}`;
-
--- 存量删除字段（确认无代码引用后执行）
-ALTER TABLE `{module}_{entity_snake}` DROP COLUMN `{field}`;
+**快速判断**：
+```
+新增字段 → DO + VO + Mapper.xml(columns片段)
+新增接口 → Controller + Service + ErrorCode
+性能优化 → Mapper/SQL + 索引评估
 ```
 
 ### Step 3-8：分层代码模板

@@ -82,22 +82,24 @@ B端 SaaS 产品设计规范技能，风格基准为专业克制（类 Linear/No
 
 **目录**: [`vue-saas-frontend/`](vue-saas-frontend/)
 
-SaaS 多租户前端开发技能，基于 Vue 3 + TypeScript + Element Plus。
+SaaS 多租户前端开发技能，基于 Vue 3 + TypeScript + Shadcn-vue。
 
 | 特性 | 说明 |
 |------|------|
 | **框架** | Vue 3 · TypeScript · Vite |
-| **UI 组件** | Element Plus |
-| **状态管理** | Pinia |
-| **多租户** | 租户隔离、主题定制、权限控制 |
+| **UI 组件** | Shadcn-vue · Radix Vue |
+| **样式** | Tailwind CSS 4 |
+| **状态管理** | Pinia · TanStack Query |
+| **表单** | FormKit · Zod |
+| **测试** | Vitest · Playwright |
 
 **适用场景**:
-- SaaS 管理后台开发
-- 多租户功能实现
+- 企业级 SaaS 系统开发
+- 数据表格、复杂表单
+- 状态管理、API 集成
 - 组件库扩展
-- 路由与权限配置
 
-**触发词**: `SaaS 前端`、`Vue 前端`、`管理后台`、`多租户前端`
+**触发词**: `Vue 组件`、`SaaS 页面`、`shadcn`、`数据表格`、`表单`、`仪表盘`
 
 **详细文档**: [`vue-saas-frontend/SKILL.md`](vue-saas-frontend/SKILL.md)
 
@@ -114,7 +116,8 @@ dainthub-skills/
 │       ├── alibaba_cloud_shapes.md     # 阿里云图标库（311个）
 │       ├── deploy_arch_patterns.md     # 云部署架构图模式
 │       ├── flowchart_patterns.md       # 业务流程图模式
-│       └── functional_arch_patterns.md # 功能架构图模式
+│       ├── functional_arch_patterns.md # 功能架构图模式
+│       └── debug-guide.md              # 调试指南
 ├── java-backend-dev-skill/             # Java 后端开发技能
 │   ├── README.md                       # 技能说明
 │   ├── SKILL.md                        # 技能主文件
@@ -128,31 +131,38 @@ dainthub-skills/
 │       ├── test-standards.md           # 测试规范
 │       ├── security-standards.md       # 安全规范
 │       ├── api-design.md               # API 设计规范
-│       └── design-principles.md        # 设计原则与最佳实践
+│       ├── design-principles.md        # 设计原则与最佳实践
+│       ├── ddl-templates.md            # DDL 模板与影响范围
+│       └── concurrency.md              # 并发安全规范
 ├── saas-design-system/                  # SaaS 设计系统技能
 │   ├── SKILL.md                        # 技能主文件（设计哲学、核心规范、约束总表）
 │   └── references/                     # 参考文档
-│       ├── typography-cjk.md           # 中文排版规范（行高、中英文间距、标点处理）
-│       ├── dark-mode.md                # 暗色模式规范（Token 映射、shadcn-vue 变量）
+│       ├── color-tokens.md             # 色彩 Token 完整定义
+│       ├── typography-cjk.md           # 中文排版规范
+│       ├── dark-mode.md                # 暗色模式规范
 │       ├── responsive.md               # 响应式断点策略
 │       ├── motion.md                   # 动画与过渡规范
 │       ├── visual-hierarchy.md         # 视觉层级规范
-│       ├── advanced-details.md         # 高级质感细节（微交互、图标、数据展示）
+│       ├── advanced-details.md         # 高级质感细节
 │       ├── brand-personality.md        # 品牌个性化指导
-│       ├── complex-components.md       # 复杂组件规范（命令面板、行内编辑、看板）
+│       ├── complex-components.md       # 复杂组件规范
 │       ├── emotional-design.md         # 情感化设计指导
-│       ├── accessibility.md            # 可访问性规范（WCAG 2.1 AA）
+│       ├── accessibility.md            # 可访问性规范
 │       └── page-examples.md            # 页面设计示例
 └── vue-saas-frontend/                  # Vue SaaS 前端开发技能
     ├── SKILL.md                        # 技能主文件
     └── references/                     # 参考文档
-        ├── compatibility.md            # 浏览器兼容性
+        ├── architecture.md             # 项目结构、路由、服务层
         ├── components-guide.md         # 组件开发指南
+        ├── page-patterns.md            # 页面实现示例
+        ├── route-config.md             # 路由配置
         ├── config-center.md            # 配置中心
         ├── feature-flags.md            # 功能开关
-        ├── route-config.md             # 路由配置
         ├── ui-config.md                # UI 配置
-        └── utils.md                    # 工具函数
+        ├── testing.md                  # 测试规范
+        ├── utils.md                    # 工具函数
+        ├── compatibility.md            # 浏览器兼容性
+        └── error-handling.md           # 错误处理规范
 ```
 
 ## 🚀 使用方式

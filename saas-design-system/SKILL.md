@@ -67,47 +67,20 @@ metadata:
 - 语义色（红/黄/绿）**仅用于传达状态**，不用于装饰
 - 深色模式与亮色模式同等重要，token 命名语义化而非描述颜色值
 
-### 1.2 Token 体系（Tailwind CSS 4 CSS变量）
+### 1.2 Token 体系概要
 
-```css
-@theme {
-  /* ── 品牌色（蓝紫中性，类 Linear） ── */
-  --color-brand-50:  oklch(97% 0.015 265);
-  --color-brand-100: oklch(93% 0.030 265);
-  --color-brand-200: oklch(86% 0.055 265);
-  --color-brand-300: oklch(76% 0.090 265);
-  --color-brand-400: oklch(64% 0.130 265);
-  --color-brand-500: oklch(53% 0.165 265);   /* 主色 */
-  --color-brand-600: oklch(45% 0.160 265);
-  --color-brand-700: oklch(37% 0.145 265);
-  --color-brand-800: oklch(29% 0.115 265);
-  --color-brand-900: oklch(21% 0.080 265);
+| 类别 | 说明 |
+|------|------|
+| **品牌色** | 蓝紫中性（类 Linear），主色 `brand-500` = oklch(53% 0.165 265) |
+| **中性色** | 略带冷调，避免纯灰，从 neutral-0 到 neutral-950 |
+| **语义色** | success/warning/danger/info，仅用于状态传达 |
 
-  /* ── 中性色（略带冷调，避免纯灰） ── */
-  --color-neutral-0:   oklch(100% 0 0);
-  --color-neutral-50:  oklch(98% 0.004 265);
-  --color-neutral-100: oklch(95% 0.006 265);
-  --color-neutral-200: oklch(90% 0.008 265);
-  --color-neutral-300: oklch(82% 0.010 265);
-  --color-neutral-400: oklch(68% 0.012 265);
-  --color-neutral-500: oklch(54% 0.012 265);
-  --color-neutral-600: oklch(42% 0.010 265);
-  --color-neutral-700: oklch(31% 0.008 265);
-  --color-neutral-800: oklch(21% 0.006 265);
-  --color-neutral-900: oklch(13% 0.004 265);
-  --color-neutral-950: oklch(8%  0.003 265);
+**核心原则**：
+- 主色只用于最重要的交互锚点
+- 页面中主色占比 ≤ 5%
+- 语义色仅用于传达状态，不用于装饰
 
-  /* ── 语义色 ── */
-  --color-success-500: oklch(62% 0.17 145);
-  --color-success-100: oklch(94% 0.05 145);
-  --color-warning-500: oklch(72% 0.17 75);
-  --color-warning-100: oklch(96% 0.05 75);
-  --color-danger-500:  oklch(58% 0.22 25);
-  --color-danger-100:  oklch(95% 0.05 25);
-  --color-info-500:    oklch(60% 0.18 230);
-  --color-info-100:    oklch(95% 0.04 230);
-}
-```
+> 完整 Token CSS 定义 → `references/color-tokens.md`
 
 ### 1.3 语义角色映射（亮色模式）
 
@@ -336,8 +309,21 @@ shadow-lg → 命令面板（Command Palette）
 
 ## 五、快速参考
 
+### 参考文档加载优先级
+
+1. **必须加载**（核心规范）：`color-tokens.md`, `typography-cjk.md`
+2. **按需加载**：
+   - 暗色模式 → `dark-mode.md`
+   - 响应式设计 → `responsive.md`
+   - 动画规范 → `motion.md`
+   - 可访问性 → `accessibility.md`
+3. **可选加载**：`visual-hierarchy.md`, `advanced-details.md`, `brand-personality.md`
+
+### 文档索引
+
 | 问题 | 参考位置 |
 |------|---------|
+| 色彩 Token 完整定义 | `references/color-tokens.md` |
 | 中文排版规范 | `references/typography-cjk.md` |
 | 暗色模式 token 映射 | `references/dark-mode.md` |
 | 响应式断点策略 | `references/responsive.md` |
@@ -392,98 +378,59 @@ shadow-lg → 命令面板（Command Palette）
 
 ## 八、约束总表
 
-> 约束编号贯穿所有参考文件，违反任何一条均视为设计违规。
+> 违反任何一条均视为设计违规。
 
-### 色彩约束
-
-| ID | 规则 |
-|----|------|
-| C-COLOR-001 | 主色只用于最重要的交互锚点（主按钮、选中态、链接） |
-| C-COLOR-002 | 页面中主色占比不超过 5%，大面积留给中性色 |
-| C-COLOR-003 | 语义色（红/黄/绿）仅用于传达状态，不用于装饰 |
-| C-COLOR-004 | 禁止用渐变色作为背景或按钮填充 |
-| C-COLOR-005 | 禁止在同一页面出现超过 2 个不同品牌色色调 |
-| C-COLOR-006 | 禁止用颜色作为唯一区分手段（需配合图标或文字） |
-| C-COLOR-007 | 禁止使用纯黑（#000000）作为文字色 |
-
-### 排版约束（通用）
+### 色彩约束 (C-COLOR)
 
 | ID | 规则 |
 |----|------|
-| C-TYPE-001 | B端 UI 默认字号用 text-sm（13px），不是 text-base（16px） |
-| C-TYPE-002 | 禁止在 UI 中使用超过 3 个字重 |
-| C-TYPE-003 | 禁止正文行长超过 75 个字符，否则加 max-w 约束 |
-| C-TYPE-004 | 禁止全大写中文 |
-| C-TYPE-005 | 禁止 letter-spacing 用于中文（只可用于全英文标题） |
-| C-TYPE-006 | 中文正文行高不低于 1.5（UI 默认 text-sm 可为 1.54，text-base 及以上≥1.6） |
-| C-TYPE-007 | 表格数字列右对齐 + 等宽数字（tabular-nums） |
+| C-COLOR-001~003 | 主色用于交互锚点，占比≤5%，语义色仅用于状态 |
+| C-COLOR-004~007 | 禁止渐变，禁止>2种品牌色，颜色不作为唯一区分，禁止纯黑 |
 
-### 间距约束
+### 排版约束 (C-TYPE)
 
 | ID | 规则 |
 |----|------|
-| C-SPACE-001 | 所有间距必须是 4 的倍数（4px 栅格系统） |
-| C-SPACE-002 | 同一排组件宽高必须一致 |
-| C-SPACE-003 | 层间间距保持统一（推荐 16-24px） |
+| C-TYPE-001 | UI 默认字号 text-sm (13px) |
+| C-TYPE-002~007 | 字重≤3，行长≤75字符，行高≥1.5，数字列右对齐 |
 
-### 交互约束
-
-| ID | 规则 |
-|----|------|
-| C-INTERACT-001 | 一个页面仅 1 个主按钮（品牌色实心） |
-| C-INTERACT-002 | 删除操作必须有确认步骤 |
-| C-INTERACT-003 | Toast 堆叠不超过 3 条 |
-| C-INTERACT-004 | 禁止模态框内嵌套模态框 |
-| C-INTERACT-005 | 表格行内操作按钮不超过 3 个（超出收入 DropdownMenu） |
-| C-INTERACT-006 | Dialog/Alert 必须由用户触发，禁止自动弹出 |
-| C-INTERACT-007 | 动画时长不超过 200ms |
-| C-INTERACT-008 | 禁止使用 transition-all（指定具体属性） |
-
-### 视觉层级约束
+### 间距约束 (C-SPACE)
 
 | ID | 规则 |
 |----|------|
-| C-HIER-001 | 禁止同一页面出现 2 个以上视觉权重相等的元素 |
-| C-HIER-002 | 禁止用颜色作为唯一层级区分手段 |
-| C-HIER-003 | 禁止三级信息使用深色或粗体 |
-| C-HIER-004 | 禁止表格行内出现 3 种以上字号 |
-| C-HIER-005 | 禁止卡片嵌套超过 2 层 |
-| C-HIER-006 | 禁止用边框粗细区分层级（用颜色明度） |
+| C-SPACE-001~003 | 4px 栅格，同排宽高一致，层间距统一 (16-24px) |
 
-### 情感设计约束
+### 交互约束 (C-INTERACT)
 
 | ID | 规则 |
 |----|------|
-| C-EMOTION-001 | 禁止彩带、撒花、庆祝动画 |
-| C-EMOTION-002 | 禁止成功/庆祝弹窗 |
-| C-EMOTION-003 | 禁止游戏化元素（徽章、积分、连续天数） |
-| C-EMOTION-004 | 禁止使用"恭喜"、"太棒了"、"厉害"等文案 |
-| C-EMOTION-005 | 禁止"亲"、"哦~"、"呢~"等语气词 |
-| C-EMOTION-006 | 禁止 emoji 作为主要视觉元素 |
+| C-INTERACT-001~008 | 主按钮≤1，删除必确认，Toast≤3，禁止嵌套模态框，动画≤200ms |
 
-### 中文排版约束（特有）
-
-> 通用排版规则见上方 C-TYPE 约束。以下为中文环境特有约束。
+### 视觉层级约束 (C-HIER)
 
 | ID | 规则 |
 |----|------|
-| C-CJK-001 | 多行文本省略需指定中文行高（≥1.5） |
-| C-CJK-002 | 中英文混排时使用 text-spacing 或手动间距 |
-| C-CJK-003 | 行尾禁止出现：`、，。：；！？》」』】"` |
-| C-CJK-004 | 行首禁止出现：`《「『【"`'` |
+| C-HIER-001~006 | 禁止同级等权元素，禁止三级深色粗体，卡片嵌套≤2层 |
 
-### 可访问性约束
-
-> 详见 `references/accessibility.md`
+### 情感设计约束 (C-EMOTION)
 
 | ID | 规则 |
 |----|------|
-| C-A11Y-001 | 所有交互元素必须可通过键盘操作 |
-| C-A11Y-002 | 图标按钮必须有 aria-label |
-| C-A11Y-003 | 模态框必须实现 focus trap |
-| C-A11Y-004 | 正文对比度不低于 4.5:1（WCAG AA） |
-| C-A11Y-005 | 禁止仅靠颜色区分信息（需配合图标/文字） |
-| C-A11Y-006 | 表单错误必须通过 aria-describedby 关联 |
+| C-EMOTION-001~006 | 禁止庆祝动画/游戏化元素/emoji主要视觉 |
+
+### 中文排版约束 (C-CJK)
+
+| ID | 规则 |
+|----|------|
+| C-CJK-001~004 | 多行省略行高≥1.5，中英文间距，标点避让 |
+
+### 可访问性约束 (C-A11Y)
+
+| ID | 规则 |
+|----|------|
+| C-A11Y-001~006 | 键盘可操作，图标按钮有 aria-label，对比度≥4.5:1 |
+
+> 完整约束说明 → `references/accessibility.md`, `references/typography-cjk.md`
 
 ---
 
