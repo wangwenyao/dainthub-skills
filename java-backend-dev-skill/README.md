@@ -28,9 +28,8 @@ java-backend-dev-skill/
     ├── service-layer.md               # 服务层规范（事务、缓存、定时任务、外部调用、性能验证）
     ├── maven-standards.md             # Maven 规范（模块结构、依赖管理）
     ├── application-config.md          # 配置文件规范（YAML 模板、环境分离）
-    ├── test-standards.md              # 测试规范（单元测试、集成测试、Mock、覆盖率）
-    ├── security-standards.md          # 安全规范（认证授权、JWT、权限模型、敏感数据）
-    ├── api-design.md                  # API 设计（版本管理、参数校验、响应格式）
+├── test-standards.md              # 测试规范（单元测试、集成测试、Mock、覆盖率）
+├── api-design.md                  # API 设计（版本管理、参数校验、响应格式）
     └── design-principles.md           # 设计原则（SOLID、DRY/KISS、设计模式、DDD、防御性编程）
 ```
 

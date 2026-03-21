@@ -56,7 +56,6 @@ description: |
    - 接口开发 → `api-design.md`
    - 配置变更 → `application-config.md`
    - 测试编写 → `test-standards.md`
-   - 安全相关 → `security-standards.md`
 3. **可选加载**：`design-principles.md`, `maven-standards.md`
 
 ### 文档索引
@@ -70,7 +69,6 @@ description: |
 | 各分层代码模板（DO/VO/Mapper/Service/Controller 完整示例） | `references/code-templates.md` |
 | Application YAML 配置文件规范、各组件配置模板、环境分离 | `references/application-config.md` |
 | 单元测试、集成测试、Mock、测试覆盖率 | `references/test-standards.md` |
-| 认证授权、JWT、OAuth2、权限模型、密码安全、敏感数据 | `references/security-standards.md` |
 | API 版本管理、参数校验、响应格式、RESTful 规范 | `references/api-design.md` |
 | SOLID、DRY/KISS、设计模式、DDD、防御性编程、架构决策 | `references/design-principles.md` |
 | DDL 模板、影响范围矩阵、字段类型规范 | `references/ddl-templates.md` |
