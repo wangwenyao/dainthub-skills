@@ -1,7 +1,10 @@
 ---
 name: drawio-architect
 description: >
-  创建和编辑生产级 draw.io（.drawio / .xml）架构图和流程图文件。支持的图类型：云部署架构图、功能架构图、系统架构图、业务流程图、数据流图。支持阿里云/AWS/GCP/Azure 云厂商图标库和 Kubernetes 图标库。当用户需要创建、修改、修复 draw.io 图表，绘制任何类型的架构图或流程图，将架构描述或业务流程转为可视化图表，或排查 draw.io XML 格式问题时使用此技能。触发词包括：draw.io、diagrams.net、mxfile、架构图、部署图、功能架构、系统架构、流程图、泳道图、拓扑图。输出可直接在 draw.io 桌面版和网页版打开的独立 XML 文件。
+  创建和编辑生产级 draw.io（.drawio / .xml）架构图和流程图。
+  触发：架构图/流程图/系统拓扑/业务流程可视化/draw.io文件修改。
+  支持阿里云/AWS/GCP/Azure 图标库和 Kubernetes 图标库。
+  输出可直接在 draw.io 打开的独立 XML 文件。
 ---
 
 # draw.io 架构图与流程图技能
@@ -10,21 +13,20 @@ description: >
 
 ## 何时使用
 
-使用此技能当：
-- 用户请求创建 `.drawio` 或 `.xml` 架构图文件
-- 用户提及"画一个架构图"、"绘制流程图"、"系统拓扑"
-- 用户需要将文字描述转为可视化图表
-- 用户需要修改现有 draw.io 文件
-- 用户提及触发词：draw.io、diagrams.net、mxfile、架构图、部署图、功能架构、系统架构、流程图、泳道图、拓扑图
+适用场景：
+- 创建/修改 `.drawio` 或 `.xml` 架构图文件
+- 绘制架构图、流程图、系统拓扑
+- 将文字描述转为可视化图表
+- 排查 draw.io XML 格式问题
 
-## 何时不使用
+触发词：draw.io、diagrams.net、mxfile、架构图、部署图、流程图、泳道图、拓扑图
 
-不使用此技能当：
-- 纯文字描述输出（无图表需求）
-- 图片编辑（PNG/JPG 处理）
-- 非 draw.io 格式的图表工具（Visio、Lucidchart、Mermaid）
-- UML 类图/时序图（建议用 PlantUML 或 Mermaid）
-- 数据可视化图表（ECharts、D3）
+不适用：
+- 纯文字描述输出
+- 图片编辑（PNG/JPG）
+- 其他图表工具（Visio、Mermaid）
+- UML 类图/时序图（用 PlantUML 或 Mermaid）
+- 数据可视化（ECharts、D3）
 
 ## 支持的图类型
 
@@ -52,9 +54,9 @@ description: >
 
 | 参数 | 说明 | 获取方式 |
 |------|------|---------|
-| **图类型** | `deploy` / `functional` / `flowchart` | 从用户描述推断 |
-| **云厂商** | `alibaba` / `aws` / `gcp` / `azure` / `none` | 默认 `alibaba`，用户指定则覆盖 |
-| **是否修改存量** | `true` / `false` | 用户是否提供现有文件 |
+| **图类型** | `deploy` / `functional` / `flowchart` | 从需求推断 |
+| **云厂商** | `alibaba` / `aws` / `gcp` / `azure` / `none` | 默认 `alibaba` |
+| **是否修改存量** | `true` / `false` | 是否提供现有文件 |
 | **页面尺寸** | `auto` / 指定 width×height | 默认 `auto`，根据内容自动计算 |
 
 ---
@@ -122,7 +124,7 @@ style 中加 `html=1`，HTML 标签和属性完整转义：
 
 ### 步骤 1：识别图类型
 
-根据用户需求判断属于哪类图，然后读取对应的 `references/` 文件：
+根据需求判断属于哪类图，然后读取对应的 `references/` 文件：
 - 涉及服务器/容器/云资源/数据库部署 → `deploy_arch_patterns.md`
 - 涉及功能模块/系统边界/能力分层 → `functional_arch_patterns.md`
 - 涉及业务步骤/审批流/判断分支/角色分工 → `flowchart_patterns.md`
@@ -382,7 +384,7 @@ XML 中先写的元素在底层。严格按此顺序：
 4. **备份原文件** — 修改已有文件前复制为 `{filename}_backup.xml`（递增编号）
 5. **编写 XML** — 按 Z-order 顺序
 6. **交付前自检** — 见下方清单
-7. **迭代优化** — 用户反馈后 → 备份 → 修改 → 自检
+7. **迭代优化** — 反馈后 → 备份 → 修改 → 自检
 
 ### 从外部文件转换（PPT/文档/图片）
 

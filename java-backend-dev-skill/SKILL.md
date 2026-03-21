@@ -1,32 +1,29 @@
 ---
 name: backend-dev
 description: |
-  单体 SpringBoot 后端开发技能（Spring Boot 3 + MyBatis Plus + MySQL 8）。
-  覆盖全部后端开发场景：新建功能模块、实体 CRUD、字段增删改、接口变更、逻辑重构、SQL/缓存性能优化、定时任务、外部服务调用。
-  任何涉及 Java 后端开发的请求都必须使用此技能，包括但不限于新建模块、字段变更、接口开发、SQL 优化、缓存策略。
-  即使用户没有明确说"后端开发"，只要涉及 SpringBoot/MyBatis/MySQL 相关的 Java 代码生成或修改，都应触发此技能。
-  纯后端，不含前端代码。
+  单体 SpringBoot 后端开发（Spring Boot 3 + MyBatis Plus + MySQL 8）。
+  触发：新建模块/实体CRUD/字段变更/接口开发/SQL优化/缓存/定时任务/外部调用。
+  纯后端，不含前端。
 ---
 
 # 后端代码开发技能
 
 ## 何时使用
 
-使用此技能当：
-- 用户请求新建 Java 后端功能模块、实体 CRUD、查询接口、批量操作
-- 用户请求字段增删改（加字段、删字段、改字段名、改字段类型/长度/默认值）
-- 用户请求新增/修改/删除接口，接口签名变更，新增参数校验
-- 用户请求业务逻辑重构、条件分支调整、枚举值扩展、错误码变更
-- 用户请求 SQL 优化、N+1 消除、批量改造、并发安全改造
-- 用户请求新增/调整缓存策略、新增定时任务、新增外部服务调用
-- 用户请求新增/修改 Spring Boot YAML 配置（数据源、Redis、缓存、Quartz、自定义配置等）
-- 用户提及 `帮我实现 XXX`、`给 XXX 加字段`、`新增接口`、`优化查询`等后端开发请求
+适用场景：
+- 新建功能模块、实体 CRUD、查询接口、批量操作
+- 字段增删改（加字段、删字段、改字段名/类型/长度/默认值）
+- 接口新增/修改/删除、接口签名变更、参数校验
+- 业务逻辑重构、枚举扩展、错误码变更
+- SQL 优化、N+1 消除、批量改造、并发安全改造
+- 缓存策略调整、定时任务、外部服务调用
+- Spring Boot YAML 配置变更
 
-不使用此技能当：
-- 前端代码开发（HTML/CSS/JS/Vue/React）
-- 纯运维/部署/CI/CD 配置（无 Java 代码变更）
-- 纯数据库 DBA 操作（无 Java 代码变更）
-- 非 SpringBoot 技术栈的后端开发
+不适用：
+- 前端代码（HTML/CSS/JS/Vue/React）
+- 纯运维/部署/CI/CD 配置
+- 纯数据库 DBA 操作
+- 非 SpringBoot 技术栈
 
 ---
 
@@ -44,93 +41,77 @@ description: |
 
 ## 参考文档
 
-执行开发任务前，**必须**根据需求类型加载对应的参考文档：
+根据需求类型加载：
 
-### 加载优先级
-
-1. **必须加载**（核心约束）：`code-templates.md`
-2. **按需加载**：
-   - 字段变更/SQL优化 → `data-layer.md` + `ddl-templates.md`
-   - 缓存/事务/异步 → `service-layer.md`
-   - 并发安全 → `concurrency.md`
-   - 接口开发 → `api-design.md`
-   - 配置变更 → `application-config.md`
-   - 测试编写 → `test-standards.md`
-3. **可选加载**：`design-principles.md`, `maven-standards.md`
+1. **必须**：`code-templates.md`
+2. **按需**：
+   - 字段变更/SQL → `data-layer.md` + `ddl-templates.md`
+   - 缓存/事务 → `service-layer.md`
+   - 并发 → `concurrency.md`
+   - 接口 → `api-design.md`
+   - 配置 → `application-config.md`
+   - 测试 → `test-standards.md`
+3. **可选**：`design-principles.md`, `maven-standards.md`
 
 ### 文档索引
 
-| 场景 | 加载文件 |
-|------|---------|
-| 集合处理、Stream、枚举、异常处理、Hutool、JSON、设计模式、排序、静态工厂、注释规范 | `references/java-best-practices.md` |
-| Mapper、SQL、SQL 片段、索引设计、批量操作、MyBatis、分页、N+1、原子操作 | `references/data-layer.md` |
-| 事务、Spring Cache、缓存、Redis、并发、日志、幂等、线程池、异步、定时任务、Quartz、外部调用、Client | `references/service-layer.md` |
-| Maven、模块结构、依赖管理、pom.xml、BOM | `references/maven-standards.md` |
-| 各分层代码模板（DO/VO/Mapper/Service/Controller 完整示例） | `references/code-templates.md` |
-| Application YAML 配置文件规范、各组件配置模板、环境分离 | `references/application-config.md` |
-| 单元测试、集成测试、Mock、测试覆盖率 | `references/test-standards.md` |
-| API 版本管理、参数校验、响应格式、RESTful 规范 | `references/api-design.md` |
-| SOLID、DRY/KISS、设计模式、DDD、防御性编程、架构决策 | `references/design-principles.md` |
-| DDL 模板、影响范围矩阵、字段类型规范 | `references/ddl-templates.md` |
-| 并发安全、线程安全、分布式锁、异步处理 | `references/concurrency.md` |
+| 场景 | 文件 |
+|------|------|
+| 集合/Stream/枚举/异常/Hutool/JSON | `java-best-practices.md` |
+| Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` |
+| 事务/缓存/Redis/日志/幂等/定时任务 | `service-layer.md` |
+| Maven/依赖管理/pom.xml | `maven-standards.md` |
+| DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` |
+| YAML 配置/环境分离 | `application-config.md` |
+| 单元测试/集成测试/Mock | `test-standards.md` |
+| API 版本/参数校验/响应格式 | `api-design.md` |
+| SOLID/DRY/KISS/设计模式 | `design-principles.md` |
+| DDL 模板/字段类型 | `ddl-templates.md` |
+| 并发/线程安全/分布式锁 | `concurrency.md` |
 
 ---
 
 ## 输入参数
 
-执行开发任务时，需要确定以下参数：
+| 参数 | 说明 |
+|------|------|
+| **需求类型** | `new_feature` / `field_change` / `interface_change` / `logic_refactor` / `perf_optimize` / `cache_change` / `task_add` / `client_add` / `config_change` |
+| **project** | 项目标识符（如 mall），用于包路径 `com.dainthub.{project}` |
+| **module** | 模块名（如 trade），用于包路径和表名前缀 |
+| **entity** | 实体名，PascalCase（如 Order），用作类名前缀 |
 
-| 参数 | 说明 | 获取方式 |
-|------|------|---------|
-| **需求类型** | `new_feature` / `field_change`(增删改) / `logic_refactor` / `interface_change` / `perf_optimize` / `cache_change` / `task_add` / `client_add` / `config_change` | 从用户描述自动推断 |
-| **project** | 项目标识符（如 mall、oms、crm），用于包路径 `com.dainthub.{project}` | 若缺失则询问用户 |
-| **module** | 业务模块名（如 trade、member），用于包路径和表名前缀 | 若缺失则询问用户 |
-| **entity** | 核心实体名，PascalCase（如 Order、ProductSku），用作类名前缀 | 若缺失则询问用户 |
-
-### 需求类型判断优先级
-
-当用户请求涉及多种需求类型时，按以下优先级判断：
+### 需求类型优先级
 
 ```
-1. new_feature       （最高：新建模块/实体，包含完整 CRUD）
-2. interface_change  （新增/修改接口，涉及 Controller/Service/VO）
-3. field_change      （字段增删改，需同步 DDL/DO/VO/Mapper）
-4. cache_change      （缓存策略变更，涉及 @Cacheable/@CacheEvict）
-5. task_add          （新增定时任务，涉及 Job/JobConfig）
-6. client_add        （新增外部调用，涉及 Client/DTO）
-7. config_change     （配置文件变更，涉及 YAML）
-8. logic_refactor    （逻辑重构，仅修改 ServiceImpl）
-9. perf_optimize     （性能优化，涉及 SQL/索引/缓存）
+new_feature > interface_change > field_change > cache_change > task_add > client_add > config_change > logic_refactor > perf_optimize
 ```
 
-**组合场景处理**：
+### 组合场景
 
-| 用户请求 | 判断为 | 输出范围 |
-|---------|-------|---------|
-| "新建商品模块，包含 CRUD 接口" | `new_feature` | 完整模块 |
-| "给订单加一个发货时间字段，并新增发货接口" | `field_change` + `interface_change` | 按 `interface_change` 处理（包含字段变更） |
-| "优化订单列表查询性能" | `perf_optimize` | SQL/索引/缓存 |
-| "新增定时同步库存任务" | `task_add` | Job/JobConfig |
+| 请求 | 类型 | 输出 |
+|------|------|------|
+| "新建商品模块" | `new_feature` | 完整模块 |
+| "加字段+新接口" | `interface_change` | 含字段变更 |
+| "优化查询" | `perf_optimize` | SQL/索引/缓存 |
+| "新增定时任务" | `task_add` | Job/JobConfig |
 
-存量变更场景：若用户未提供现有代码，应**主动搜索项目**找到相关文件（DO/VO/Mapper/Service 等），基于实际代码做精确的 diff 式改动，而非重写全部代码。
+> 存量变更：主动搜索相关文件，基于实际代码做 diff 式改动，而非重写。
 
 ---
 
 ## 输出清单
 
-根据需求类型确定需要输出的文件：
-
-| 需求类型 | 输出文件范围 |
-|---------|------------|
-| **new_feature** | DDL · DO · VO(SaveReq/PageReq/Resp) · Mapper[+XML] · Service+Impl · ErrorCode · Controller |
-| **field_change** | ALTER DDL · DO 字段同步 · VO 字段+转换方法同步 · Mapper/XML 同步 · Service 校验逻辑同步 |
-| **interface_change** | Controller 方法变更 · Service 接口+实现同步 · 新增/修改 VO |
-| **logic_refactor** | ServiceImpl 逻辑变更 · 行为一致性验证 |
-| **perf_optimize** | Mapper/SQL 优化 · EXPLAIN 验证 · 索引变更评估 |
-| **cache_change** | ServiceImpl(@Cacheable/@CacheEvict) · CacheConfig · 缓存穿透/击穿防范 |
-| **task_add** | {Entity}SyncJob.java · {Module}JobConfig.java(Trigger+JobDetail) |
-| **client_add** | {Entity}Client.java · {Entity}DTO.java |
-| **config_change** | application.yaml / application-{profile}.yaml 配置变更 |
+| 类型 | 输出文件 |
+|------|---------|
+| `new_feature` | DDL · DO · VO · Mapper[+XML] · Service+Impl · ErrorCode · Controller |
+| `field_change` | ALTER DDL · DO · VO · Mapper/XML · Service |
+| `interface_change` | Controller · Service · VO |
+| `logic_refactor` | ServiceImpl |
+| `perf_optimize` | Mapper/SQL · 索引 · 缓存 |
+| `cache_change` | ServiceImpl · CacheConfig |
+| `task_add` | Job · JobConfig |
+| `client_add` | Client · DTO |
+| `config_change` | application.yaml |
 
 ---
 

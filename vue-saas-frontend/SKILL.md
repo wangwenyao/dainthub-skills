@@ -12,30 +12,22 @@ description: >
 
 ## 何时使用
 
-| 场景 | 示例请求 |
-|------|----------|
-| 开发 Vue 3 组件 | "帮我写个用户卡片组件" |
-| 构建 SaaS 页面 | "做一个用户管理列表页" |
-| 使用 shadcn-vue | "用 shadcn 的 Table 组件" |
-| 数据表格开发 | "带分页筛选的数据表格" |
-| 表单开发 | "用户注册表单" |
-| 状态管理 | "用 TanStack Query 获取用户列表" |
+适用场景：
+- Vue 3 组件开发（UI 组件、业务组件、布局组件）
+- SaaS 管理后台页面（数据表格、表单、仪表盘）
+- shadcn-vue 组件库使用
+- 状态管理（TanStack Query、Pinia）
 
-## 何时不使用
-
-| 场景 | 应使用 |
-|------|--------|
-| React 项目 | React 相关 skill |
-| 纯 CSS/样式设计 | `saas-design-system` skill |
-| 后端 API 开发 | 后端相关 skill |
-| 移动端开发 | React Native / Flutter skill |
-| 静态网站 | Astro / Next.js skill |
+不适用：
+- React 项目
+- 纯 CSS/样式设计（用 `saas-design-system` skill）
+- 后端 API 开发
+- 移动端开发
 
 ## 前置条件
 
-- [ ] 项目使用 Vue 3.5+
-- [ ] 已安装 Node.js 18+
-- [ ] 已初始化 pnpm/npm 项目
+- 项目使用 Vue 3.5+
+- 已安装 Node.js 18+
 
 ## 技术栈
 
@@ -54,7 +46,7 @@ description: >
 ## 开发决策流程
 
 ```
-用户请求
+需求分析
     │
     ├─ 判断输出粒度
     │   ├── 单个组件 → Step 2 → components-guide.md
@@ -212,7 +204,7 @@ pnpm test
 |------|------|-------------|
 | **输出粒度** | `component` / `page` / `module` | 单组件→component，含页面词→page，多模块→module |
 | **组件层级** | `ui` / `common` / `business` / `layout` | shadcn基础→ui，跨模块复用→common，领域专用→business |
-| **页面类型** | `list` / `detail` / `form` / `dashboard` / `auth` / `settings` | 从用户描述推断 |
+| **页面类型** | `list` / `detail` / `form` / `dashboard` / `auth` / `settings` | 从需求推断 |
 | **状态策略** | `server-state` / `client-state` / `local` | 服务端数据→server-state，UI状态→local |
 
 ---

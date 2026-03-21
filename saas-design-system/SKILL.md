@@ -1,37 +1,30 @@
 ---
 name: saas-design-system
 description: >
-  B端 SaaS 产品设计规范 skill，风格基准为专业克制（类 Linear/Notion）。当用户需要定义色彩体系、字体排版、间距布局、组件选型决策，或者问"这里该用什么组件"、"配色怎么定"、"间距用多少"、"字号规范是什么"、"这个交互合不合理"时必须使用此 skill。适用于从零建立设计语言、审查设计一致性、生成设计 token、以及指导页面视觉实现。与 vue-saas-frontend skill 协同工作——本 skill 决定"设计长什么样"，vue-saas-frontend skill 决定"代码怎么实现"。
+  B端 SaaS 产品设计规范，风格基准为专业克制（类 Linear/Notion）。
+  触发：色彩体系/字体排版/间距布局/组件选型/设计Token/暗色模式/设计一致性审查。
+  与 vue-saas-frontend skill 协同——本 skill 决定"设计长什么样"，vue-saas-frontend skill 决定"代码怎么实现"。
 ---
 
 # SaaS Design System
 
 ## 何时使用
 
-使用此技能当：
-- 定义色彩体系、设计 Token、暗色模式适配
+适用场景：
+- 定义色彩体系、设计 Token、暗色模式
 - 制定字体排版规范、字阶系统
 - 确定间距布局标准、组件内间距
 - 组件选型决策（"这里该用什么组件"）
 - 审查设计一致性、检查违规项
-- 回答设计相关问题：
-  - "配色怎么定？"
-  - "间距用多少？"
-  - "字号规范是什么？"
-  - "这个交互合不合理？"
-  - "空状态该怎么设计？"
-- 设计复杂组件（命令面板、行内编辑、看板等）
+- 设计复杂组件（命令面板、行内编辑、看板）
 - 建立品牌视觉识别
 
-## 何时不使用
-
-不使用此技能当：
-- 前端代码实现（使用 `vue-saas-frontend` skill）
-- 后端 API 设计（使用 `java-backend-dev` skill）
-- 移动端原生设计（iOS/Android 设计规范）
-- 营销页面/Landing Page 设计（非 B 端产品风格）
+不适用：
+- 前端代码实现（用 `vue-saas-frontend` skill）
+- 后端 API 设计（用 `java-backend-dev` skill）
+- 移动端原生设计
+- 营销页面/Landing Page 设计
 - 游戏化产品设计
-- 数据可视化图表库选型（仅涉及图表组件时）
 
 ---
 
@@ -335,10 +328,9 @@ shadow-lg → 命令面板（Command Palette）
 
 | 参数 | 说明 | 获取方式 |
 |------|------|---------|
-| **设计类型** | `token` / `component` / `page` / `pattern` / `review` | 从用户描述推断 |
-| **页面类型** | `list` / `detail` / `form` / `dashboard` / `auth` / `settings` | 若涉及页面设计则询问 |
-| **组件类型** | `button` / `input` / `table` / `form` / `modal` / `command` 等 | 从用户描述推断 |
-| **主题模式** | `light` / `dark` / `both` | 默认 `both`，用户指定则覆盖 |
+| **设计类型** | `token` / `component` / `page` / `pattern` / `review` | 从需求推断 |
+| **组件类型** | `button` / `input` / `table` / `form` / `modal` / `command` 等 | 从需求推断 |
+| **主题模式** | `light` / `dark` / `both` | 默认 `both` |
 
 ### 设计类型判断
 
