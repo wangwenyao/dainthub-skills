@@ -146,14 +146,18 @@ metadata:
 ```css
 @theme {
   /* 英文：Geist（Vercel 出品，专为界面设计） */
-  /* 中文：LXGW WenKai Screen / 系统字体回退 */
-  --font-sans: 'Geist', 'LXGW WenKai Screen', 'PingFang SC',
-               'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  /* 中文：PingFang SC（macOS/iOS）+ Microsoft YaHei（Windows） */
+  --font-sans: 'Geist', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
 }
 ```
 
-**选型理由**：Geist 字重区分清晰、字间距适合高密度 UI、与 shadcn-vue 默认风格一致。中文回退链保证跨平台渲染一致性。
+**选型理由**：
+- **Geist**：字重区分清晰、字间距适合高密度 UI、与 shadcn-vue 默认风格一致
+- **PingFang SC**：Apple 平台默认中文字体，现代、屏幕渲染优秀
+- **Microsoft YaHei**：Windows 平台通用字体，ClearType 优化
+
+> 中文排版细节（行高、中英文间距、标点处理）详见 `references/typography-cjk.md`
 
 ### 2.2 字阶系统（Type Scale）
 
@@ -334,6 +338,7 @@ shadow-lg → 命令面板（Command Palette）
 
 | 问题 | 参考位置 |
 |------|---------|
+| 中文排版规范 | `references/typography-cjk.md` |
 | 暗色模式 token 映射 | `references/dark-mode.md` |
 | 响应式断点策略 | `references/responsive.md` |
 | 动画与过渡规范 | `references/motion.md` |
@@ -400,7 +405,7 @@ shadow-lg → 命令面板（Command Palette）
 | C-COLOR-006 | 禁止用颜色作为唯一区分手段（需配合图标或文字） |
 | C-COLOR-007 | 禁止使用纯黑（#000000）作为文字色 |
 
-### 排版约束
+### 排版约束（通用）
 
 | ID | 规则 |
 |----|------|
@@ -409,6 +414,8 @@ shadow-lg → 命令面板（Command Palette）
 | C-TYPE-003 | 禁止正文行长超过 75 个字符，否则加 max-w 约束 |
 | C-TYPE-004 | 禁止全大写中文 |
 | C-TYPE-005 | 禁止 letter-spacing 用于中文（只可用于全英文标题） |
+| C-TYPE-006 | 中文正文行高不低于 1.6 |
+| C-TYPE-007 | 表格数字列右对齐 + 等宽数字（tabular-nums） |
 
 ### 间距约束
 
@@ -448,10 +455,21 @@ shadow-lg → 命令面板（Command Palette）
 |----|------|
 | C-EMOTION-001 | 禁止彩带、撒花、庆祝动画 |
 | C-EMOTION-002 | 禁止成功/庆祝弹窗 |
-| C-HIER-003 | 禁止游戏化元素（徽章、积分、连续天数） |
+| C-EMOTION-003 | 禁止游戏化元素（徽章、积分、连续天数） |
 | C-EMOTION-004 | 禁止使用"恭喜"、"太棒了"、"厉害"等文案 |
 | C-EMOTION-005 | 禁止"亲"、"哦~"、"呢~"等语气词 |
 | C-EMOTION-006 | 禁止 emoji 作为主要视觉元素 |
+
+### 中文排版约束（特有）
+
+> 通用排版规则见上方 C-TYPE 约束。以下为中文环境特有约束。
+
+| ID | 规则 |
+|----|------|
+| C-CJK-001 | 多行文本省略需指定中文行高（≥1.5） |
+| C-CJK-002 | 中英文混排时使用 text-spacing 或手动间距 |
+| C-CJK-003 | 行尾禁止出现：`、，。：；！？》」』】"` |
+| C-CJK-004 | 行首禁止出现：`《「『【"`'` |
 
 ---
 
