@@ -298,4 +298,9 @@ shadow-lg → 命令面板（Command Palette）
 | 暗色模式 token 映射 | `references/dark-mode.md` |
 | 响应式断点策略 | `references/responsive.md` |
 | 动画与过渡规范 | `references/motion.md` |
+| 视觉层级规范 | `references/visual-hierarchy.md` |
+| 高级质感细节 | `references/advanced-details.md` |
+| 品牌个性化指导 | `references/brand-personality.md` |
+| 复杂组件规范 | `references/complex-components.md` |
+| 情感化设计指导 | `references/emotional-design.md` |
 | 代码实现 | 配合 `vue-saas-frontend` skill 使用 |
