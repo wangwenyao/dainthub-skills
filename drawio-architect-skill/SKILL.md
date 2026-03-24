@@ -1,93 +1,64 @@
 ---
 name: drawio-architect
 description: >
-  创建和编辑生产级 draw.io（.drawio / .xml）架构图和流程图。
-  触发：架构图/流程图/系统拓扑/业务流程可视化/draw.io文件修改。
-  支持阿里云/AWS/GCP/Azure 图标库和 Kubernetes 图标库。
-  输出可直接在 draw.io 打开的独立 XML 文件。
+  创建和编辑生产级 draw.io 架构图和流程图。
+  触发：架构图/流程图/系统拓扑/业务流程/draw.io文件。
+  支持阿里云/AWS/GCP/Azure/Kubernetes 图标库。
 ---
 
 # draw.io 架构图与流程图技能
 
-创建和编辑生产级 `.drawio` XML 文件，覆盖多种图表类型。
-
 ## 何时使用
 
-适用场景：
-- 创建/修改 `.drawio` 或 `.xml` 架构图文件
-- 绘制架构图、流程图、系统拓扑
-- 将文字描述转为可视化图表
-- 排查 draw.io XML 格式问题
+适用：创建/修改 `.drawio` 或 `.xml` 架构图、流程图、系统拓扑
+触发词：draw.io、架构图、部署图、流程图、泳道图、拓扑图
 
-触发词：draw.io、diagrams.net、mxfile、架构图、部署图、流程图、泳道图、拓扑图
-
-不适用：
-- 纯文字描述输出
-- 图片编辑（PNG/JPG）
-- 其他图表工具（Visio、Mermaid）
-- UML 类图/时序图（用 PlantUML 或 Mermaid）
-- 数据可视化（ECharts、D3）
+不适用：纯文字输出、图片编辑、其他图表工具、UML 类图/时序图（用 PlantUML/Mermaid）
 
 ## 支持的图类型
 
 | 类型 | 说明 | 专用参考 |
 |------|------|---------|
-| **云部署架构图** | 云资源拓扑、K8s 集群、数据流 | `references/deploy_arch_patterns.md` |
-| **功能架构图** | 功能模块分层、系统边界、接口 | `references/functional_arch_patterns.md` |
-| **业务流程图** | 活动/判断/泳道、并行网关 | `references/flowchart_patterns.md` |
+| 云部署架构图 | 云资源拓扑、K8s 集群、数据流 | `deploy_arch_patterns.md` |
+| 功能/系统/技术架构图 | 功能模块、系统边界、技术栈 | `functional_arch_patterns.md` |
+| 业务流程图 | 活动/判断/泳道、并行网关 | `flowchart_patterns.md` |
 
-**使用方式**：先读本文件了解通用规则，再按图类型读取对应的 references 文件获取专用模式和模板。
+## 参考文档加载
 
-### 参考文档加载优先级
-
-1. **必须加载**（核心规则）：本 SKILL.md
-2. **按需加载**：
-   - 云部署架构图 → `deploy_arch_patterns.md`
-   - 功能架构图 → `functional_arch_patterns.md`
-   - 业务流程图 → `flowchart_patterns.md`
-   - 阿里云完整图标库 → `alibaba_cloud_shapes.md`（311个图标）
-3. **调试时加载**：`debug-guide.md`
+1. **必须加载**：本 SKILL.md
+2. **按图类型加载**：deploy_arch_patterns.md / functional_arch_patterns.md / flowchart_patterns.md
+3. **按需加载**：alibaba_cloud_shapes.md、visual-systems.md、design-guide.md、style-presets.md
+4. **调试时加载**：debug-guide.md
 
 ---
 
-## 输入参数
+## 一、XML 必须规则（违反会导致文件损坏）
 
-| 参数 | 说明 | 获取方式 |
-|------|------|---------|
-| **图类型** | `deploy` / `functional` / `flowchart` | 从需求推断 |
-| **云厂商** | `alibaba` / `aws` / `gcp` / `azure` / `none` | 默认 `alibaba` |
-| **是否修改存量** | `true` / `false` | 是否提供现有文件 |
-| **页面尺寸** | `auto` / 指定 width×height | 默认 `auto`，根据内容自动计算 |
-
----
-
-## 一、必须遵守的规则（违反会导致文件损坏）
-
-### 1. 每个 `<mxGeometry>` 必须包含 `as="geometry"`
-
-遗漏会报 `Could not add object mxGeometry`。**所有** mxGeometry 都必须加，无例外。
+### 1. mxGeometry 必须有 as="geometry"
 
 ```xml
 <!-- 正确 -->
 <mxGeometry x="100" y="200" width="50" height="50" as="geometry"/>
 
-<!-- 错误 -->
+<!-- 错误 → Could not add object mxGeometry -->
 <mxGeometry x="100" y="200" width="50" height="50"/>
 ```
 
-### 2. XML 实体转义
+### 2. 特殊字符转义
 
-`value` 中的特殊字符必须转义：`&` → `&amp;`，`<` → `&lt;`，`>` → `&gt;`，`"` → `&quot;`。
+| 字符 | 转义 |
+|------|------|
+| `&` | `&amp;` |
+| `<` | `&lt;` |
+| `>` | `&gt;` |
+| `"` | `&quot;` |
 
-最常见：`&` 未转义导致 `xmlParseEntityRef: no name`。
+最常见：`&` 未转义 → `xmlParseEntityRef: no name`
 
-### 3. value 中嵌套 HTML
-
-style 中加 `html=1`，HTML 标签和属性完整转义：
+### 3. HTML 内容需 html=1
 
 ```xml
-<mxCell value="&lt;b&gt;标题&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot; style=&quot;font-size:8px&quot;&gt;描述&lt;/font&gt;"
-        style="rounded=1;whiteSpace=wrap;html=1;..." .../>
+<mxCell value="&lt;b&gt;标题&lt;/b&gt;" style="...html=1;..." .../>
 ```
 
 ---
@@ -96,11 +67,9 @@ style 中加 `html=1`，HTML 标签和属性完整转义：
 
 ```xml
 <mxfile host="app.diagrams.net">
-  <diagram name="diagram-name" id="unique-id">
-    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10" guides="1"
-                  tooltips="1" connect="1" arrows="1" fold="1" page="1"
-                  pageScale="1" pageWidth="1200" pageHeight="1000"
-                  math="0" shadow="0">
+  <diagram name="name" id="id">
+    <mxGraphModel dx="1400" dy="1000" grid="1" gridSize="10"
+                  pageWidth="1200" pageHeight="1000">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -112,151 +81,81 @@ style 中加 `html=1`，HTML 标签和属性完整转义：
 ```
 
 要点：
-- `pageWidth`/`pageHeight` 按内容调整，内容增减时同步更新
-- id="0" 和 id="1" 两个根 cell 必须存在且在最前面
-- Cell ID 用描述性字符串（如 `id="slb"`、`id="e_app_slb"`）
+- id="0" 和 id="1" 根 cell 必须存在且在最前面
+- Cell ID 用描述性字符串（如 `id="slb"`）
+- pageWidth/pageHeight 按内容调整
 
 ---
 
-## 三、布局规划方法论
+## 三、布局核心原则
 
-**先规划再编码。** 不要直接写 XML，先完成以下分析。
+**调用方在上/左，被调用方在下/右，最大限度减少连线交叉。**
 
-### 步骤 1：识别图类型
+1. **纵向**：调用方在上，被调用方在下
+2. **横向**：同层组件按调用顺序从左到右
+3. **边栏**：横切关注点（消息队列、配置中心）放在右侧独立列
 
-根据需求判断属于哪类图，然后读取对应的 `references/` 文件：
-- 涉及服务器/容器/云资源/数据库部署 → `deploy_arch_patterns.md`
-- 涉及功能模块/系统边界/能力分层 → `functional_arch_patterns.md`
-- 涉及业务步骤/审批流/判断分支/角色分工 → `flowchart_patterns.md`
-
-### 步骤 2：分析架构元素
-
-1. 列出所有组件/节点
-2. 梳理组件之间的依赖/调用/数据流关系
-3. 按职责或层次分组
-
-### 步骤 3：组件位置基于依赖关系排列
-
-**核心原则：调用方在上/左，被调用方在下/右，最大限度减少连线交叉。**
-
-- **纵向**：调用方在上，被调用方在下。层顺序反映调用链深度
-- **横向**：同层组件按调用顺序从左到右排列
-- **边栏**：横切关注点（消息队列、配置中心、监控）放在右侧独立列
-- **目标**：所有连线尽量上→下、左→右，避免回头线和交叉
-
-### 步骤 4：计算尺寸和间距
-
-**不要硬编码固定宽度。** 根据元素数量和容器宽度动态计算。
-
-**等宽排列**（推荐同类组件）：
-```
-n 个组件，容器可用宽度 W，期望间距 gap
-组件宽度 w = (W - (n+1) × gap) / n
-第 i 个 x = 容器左边 + gap + i × (w + gap)
-```
-
-**指定宽度 + 等距排列**：
-```
-间距 gap = (W - n × w) / (n + 1)
-第 i 个 x = 容器左边 + gap × (i+1) + w × i
-```
-
-**尺寸一致性原则：**
-- 同一排组件宽高必须一致
-- 不同排可以不同宽高，但同排内统一
-- 图标类组件统一尺寸（如 45×45）
-- 卡片类组件高度统一
-
-### 步骤 5：间距规则
-
-**层间距**：所有层之间保持统一 gap（推荐 16-24px）。
-
-**层内间距**：
-
-| 位置 | 推荐值 |
-|------|--------|
-| 层标题 → 第一排内容 | 标题高 + 8-12px |
-| 行间距（同层多排） | 16-24px，保持统一 |
-| 最后一排 → 层底 | ≥ 12px |
-| 图标 spacingTop | 4-8px |
-
-**行高均分公式**（一层内有 n 排时）：
-```
-可用高度 H = 层高 - 标题区 - 上下 padding
-行间 gap = (H - n × 行高) / (n + 1)
-```
+详细布局公式、间距标准 → `references/design-guide.md`
 
 ---
 
 ## 四、图标库
 
-### 阿里云（`mxgraph.alibaba_cloud.*`）
+### 阿里云（mxgraph.alibaba_cloud.*）
 
 Shape name 必须用**全小写下划线**格式：
 
-```
-✅ shape=mxgraph.alibaba_cloud.redis_kvstore
-❌ shape=mxgraph.alibaba_cloud.Redis KVStore
-❌ shape=mxgraph.alicloud.redis
-```
-
-图标必须带完整渲染属性：
-
 ```xml
-<mxCell id="redis" value="Redis"
-  style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;
-         fillColor=#FF6A00;strokeColor=none;
-         shape=mxgraph.alibaba_cloud.redis_kvstore;
-         verticalLabelPosition=bottom;verticalAlign=top;
-         fontSize=9;fontStyle=1;spacingTop=8;"
-  vertex="1" parent="1">
-  <mxGeometry x="100" y="200" width="45" height="45" as="geometry"/>
-</mxCell>
+<!-- 正确 -->
+shape=mxgraph.alibaba_cloud.redis_kvstore
+
+<!-- 错误 → 空白方块 -->
+shape=mxgraph.alibaba_cloud.Redis KVStore
+```
+
+图标必须带完整属性：
+```xml
+<mxCell style="points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;
+       fillColor=#FF6A00;strokeColor=none;
+       shape=mxgraph.alibaba_cloud.redis_kvstore;
+       verticalLabelPosition=bottom;verticalAlign=top;
+       fontSize=9;fontStyle=1;spacingTop=8;" .../>
 ```
 
 | 属性 | 缺失后果 |
 |------|---------|
-| `fillColor=#FF6A00;strokeColor=none` | 只显示空轮廓 |
+| `fillColor` + `strokeColor=none` | 只显示空轮廓 |
 | `shape=mxgraph.alibaba_cloud.{小写名}` | 空白方块 |
-| `verticalLabelPosition=bottom;verticalAlign=top` | 标签与图标重叠 |
-| `spacingTop=6-8` | 标签紧贴图标 |
-| `aspect=fixed` | 图标变形 |
+| `verticalLabelPosition=bottom` | 标签与图标重叠 |
 
-常用图标见下表。需要完整 311 个图标时，读取 `references/alibaba_cloud_shapes.md`。
+常用图标：
 
 | 服务 | Shape Name |
 |------|-----------|
 | 用户 | `user` |
-| 网站 | `enterprise_website` |
 | CDN | `cdn_content_distribution_network` |
 | SLB | `slb_server_load_balancer_01` |
 | API 网关 | `apigateway` |
-| WAF | `waf_web_application_firewall` |
 | ACK/K8s | `ask_ack_container_service_for_kubernetes` |
 | MySQL | `mysql` |
 | Redis | `redis_kvstore` |
-| ES | `elasticsearch` |
 | OSS | `oss_object_storage_service` |
-| Kafka | `kafka` |
-| SLS | `sls_simple_log_service` |
-| Prometheus | `prometheus` |
 
-### Kubernetes（`mxgraph.kubernetes.*`）
+完整 311 个图标 → `references/alibaba_cloud_shapes.md`
 
-通过 `prIcon` 选类型，`fillColor` 变色区分技术栈：
+### Kubernetes（mxgraph.kubernetes.*）
 
 ```xml
-<mxCell style="...shape=mxgraph.kubernetes.icon2;prIcon=pod;fillColor=#2875E2;strokeColor=#ffffff;..." .../>
+<mxCell style="...shape=mxgraph.kubernetes.icon2;prIcon=pod;fillColor=#326CE5;strokeColor=#ffffff;..." .../>
 ```
 
-| prIcon | 资源 | 适合表示 |
-|--------|------|---------|
-| `pod` | Pod | AI Agent、独立单元 |
-| `deploy` | Deployment | 有副本的微服务 |
-| `ing` | Ingress | API 网关 |
-| `svc` | Service | K8s Service |
-| `cm` | ConfigMap | 配置中心 |
-| `limits` | LimitRange | 限流/熔断 |
+| prIcon | 用途 |
+|--------|------|
+| `pod` | 独立单元 |
+| `deploy` | 有副本的微服务 |
+| `ing` | API 网关 |
+| `svc` | K8s Service |
+| `cm` | 配置中心 |
 
 ### AWS / GCP / Azure
 
@@ -268,131 +167,36 @@ Azure: image=img/lib/azure2/{path}.svg
 
 ---
 
-## 五、通用图元样式
+## 五、配色原则
 
-### 矩形容器（层背景/分区）
+按**组件职责分类**选色，一张图最多 4-5 种底色：
 
-```xml
-<mxCell style="rounded=1;whiteSpace=wrap;html=1;fillColor=#DAEDF7;strokeColor=#2196F3;strokeWidth=2;arcSize=3;" .../>
-```
+| 色系 | fillColor | strokeColor | 用途 |
+|------|-----------|-------------|------|
+| 冷色 | `#DAEDF7` | `#2196F3` | 外部接入 |
+| 暖色 | `#FBE9E7` | `#FF5722` | 核心/计算 |
+| 中性 | `#E8F5E9` | `#43A047` | 业务服务 |
+| 数据 | `#EDE7F6` | `#7B1FA2` | 数据/基础设施 |
+| K8s | `#EBF3FF` | `#326CE5` | 容器 |
 
-### 文字标签
-
-```xml
-<mxCell style="text;html=1;fontSize=12;fontStyle=1;fontColor=#0D47A1;align=left;verticalAlign=top;" .../>
-```
-
-### 服务卡片（标题+描述）
-
-```xml
-<mxCell value="&lt;b&gt;服务名&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#888&quot; style=&quot;font-size:8px&quot;&gt;描述&lt;/font&gt;"
-  style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#FF6600;fontColor=#333;fontSize=9;arcSize=8;align=center;" .../>
-```
-
-### 卡片内嵌图标
-
-图标叠放在卡片左侧，文字居中偏右：
-- 图标位置：`x = card_x + 8`，`y = card_y + (card_h - 25) / 2`
-- 卡片文字：`align=center;spacingLeft=22`
-
-### 配色原则
-
-按**组件职责分类**选色，同类用同色系，一张图最多 4-5 种底色：
-
-**暖色系**（核心/计算）：
-- `fillColor=#FBE9E7;strokeColor=#FF5722` — 核心计算
-- `fillColor=#FFF3E0;strokeColor=#E65100` — 监控/告警
-- `fillColor=#FFF9E6;strokeColor=#FF9800` — 编排/平台
-
-**冷色系**（基础/稳定）：
-- `fillColor=#DAEDF7;strokeColor=#2196F3` — 外部接入
-- `fillColor=#EBF3FF;strokeColor=#326CE5` — 容器/K8s
-- `fillColor=#EDE7F6;strokeColor=#7B1FA2` — 数据/基础设施
-
-**中性色系**（业务/服务）：
-- `fillColor=#E8F5E9;strokeColor=#43A047` — 业务服务
-- `fillColor=#E8EAF6;strokeColor=#7986CB` — 中间件
-
-### 卡片尺寸规范
-
-卡片高度统一为 **80px**，宽度根据内容自适应：
-
-| 场景 | 推荐宽度 |
-|------|---------|
-| 简单标签（如 Vue、Vite） | 200px |
-| 中等长度标题（如 Spring Boot） | 230px |
-| 较长标题（如 Prompt Engineering） | 280px |
-| 宽卡片（如 Java ProcessBuilder） | 350px |
-
-### 字体大小规范
-
-| 元素 | 字体大小 | 示例 |
-|------|---------|------|
-| **层标题**（中文） | 16px | `前端技术栈` |
-| **层标题**（英文副标题） | 12px | `Frontend Stack` |
-| **卡片主标题** | **18px**（加粗） | `Spring Boot 3.x` |
-| **卡片副标题** | **15px** | `核心框架` |
-| **连接线标签** | 12px | `HTTP/WebSocket` |
-
-### 卡片内部间距
-
-| 间距类型 | 设置方式 | 效果 |
-|---------|---------|------|
-| **主标题 ↔ 副标题** | 单换行 `<br>` | 紧凑间距 |
-| **卡片内边距** | `align=center` | 自动居中 |
+更多样式模板 → `references/style-presets.md`
 
 ---
 
-## 六、连接线规范
+## 六、连线规范
 
-### 基本连线
+- **方向一致**：上→下 或 左→右
+- **减少交叉**：交叉过多 → 调整组件位置
+- **标签用于关键流**：不是每条线都需要标签
+- **线宽语义**：2.5 主链路、2 普通、1.5 次要
 
-```xml
-<mxCell id="e_a_b" style="edgeStyle=orthogonalEdgeStyle;rounded=1;flowAnimation=1;strokeColor=#2196F3;strokeWidth=2;"
-  edge="1" parent="1" source="a" target="b">
-  <mxGeometry relative="1" as="geometry"/>
-</mxCell>
-```
-
-### 布局原则
-
-- **方向一致**：连线尽量上→下或左→右，避免回头线
-- **减少交叉**：交叉过多说明组件位置需调整，不是调连线
-- **标签仅用于关键流**：不是每条线都需要标签
-- **标签颜色与线色一致**
-
-### 连线粗细
-
-| strokeWidth | 语义 |
-|-------------|------|
-| `2.5` | 主链路 |
-| `2` | 普通数据流 |
-| `1.5` | 次要连接 |
-
-### 颜色编码（参考，按项目调整）
-
-| 颜色 | Hex | 常见含义 |
-|------|-----|---------|
-| 蓝 | `#2196F3` | 外部流量 |
-| 橙 | `#FF9800` | 路由/均衡 |
-| 红 | `#FF5722` | AI/ML 链路 |
-| 绿 | `#43A047` | 业务逻辑 |
-| 紫 | `#7B1FA2` | 数据层调用 |
-| 浅蓝虚线 | `#90CAF9` + `dashed=1` | 可选/旁路 |
-
-### 流程图专用连线
-
-判断分支加条件标签：
-```xml
-<mxCell value="是" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#43A047;strokeWidth=2;fontSize=9;fontColor=#43A047;" .../>
-<mxCell value="否" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#F44336;strokeWidth=2;fontSize=9;fontColor=#F44336;" .../>
-```
+详细连线规则 → `references/design-guide.md`
 
 ---
 
 ## 七、Z-order 原则
 
-XML 中先写的元素在底层。严格按此顺序：
+XML 中先写的元素在底层。严格顺序：
 
 ```
 1. 层背景容器（底色矩形）
@@ -404,26 +208,135 @@ XML 中先写的元素在底层。严格按此顺序：
 
 ---
 
-## 八、工作流程
+## 八、容器与嵌套
+
+### parent 属性实现嵌套
+
+子元素的 `parent` 属性指向父容器 ID，实现视觉嵌套和分组移动：
+
+```xml
+<!-- 容器 -->
+<mxCell id="container1" value="服务集群"
+  style="swimlane;startSize=24;fillColor=#E3F2FD;strokeColor=#1976D2;fontStyle=1;"
+  vertex="1" parent="1">
+  <mxGeometry x="40" y="40" width="300" height="200" as="geometry"/>
+</mxCell>
+
+<!-- 子元素（parent 指向容器） -->
+<mxCell id="service1" value="服务A"
+  style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1976D2;"
+  vertex="1" parent="container1">
+  <mxGeometry x="20" y="40" width="120" height="60" as="geometry"/>
+</mxCell>
+```
+
+**要点**：
+- 子元素坐标相对于容器左上角
+- 移动容器时子元素同步移动
+- 容器可以是普通矩形或 swimlane
+
+### Swimlane 样式
+
+泳道容器（可折叠）：
+
+```xml
+<mxCell style="swimlane;startSize=24;horizontal=1;fillColor=#E3F2FD;strokeColor=#1976D2;" .../>
+```
+
+| 属性 | 说明 |
+|------|------|
+| `startSize` | 标题栏高度（默认 40） |
+| `horizontal` | 1=横向泳道，0=纵向泳道 |
+| `swimlaneFillColor` | 泳道内部填充色 |
+
+---
+
+## 九、连线锚点控制
+
+### exitX/exitY/entryX/entryY
+
+精确控制连线在节点上的进出位置（值范围 0-1）：
+
+```xml
+<!-- 从源节点右侧中部出，从目标节点左侧中部进 -->
+<mxCell style="edgeStyle=orthogonalEdgeStyle;rounded=1;
+       exitX=1;exitY=0.5;exitDx=0;exitDy=0;
+       entryX=0;entryY=0.5;entryDx=0;entryDy=0;"
+  edge="1" source="nodeA" target="nodeB">
+  <mxGeometry relative="1" as="geometry"/>
+</mxCell>
+```
+
+**坐标参考**：
+
+| 位置 | X | Y |
+|------|---|---|
+| 左边中部 | 0 | 0.5 |
+| 右边中部 | 1 | 0.5 |
+| 上边中部 | 0.5 | 0 |
+| 下边中部 | 0.5 | 1 |
+| 左上角 | 0 | 0 |
+| 右下角 | 1 | 1 |
+
+**应用场景**：
+- 多条连线进出同一节点时避免重叠
+- 控制连线走特定通道
+
+### 连线样式选项
+
+| 样式 | 说明 |
+|------|------|
+| `edgeStyle=orthogonalEdgeStyle` | 直角折线（默认） |
+| `edgeStyle=elbowEdgeStyle` | 单弯头连线 |
+| `curved=1` | 平滑曲线 |
+| `rounded=1` | 折线圆角 |
+| `jettySize=auto` | 自动计算避让距离 |
+
+---
+
+## 十、图层管理
+
+复杂图可用图层分离不同抽象层次：
+
+```xml
+<root>
+  <mxCell id="0"/>
+  <mxCell id="1" parent="0"/>
+  
+  <!-- 图层定义 -->
+  <mxCell id="layer-bg" value="背景层" parent="1"/>
+  <mxCell id="layer-main" value="主内容" parent="1"/>
+  <mxCell id="layer-conn" value="连线" parent="1"/>
+  
+  <!-- 元素指定所属图层 -->
+  <mxCell id="bg1" value="" parent="layer-bg" vertex="1" .../>
+  <mxCell id="node1" value="服务" parent="layer-main" vertex="1" .../>
+  <mxCell id="edge1" source="node1" target="node2" parent="layer-conn" edge="1" .../>
+</root>
+```
+
+**用途**：
+- 分离背景、内容、连线
+- 支持显示/隐藏特定图层
+- 批量锁定或移动同层元素
+
+---
+
+## 十一、工作流程
 
 1. **理解需求** — 判断图类型，读取对应 references
 2. **分析元素** — 列出组件、关系、分组
-3. **规划布局** — 按第三章方法论计算尺寸和位置
-4. **备份原文件** — 修改已有文件前复制为 `{filename}_backup.xml`（递增编号）
+3. **规划布局** — 按核心原则计算位置
+4. **备份原文件** — 修改已有文件前备份
 5. **编写 XML** — 按 Z-order 顺序
 6. **交付前自检** — 见下方清单
-7. **迭代优化** — 反馈后 → 备份 → 修改 → 自检
+7. **迭代优化** — 反馈后迭代
 
-### 从外部文件转换（PPT/文档/图片）
+---
 
-1. 提取组件名称、描述、层次关系
-2. 分析调用关系和数据流方向
-3. 用本 skill 规则**重新规划布局**（不要照搬原图坐标）
-4. 生成独立新文件
+## 十二、交付前自检清单
 
-### 交付前自检清单
-
-**XML 正确性：**
+**XML 正确性**：
 - [ ] 每个 `<mxGeometry>` 有 `as="geometry"`
 - [ ] 所有 `&` 转义为 `&amp;`
 - [ ] 云图标 shape name 用小写下划线
@@ -431,27 +344,20 @@ XML 中先写的元素在底层。严格按此顺序：
 - [ ] 连线 source/target ID 匹配实际 cell ID
 - [ ] Z-order 正确（背景先于内容）
 
-**布局审计：**
+**布局审计**：
 - [ ] 同排组件宽高一致
-- [ ] 同排组件等距（验证 x 间隔相等）
-- [ ] 左右边距对称
-- [ ] 层间 gap 统一
-- [ ] 内容不溢出层边界
-- [ ] 标签和图标无重叠
-- [ ] 并排区块顶部对齐、高度相同
-- [ ] 整体布局居中，无大面积空白失衡
+- [ ] 层间 gap 统一（16-24px）
+- [ ] 调用方在上/左
+- [ ] 整体布局居中，无大面积空白
 
-**连线审计：**
+**连线审计**：
 - [ ] 方向一致（上→下、左→右）
 - [ ] 无明显交叉
 - [ ] 关键流有标签
-- [ ] 颜色编码一致
 
 ---
 
-## 九、常见错误速查
-
-> 完整调试指南 → `references/debug-guide.md`
+## 十三、常见错误速查
 
 | 症状 | 原因 | 修复 |
 |------|------|------|
@@ -461,58 +367,18 @@ XML 中先写的元素在底层。严格按此顺序：
 | 图标空轮廓 | 缺 fillColor | 加 `fillColor=#FF6A00;strokeColor=none` |
 | 内容被背景遮挡 | Z-order 错 | 背景写在内容之前 |
 
+详细调试指南 → `references/debug-guide.md`
+
 ---
 
-## 十、约束总表
+## 十四、约束总表
 
-### XML 结构约束 (C-XML)
-
-| ID | 约束 | 错误症状 |
-|----|------|---------|
-| C-XML-001 | mxGeometry 必须有 `as="geometry"` | `Could not add object` |
-| C-XML-002~005 | 特殊字符转义（&amp; &lt; &gt; &quot;） | XML 解析错误 |
-| C-XML-006~007 | HTML 内容需 `html=1` + 完整转义 | HTML 不渲染 |
-
-### 文件结构约束 (C-FILE)
-
-| ID | 约束 |
-|----|------|
-| C-FILE-001 | id="0" 和 id="1" 根 cell 必须存在 |
-| C-FILE-002 | pageWidth/pageHeight 按内容调整 |
-| C-FILE-003 | Cell ID 用描述性字符串 |
-
-### 布局约束 (C-LAYOUT)
-
-| ID | 约束 |
-|----|------|
-| C-LAYOUT-001~004 | 同排宽高一致，图标统一 45×45 |
-| C-LAYOUT-005~008 | 层间距统一 16-24px，行间距保持统一 |
-| C-LAYOUT-009~011 | 调用方在上/左，横切关注点放右侧 |
-
-### 图标约束 (C-ICON)
-
-| ID | 约束 |
-|----|------|
-| C-ICON-001 | 阿里云 shape name 用小写下划线 |
-| C-ICON-002~007 | 图标需 fillColor + strokeColor=none + verticalLabelPosition + spacingTop + aspect=fixed |
-| C-ICON-008 | K8s 图标用 prIcon 选类型 |
-
-### 连线约束 (C-EDGE)
-
-| ID | 约束 |
-|----|------|
-| C-EDGE-001~005 | 方向上→下/左→右，减少交叉，source/target ID 匹配 |
-
-### Z-order 约束 (C-ZORDER)
-
-| ID | 约束 |
-|----|------|
-| C-ZORDER-001~002 | 先写元素在底层，顺序：背景→嵌套框→文字→组件→连线 |
-
-### 配色约束 (C-COLOR)
-
-| ID | 约束 |
-|----|------|
-| C-COLOR-001~002 | 按职责分类选色，一图最多 4-5 种底色 |
-
-> 详细约束说明 & 调试指南 → `references/debug-guide.md`
+| 类别 | 前缀 | 核心约束 |
+|------|------|---------|
+| XML 结构 | C-XML | mxGeometry 必须有 as="geometry"、特殊字符转义 |
+| 文件结构 | C-FILE | 根 cell 必须存在、pageWidth/pageHeight 按内容调整 |
+| 布局 | C-LAYOUT | 同排宽高一致、层间距统一、调用方在上 |
+| 图标 | C-ICON | shape name 小写下划线、fillColor 必填 |
+| 连线 | C-EDGE | 方向上→下/左→右、减少交叉 |
+| Z-order | C-ZORDER | 背景→嵌套框→文字→组件→连线 |
+| 配色 | C-COLOR | 按职责分类、最多 4-5 种底色 |
