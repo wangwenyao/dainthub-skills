@@ -77,6 +77,13 @@ B端产品经理能力体系，从需求发现到PRD交付。
 
 编写页面原型时，引用 `saas-design-system` skill 获取色彩Token、字体规范、组件选型标准。
 
+编写验收标准时，为开发阶段测试提供输入：
+- 验收标准 → `test-driven-development` 的测试场景
+- 用户旅程 → E2E 测试流程
+- 业务规则 → Service 层单元测试
+
+详细转化指引 → `@references/workflows/prd-writing.md#验收标准与测试协作`
+
 ---
 
 ## 版本

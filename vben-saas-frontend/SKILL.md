@@ -247,6 +247,72 @@ rules: z.number().min(0).max(100)
 
 ---
 
+## 与测试 Skill 协作
+
+前端开发阶段调用测试能力确保组件质量：
+
+| 开发阶段 | 调用测试能力 | 目的 |
+|---------|-------------|------|
+| **组件开发前** | `test-driven-development` | 先写测试，定义组件行为 |
+| **组件开发后** | `test-generation` | 覆盖分析，补充交互测试 |
+| **页面流程测试** | `test-generation` | E2E 测试关键用户流程 |
+
+### 前端测试规范
+
+Vben Admin 5.x 使用 Vitest 进行组件测试：
+
+| 测试类型 | 测试内容 | 文件位置 |
+|---------|---------|---------|
+| 组件测试 | Props、Events、渲染状态 | `__tests__/*.spec.ts` |
+| Composable 测试 | 状态管理、数据获取逻辑 | `composables/__tests__/*.spec.ts` |
+| E2E 测试 | 用户操作流程、页面跳转 | `e2e/*.spec.ts`（Playwright） |
+
+### 开发流程集成测试
+
+```
+开发表单组件：
+Step 1: 定义 schema → data.ts
+Step 2: TDD 先写测试 → test-driven-development
+        - 测试表单验证规则
+        - 测试提交/取消事件
+        - 测试 loading/error 状态
+Step 3: 实现组件 → modules/form.vue
+Step 4: 补充测试 → test-generation
+        - 边缘情况（空值、边界值）
+        - 异步操作测试
+```
+
+### 测试覆盖率标准
+
+| 测试类型 | 覆盖率目标 |
+|---------|-----------|
+| 业务组件 | ≥ 70% |
+| Composables | ≥ 80% |
+| 关键用户流程 | E2E 100%覆盖 |
+
+### PRD 验收标准转化为 E2E 测试
+
+```
+PRD验收标准：
+Given 用户在商品列表页
+When 点击新增按钮
+Then 打开新增表单弹窗
+
+转化为 Playwright 测试：
+test('新增商品流程', async ({ page }) => {
+    // Given
+    await page.goto('/product/list');
+    
+    // When
+    await page.click('[data-testid="add-btn"]');
+    
+    // Then
+    await expect(page.locator('.vben-modal')).toBeVisible();
+});
+```
+
+---
+
 ## 约束总表
 
 ### 架构约束 (C-VBEN-ARCH)

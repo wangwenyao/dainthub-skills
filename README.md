@@ -215,17 +215,45 @@ dainthub-skills/
 
 ```
 product-manager (产品经理)
-       ↓ PRD
+       ↓ PRD + 验收标准
 tech-manager (技术经理)
-       ↓ 任务分发
+       ↓ 任务分发 + 实现验证
    ┌───┴───┐
    ↓       ↓
-java     vben
+java     vben/vue
 backend  frontend
    ↓       ↓
    └───┬───┘
        ↓ 验证
 tech-manager (技术经理)
+```
+
+### 测试能力协作
+
+```
+外部测试 Skills
+├── test-driven-development (TDD流程)
+├── test-generation (覆盖率分析)
+│
+product-manager
+       ↓ 验收标准转化
+       └── test-driven-development 输入
+       
+java-backend-dev-skill
+       ↓ Service开发
+       ├── test-driven-development (先写测试)
+       ├── test-standards.md (测试规范)
+       └── test-generation (覆盖分析)
+       
+vben/vue-frontend-skill
+       ↓ 组件开发
+       ├── test-driven-development (先写测试)
+       ├── testing.md (组件测试规范)
+       └── test-generation (覆盖分析)
+       
+tech-manager
+       ↓ 实现验证
+       └── test-generation (覆盖率检查)
 ```
 
 ---

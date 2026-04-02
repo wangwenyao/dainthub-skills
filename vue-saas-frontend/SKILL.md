@@ -163,6 +163,71 @@ pnpm lint
 pnpm test
 ```
 
+---
+
+## 与测试 Skill 协作
+
+前端开发阶段调用测试能力确保组件质量：
+
+| 开发阶段 | 调用测试能力 | 目的 |
+|---------|-------------|------|
+| **组件开发前** | `test-driven-development` | 先写测试，定义组件行为 |
+| **组件开发后** | `test-generation` | 覆盖分析，补充交互测试 |
+| **页面流程测试** | `test-generation` | E2E 测试关键用户流程 |
+
+### 测试规范参考
+
+测试详细规范 → `references/testing.md`，包含：
+- 组件测试模板（Vitest + Vue Test Utils）
+- Composable 测试
+- Store 测试
+- E2E 测试（Playwright）
+
+### 开发流程集成测试
+
+```
+开发业务组件：
+Step 1: 设计组件 Props/Events
+Step 2: TDD 先写测试 → test-driven-development
+        - 测试 Props 传递
+        - 测试 Events 触发
+        - 测试状态变化
+Step 3: 实现组件 → components/business/*.vue
+Step 4: 补充测试 → test-generation + testing.md
+        - 边缘情况（空数据、错误状态）
+        - 异步操作测试
+```
+
+### 测试覆盖率标准
+
+| 测试类型 | 覆盖率目标 |
+|---------|-----------|
+| 业务组件 | ≥ 70% |
+| Composables | ≥ 80% |
+| Stores | ≥ 80% |
+| 关键用户流程 | E2E 100%覆盖 |
+
+### PRD 验收标准转化为测试
+
+```
+PRD验收标准：
+Given 用户在用户列表页
+When 搜索"张三"
+Then 显示匹配的用户行
+
+转化为 E2E 测试（参考 testing.md）：
+test('用户搜索流程', async ({ page }) => {
+    // Given
+    await page.goto('/users');
+    
+    // When
+    await page.getByPlaceholder('搜索').fill('张三');
+    
+    // Then
+    await expect(page.getByRole('row', { name: /张三/ })).toBeVisible();
+});
+```
+
 ### PR 前
 - [ ] `typecheck` 通过
 - [ ] `lint` 无错误

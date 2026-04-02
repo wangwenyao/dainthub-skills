@@ -89,3 +89,71 @@ Given [前置条件]
 When [用户操作]
 Then [预期结果]
 ```
+
+---
+
+## 验收标准与测试协作
+
+PRD 的验收标准可直接转化为测试代码，供开发阶段使用 `test-driven-development` 和 `test-generation` skill。
+
+### 转化映射
+
+| PRD验收标准 | 测试代码结构 | 测试类型 |
+|------------|-------------|---------|
+| Given [前置条件] | `// Arrange` 准备测试数据 | 单元/集成测试 |
+| When [用户操作] | `// Act` 执行被测方法 | 单元/集成测试 |
+| Then [预期结果] | `// Assert` 断言结果 | 单元/集成测试 |
+| 用户旅程步骤 | E2E 测试场景 | Playwright/Vitest E2E |
+| 业务规则(BR编号) | 业务逻辑测试 | Service层单元测试 |
+| 字段约束 | 参数校验测试 | Controller/Form测试 |
+
+### 示例转化
+
+**PRD验收标准**：
+```
+Given 用户已登录，购物车有商品
+When 点击结算按钮
+Then 进入结算页面，显示商品清单
+```
+
+**转化为后端单元测试**（供 java-backend-dev-skill 使用）：
+```java
+@Test
+@DisplayName("结算流程 - 购物车有商品时可结算")
+void checkout_withItemsInCart_success() {
+    // ── Arrange (Given) ────────────────────────────────
+    Long userId = 1L;
+    CartItem item = TestDataFactory.createCartItem("商品A", 2);
+    when(cartMapper.selectByUserId(userId)).thenReturn(List.of(item));
+
+    // ── Act (When) ──────────────────────────────────
+    CheckoutResult result = checkoutService.checkout(userId);
+
+    // ── Assert (Then) ───────────────────────────────
+    assertThat(result.isSuccess()).isTrue();
+    assertThat(result.getItems()).hasSize(1);
+}
+```
+
+**转化为前端E2E测试**（供 vue-saas-frontend/vben-saas-frontend 使用）：
+```typescript
+test('结算流程：购物车有商品时点击结算', async ({ page }) => {
+    // Given
+    await page.goto('/login');
+    await loginWithUser(page, 'user@example.com');
+    await addToCart(page, 'product-123');
+
+    // When
+    await page.click('[data-testid="checkout-btn"]');
+
+    // Then
+    await expect(page).toHaveURL('/checkout');
+    await expect(page.locator('.item-list')).toBeVisible();
+});
+```
+
+### 开发阶段使用
+
+验收标准编写完成后，告知开发者：
+- 使用 `test-driven-development` skill 按验收标准先写测试
+- 使用 `test-generation` skill 补充边缘情况和覆盖分析
