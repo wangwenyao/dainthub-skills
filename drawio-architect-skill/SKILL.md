@@ -27,7 +27,12 @@ description: >
 
 1. **必须加载**：本 SKILL.md
 2. **按图类型加载**：deploy_arch_patterns.md / functional_arch_patterns.md / flowchart_patterns.md
-3. **按需加载**：alibaba_cloud_shapes.md、visual-systems.md、design-guide.md、style-presets.md
+3. **按需加载**：
+   - `tech_stack_icons.md` — 技术栈图标（前端/后端/数据库/中间件）
+   - `alibaba_cloud_shapes.md` — 阿里云 311 个图标
+   - `visual-systems.md` — 视觉系统
+   - `design-guide.md` — 设计指南
+   - `style-presets.md` — 样式预设
 4. **调试时加载**：debug-guide.md
 
 ---
@@ -100,6 +105,91 @@ description: >
 ---
 
 ## 四、图标库
+
+### 技术栈图标（SimpleIcons CDN）
+
+用于功能架构图、技术栈展示图，覆盖前端/后端/数据库/中间件等主流技术。
+
+```xml
+<mxCell style="image;html=1;verticalLabelPosition=bottom;verticalAlign=top;align=center;
+        strokeColor=none;fillColor=none;labelBackgroundColor=none;
+        image=https://cdn.simpleicons.org/{icon-name}/{hex-color};"
+        value="React" vertex="1" parent="1">
+  <mxGeometry width="60" height="60" x="100" y="100" as="geometry"/>
+</mxCell>
+```
+
+**常用图标**：
+
+| 技术 | URL |
+|------|-----|
+| React | `https://cdn.simpleicons.org/react/61DAFB` |
+| Vue.js | `https://cdn.simpleicons.org/vuedotjs/4FC08D` |
+| Spring Boot | `https://cdn.simpleicons.org/springboot/6DB33F` |
+| MySQL | `https://cdn.simpleicons.org/mysql/4479A1` |
+| Redis | `https://cdn.simpleicons.org/redis/FF4438` |
+| Kubernetes | `https://cdn.simpleicons.org/kubernetes/326CE5` |
+| Docker | `https://cdn.simpleicons.org/docker/2496ED` |
+| Kafka | `https://cdn.simpleicons.org/apachekafka/231F20` |
+
+完整 80+ 图标 → `references/tech_stack_icons.md`
+
+---
+
+## 五、自定义图形库导入
+
+### 导入技术栈图标库
+
+项目提供了预定义的技术栈图标库文件 `tech_stack_library.drawiolib`，包含 50+ 常用技术栈图标。
+
+**导入步骤**：
+
+1. 打开 draw.io 桌面版或网页版
+2. 菜单：**文件 → 打开库从 → 设备**
+3. 选择 `tech_stack_library.drawiolib` 文件
+4. 导入后，左侧面板会出现 "Tech Stack" 图形分类
+5. 直接拖拽图标到画布使用
+
+**导入后效果**：
+
+```
+左侧面板
+├── 通用
+├── 杂项
+├── Tech Stack  ← 新增的分类
+│   ├── HTML5
+│   ├── CSS3
+│   ├── JavaScript
+│   ├── TypeScript
+│   ├── React
+│   ├── Vue.js
+│   ├── Spring Boot
+│   ├── MySQL
+│   ├── Redis
+│   ├── Docker
+│   ├── Kubernetes
+│   └── ... (50+ 图标)
+```
+
+### 手动创建自定义库
+
+如果想自己创建库文件，格式如下：
+
+```xml
+<mxlibrary>[
+  {"xml": "&lt;mxCell style=\"image;...image=https://cdn.simpleicons.org/react/61DAFB;\" vertex=\"1\"&gt;&lt;mxGeometry width=\"60\" height=\"60\" as=\"geometry\"/&gt;&lt;/mxCell&gt;", "w": 60, "h": 60, "title": "React"},
+  {"xml": "...", "w": 60, "h": 60, "title": "Vue"}
+]</mxlibrary>
+```
+
+**字段说明**：
+
+| 字段 | 说明 |
+|------|------|
+| `xml` | mxCell 的 XML（需要转义 `<` `>` `"`） |
+| `w` | 宽度 |
+| `h` | 高度 |
+| `title` | 显示名称 |
 
 ### 阿里云（mxgraph.alibaba_cloud.*）
 
