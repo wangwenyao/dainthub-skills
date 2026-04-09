@@ -23,7 +23,7 @@
    └── 前端任务块 → 包含：改动内容、涉及页面、接口变化、注意事项
 
 3. 并行启动 subagent
-   ├── 启动后端开发 subagent（加载 java-backend-dev skill）
+   ├── 启动后端开发 subagent（加载 backend-dev skill）
    └── 启动前端开发 subagent（加载 vben-saas-frontend skill）
 
 4. 收集执行结果
@@ -39,7 +39,7 @@
 ```typescript
 task(
   category: "deep",
-  load_skills: ["java-backend-dev"],
+  load_skills: ["backend-dev"],
   run_in_background: true,
   description: "后端变更任务",
   prompt: `
@@ -66,7 +66,7 @@ task(
 - [注意点1]
 - [注意点2]
 
-请按照 java-backend-dev skill 规范执行开发任务。
+请按照 backend-dev skill 规范执行开发任务。
   `
 )
 ```
@@ -250,7 +250,7 @@ task(
 
 启动 subagent 后，确认：
 
-- [ ] 后端 subagent 已启动，加载 java-backend-dev skill
+- [ ] 后端 subagent 已启动，加载 backend-dev skill
 - [ ] 前端 subagent 已启动，加载 vben-saas-frontend skill
 - [ ] 任务块内容完整（改动内容、涉及文件、注意事项）
 - [ ] 等待 subagent 执行结果

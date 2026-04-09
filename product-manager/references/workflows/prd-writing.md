@@ -116,7 +116,7 @@ When 点击结算按钮
 Then 进入结算页面，显示商品清单
 ```
 
-**转化为后端单元测试**（供 java-backend-dev-skill 使用）：
+**转化为后端单元测试**（供 backend-dev skill 使用）：
 ```java
 @Test
 @DisplayName("结算流程 - 购物车有商品时可结算")

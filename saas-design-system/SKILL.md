@@ -21,7 +21,7 @@ description: >
 
 不适用：
 - 前端代码实现（用 `vue-saas-frontend` skill）
-- 后端 API 设计（用 `java-backend-dev` skill）
+- 后端 API 设计（用 `backend-dev` skill）
 - 移动端原生设计
 - 营销页面/Landing Page 设计
 - 游戏化产品设计

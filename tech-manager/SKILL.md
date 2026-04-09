@@ -86,7 +86,7 @@ product-manager → 输出PRD → tech-manager 分析影响
                            ↓
               ┌────────────┴────────────┐
               ↓ (task并行启动)          ↓
-        java-backend-dev          vben-saas-frontend
+        backend-dev              vben-saas-frontend
               ↓                         ↓
               └────────────┬────────────┘
                            ↓
