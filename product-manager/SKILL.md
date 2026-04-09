@@ -75,7 +75,7 @@ B端产品经理能力体系，从需求发现到PRD交付。
 
 ## 协同Skill
 
-编写页面原型时，引用 `saas-design-system` skill 获取色彩Token、字体规范、组件选型标准。
+编写页面原型时，引用 `saas-ui-design` skill 获取色彩Token、字体规范、组件选型标准。
 
 编写验收标准时，为开发阶段测试提供输入：
 - 验收标准 → `test-driven-development` 的测试场景

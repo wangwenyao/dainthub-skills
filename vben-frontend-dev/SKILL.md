@@ -1,5 +1,5 @@
 ---
-name: vben-saas-frontend
+name: vben-frontend-dev
 description: |
   Vben Admin 5.x 前端页面开发（Vue 3 + Vite + VxeGrid + VbenForm）。
   触发：列表页/表单页/详情页/主题配置/路由配置/Vben组件/VxeGrid表格/VbenModal弹窗/VbenDrawer抽屉。
@@ -243,7 +243,7 @@ rules: z.number().min(0).max(100)
 | 阴影规范 | 禁止自定义阴影，使用 `shadow-card` / `shadow-card-hover` / `shadow-card-elevated` |
 | 主色占比 | 页面主色占比≤5%，辅助强调色占比≤10%，中性色占比≥85% |
 
-> 详细设计规范（色彩/字体/间距/交互）见 `saas-design-system` skill
+> 详细设计规范（色彩/字体/间距/交互）见 `saas-ui-design` skill
 
 ---
 

@@ -116,7 +116,7 @@ When 点击结算按钮
 Then 进入结算页面，显示商品清单
 ```
 
-**转化为后端单元测试**（供 backend-dev skill 使用）：
+**转化为后端单元测试**（供 java-backend-dev skill 使用）：
 ```java
 @Test
 @DisplayName("结算流程 - 购物车有商品时可结算")
@@ -135,7 +135,7 @@ void checkout_withItemsInCart_success() {
 }
 ```
 
-**转化为前端E2E测试**（供 vue-saas-frontend/vben-saas-frontend 使用）：
+**转化为前端E2E测试**（供 saas-frontend-dev/vben-frontend-dev 使用）：
 ```typescript
 test('结算流程：购物车有商品时点击结算', async ({ page }) => {
     // Given

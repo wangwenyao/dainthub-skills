@@ -531,7 +531,7 @@ defineSlots<{
 
 ### 样式 Token 使用
 
-组件样式参考 `saas-design-system` skill，使用设计系统定义的 Token：
+组件样式参考 `saas-ui-design` skill，使用设计系统定义的 Token：
 
 ```css
 /* 颜色 Token */

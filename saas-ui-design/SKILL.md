@@ -1,9 +1,9 @@
 ---
-name: saas-design-system
+name: saas-ui-design
 description: >
   B端 SaaS 产品设计规范，风格基准为专业克制（类 Linear/Notion）。
   触发：色彩体系/字体排版/间距布局/组件选型/设计Token/暗色模式/设计一致性审查。
-  与 vue-saas-frontend skill 协同——本 skill 决定"设计长什么样"，vue-saas-frontend skill 决定"代码怎么实现"。
+  与 saas-frontend-dev skill 协同——本 skill 决定"设计长什么样"，saas-frontend-dev skill 决定"代码怎么实现"。
 ---
 
 # SaaS Design System
@@ -21,7 +21,7 @@ description: >
 
 不适用：
 - 前端代码实现（用 `vue-saas-frontend` skill）
-- 后端 API 设计（用 `backend-dev` skill）
+- 后端 API 设计（用 `java-backend-dev` skill）
 - 移动端原生设计
 - 营销页面/Landing Page 设计
 - 游戏化产品设计

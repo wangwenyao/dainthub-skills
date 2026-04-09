@@ -252,13 +252,13 @@ erDiagram
 
 ### 5.1 设计规范来源
 
-**引用 `saas-design-system` skill**
+**引用 `saas-ui-design` skill**
 
 | 设计决策 | 参考位置 |
 |----------|----------|
-| 色彩Token | saas-design-system → 色彩系统 |
-| 字体排版 | saas-design-system → 字体与排版 |
-| 组件选型 | saas-design-system → 组件交互原则 |
+| 色彩Token | saas-ui-design → 色彩系统 |
+| 字体排版 | saas-ui-design → 字体与排版 |
+| 组件选型 | saas-ui-design → 组件交互原则 |
 
 ### 5.2 核心约束
 

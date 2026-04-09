@@ -183,7 +183,7 @@ const formattedDate = useDateFormat(createdAt, 'long')
 
 ## 五、与设计系统协作
 
-数据展示样式参考 `saas-design-system/references/advanced-details.md`：
+数据展示样式参考 `saas-ui-design/references/advanced-details.md`：
 - 数字使用等宽字体 `font-mono tabular-nums`
 - 货币右对齐，负数红色
 - 日期时间使用 `<time>` 标签

@@ -1,5 +1,5 @@
 ---
-name: vue-saas-frontend
+name: saas-frontend-dev
 description: >
   Vue 3.5+ / TypeScript 5.7+ / Tailwind CSS 4 / Shadcn-vue 前端开发。
   触发：Vue组件/SaaS页面/管理页面/列表查询页面/图表页面/shadcn/数据表格/表单/仪表盘/TanStack Query/Pinia。

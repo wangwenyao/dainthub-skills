@@ -1,5 +1,5 @@
 ---
-name: backend-dev
+name: java-backend-dev
 description: |
   单体 SpringBoot 后端开发（Spring Boot 3 + MyBatis Plus + MySQL 8）。
   触发：新建模块/实体CRUD/字段变更/接口开发/SQL优化/缓存/定时任务/外部调用。
