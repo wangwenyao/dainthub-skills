@@ -524,8 +524,11 @@ test('新增商品流程', async ({ page }) => {
 
 | 文档 | 内容 | 路径 |
 |------|------|------|
-| git pull / 拉取同步 | 读取 status.md（单文件替代多个 index.md） | `../docs/collaboration-guide.md#九、拉取同步流程（优化版）` |
-| 分布式协同开发 | 项目目录、git工作流、输入文档路径 | `../docs/collaboration-guide.md` |
+| git pull / 拉取同步 | 拉取同步流程 | `../docs/collaboration/06-sync-flow.md` |
+| 协同开发概述 | 触发指令 + 文档索引 | `../docs/collaboration/01-overview.md` |
+| 项目目录结构 | docs/ + frontend/ 目录 | `../docs/collaboration/02-project-structure.md` |
+| 前端工程结构 | Vben Admin 目录结构 | `../docs/collaboration/03-frontend-backend.md` |
+| status.md / 归档 | 状态快照 + 归档机制 | `../docs/collaboration/05-status-mechanism.md` |
 | 配置化能力 | 主题/布局/功能配置 | `references/01-configuration.md` |
 | 表单组件 | 完整 Form API | `references/02-form.md` |
 | 表格组件 | 完整 Grid API | `references/03-grid.md` |
@@ -594,7 +597,7 @@ test('新增商品流程', async ({ page }) => {
 
 ## 版本
 
-- v2.3
+- v2.4
 - 更新: 2026-04-11
-- 新增: status.md 状态快照机制引用（AI 只读单文件）
+- 变更: 协同开发指南拆分为多个小文件，按需加载
 - v2.0: YAML 页面规格输入解析、HTML 线框图解析、输入优先级、内置 UI 约束

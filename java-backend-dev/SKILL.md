@@ -43,8 +43,11 @@ description: |
 
 | 场景 | 文件 | 优先级 |
 |------|------|--------|
-| git pull / 拉取同步 | 读取 status.md（单文件替代多个 index.md） | `../docs/collaboration-guide.md#九、拉取同步流程（优化版）` | 每次拉取后 |
-| 分布式协同开发（项目目录、git工作流） | `../docs/collaboration-guide.md` | 项目初始化时必须 |
+| git pull / 拉取同步 | 拉取同步流程 | `../docs/collaboration/06-sync-flow.md` | 每次拉取后 |
+| 协同开发概述 | 触发指令 + 文档索引 | `../docs/collaboration/01-overview.md` | 项目初始化时必须 |
+| 项目目录结构 | docs/ + backend/ 目录 | `../docs/collaboration/02-project-structure.md` | 需要了解目录时 |
+| 后端工程结构 | Spring Boot 目录结构 | `../docs/collaboration/03-frontend-backend.md` | 开始开发前 |
+| status.md / 归档 | 状态快照 + 归档机制 | `../docs/collaboration/05-status-mechanism.md` | 更新状态/归档时 |
 | DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` | 必须 |
 | 质量门控清单（代码生成前后自检） | `quality-gates.md` | 必须 |
 | Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` | 按需 |
@@ -299,6 +302,6 @@ com.dainthub.{project}.module.{module}
 
 ## 版本
 
-- v1.3
+- v1.4
 - 更新: 2026-04-11
-- 新增: status.md 状态快照机制引用（AI 只读单文件）
+- 变更: 协同开发指南拆分为多个小文件，按需加载
