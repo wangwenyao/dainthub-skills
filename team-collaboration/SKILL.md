@@ -34,6 +34,10 @@ description: |
 |---------|---------|
 | git pull / 拉取同步 / 检查变更 | `references/06-sync-flow.md` |
 | 项目初始化 / 协同开发概述 | `references/01-overview.md` |
+| **按优先级迭代 / 循环开发 / 批量完成** | `references/09-iteration-workflow.md` |
+| **skill路由 / 任务分发规则** | `references/10-skill-router.md` |
+| **阻塞处理 / 偏差决策** | `references/11-blocking-handler.md` |
+| **状态更新模板** | `references/12-status-update-templates.md` |
 | 目录结构 / 项目结构 | `references/02-project-structure.md` |
 | 前后端工程结构 | `references/03-frontend-backend.md` |
 | git 工作流 / 版本号规范 | `references/04-git-workflow.md` |
@@ -91,17 +95,60 @@ git pull 后的动作：
 
 详细规范 → `references/05-status-mechanism.md`
 
-### 四、测试协作框架
+### 四、迭代循环
 
-开发 skill 与全局测试 skill 的协作规范：
+自动按优先级完成所有模块开发：
 
-| 开发阶段 | 调用全局 Skill | 目的 |
-|---------|---------------|------|
-| **实现前** | `test-driven-development` | 先写测试 |
-| **实现中** | 遵循 skill 的测试规范 | 遵循命名/结构/Mock 规范 |
-| **实现后** | `test-generation` | 覆盖分析 |
+**循环逻辑**：
+```
+while (status.md 有待处理项) {
+  1. 读取 status.md
+  2. 找到最高优先级待处理项
+  3. 调用对应 skill 执行
+  4. 更新 status.md
+  5. git commit
+  6. 用户确认继续？
+}
+```
 
-详细规范 → `references/testing-collaboration.md`
+**触发指令**：
+- `"按优先级完成所有模块"` — 批量迭代
+- `"继续下一个模块"` — 单步推进
+- `"批量完成 {模块名} 全流程"` — 单模块完整链路
+
+详细规范 → `references/09-iteration-workflow.md`
+
+### 五、Skill 路由
+
+从任务类型自动识别并路由到对应 skill：
+
+| 任务类型 | 目标 Skill |
+|---------|-----------|
+| PRD编写 | product-manager |
+| 技术分析/OpenAPI/DML | tech-manager |
+| 后端开发 | java-backend-dev |
+| 前端开发 | vben-frontend-dev |
+| 偏差决策 | product-manager |
+
+详细规范 → `references/10-skill-router.md`
+
+### 六、阻塞处理
+
+循环遇到阻塞时的处理逻辑：
+
+| 阻塞类型 | 处理方式 |
+|---------|---------|
+| 偏差阻塞 | 暂停 → 询问用户决策 → 继续 |
+| 前置未完成 | 等待前置任务完成 |
+| 用户暂停 | 保存进度 → 等待恢复指令 |
+
+详细规范 → `references/11-blocking-handler.md`
+
+### 七、状态更新
+
+各 skill 完成后输出标准化的状态更新指令，供 /ralph-loop 处理。
+
+详细规范 → `references/12-status-update-templates.md`
 
 ---
 
@@ -132,12 +179,16 @@ git pull 后的动作：
 | `06-sync-flow.md` | 拉取同步流程 | git pull 后 |
 | `07-examples.md` | 协作场景示例 | 了解完整流程 |
 | `08-ai-config.md` | AI 配置 + 检查清单 | 项目初始化 |
+| `09-iteration-workflow.md` | 迭代循环工作流 | 批量开发 |
+| `10-skill-router.md` | skill 路由规则 | 循环执行时 |
+| `11-blocking-handler.md` | 阻塞处理规范 | 遇到阻塞时 |
+| `12-status-update-templates.md` | 状态更新模板 | skill 完成后 |
 | `testing-collaboration.md` | 测试协作框架 | 开发过程中 |
 
 ---
 
 ## 版本
 
-- v1.0
-- 更新: 2026-04-11
-- 变更: 从 docs/collaboration + docs/shared 合并创建
+- v1.2
+- 更新: 2026-04-12
+- 变更: 新增 skill 路由(10)、阻塞处理(11)、状态更新模板(12)

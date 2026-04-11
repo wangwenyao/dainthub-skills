@@ -27,6 +27,36 @@ description: |
 
 ---
 
+## 运行模式
+
+本 skill 支持两种运行模式，按场景自动切换：
+
+| 模式 | 适用场景 | 特点 |
+|------|---------|------|
+| **独立开发** | 单会话，无协作需求 | 只加载本 skill references |
+| **协同开发** | 多会话，git 协作 | 加载 team-collaboration references |
+
+### 模式检测规则
+
+**检测协同模式**：
+- 用户明确说 "协同开发"、"多角色"、"分布式"
+- 项目根目录存在 `docs/status.md`
+- 用户触发 `/ralph-loop` 迭代循环
+
+**默认**：独立开发模式
+
+### 模式加载内容
+
+| 文档 | 独立开发 | 协同开发 |
+|------|---------|---------|
+| 本 skill references (code-templates, test-standards 等) | ✅ 加载 | ✅ 加载 |
+| `testing-collaboration.md` (测试协作) | ✅ 加载 | ✅ 加载 |
+| `sync-flow.md` (拉取同步) | ❌ 不加载 | ✅ 加载 |
+| `status-mechanism.md` (状态同步) | ❌ 不加载 | ✅ 加载 |
+| 其他 team-collaboration references | ❌ 不加载 | ✅ 按需加载 |
+
+---
+
 ## 技术栈
 
 | 分层 | 技术 |
@@ -41,25 +71,38 @@ description: |
 
 ## 参考文档
 
+### 核心（所有模式）
+
 | 场景 | 文件 | 优先级 |
 |------|------|--------|
-| git pull / 拉取同步 | 拉取同步流程 | `../team-collaboration/references/06-sync-flow.md` | 每次拉取后 |
-| 协同开发概述 | 触发指令 + 文档索引 | `../team-collaboration/references/01-overview.md` | 项目初始化时必须 |
-| 项目目录结构 | docs/ + backend/ 目录 | `../team-collaboration/references/02-project-structure.md` | 需要了解目录时 |
-| 后端工程结构 | Spring Boot 目录结构 | `../team-collaboration/references/03-frontend-backend.md` | 开始开发前 |
-| status.md / 归档 | 状态快照 + 归档机制 | `../team-collaboration/references/05-status-mechanism.md` | 更新状态/归档时 |
-| DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` | 必须 |
-| 质量门控清单（代码生成前后自检） | `quality-gates.md` | 必须 |
-| Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` | 按需 |
-| DDL 模板/字段类型 | `ddl-templates.md` | 按需 |
-| 事务/缓存/Redis/日志/幂等/定时任务 | `service-layer.md` | 按需 |
-| 并发/线程安全/分布式锁 | `concurrency.md` | 按需 |
-| API 版本/参数校验/响应格式 | `api-design.md` | 按需 |
-| YAML 配置/环境分离 | `application-config.md` | 按需 |
-| 单元测试/集成测试/Mock | `test-standards.md` | **实现前后必须** |
-| 集合/Stream/枚举/异常/Hutool/JSON | `java-best-practices.md` | 按需 |
-| SOLID/DRY/KISS/设计模式 | `design-principles.md` | 可选 |
-| Maven/依赖管理/pom.xml | `maven-standards.md` | 可选 |
+| DO/VO/Mapper/Service/Controller 模板 | `references/code-templates.md` | 必须 |
+| 质量门控清单（代码生成前后自检） | `references/quality-gates.md` | 必须 |
+| 单元测试/集成测试/Mock | `references/test-standards.md` | **实现前后必须** |
+| 测试协作框架（与全局测试 skill 协作） | `../team-collaboration/references/testing-collaboration.md` | 开发过程中 |
+
+### 按需（所有模式）
+
+| 场景 | 文件 |
+|------|------|
+| Mapper/SQL/索引/批量操作/N+1 | `references/data-layer.md` |
+| DDL 模板/字段类型 | `references/ddl-templates.md` |
+| 事务/缓存/Redis/日志/幂等/定时任务 | `references/service-layer.md` |
+| 并发/线程安全/分布式锁 | `references/concurrency.md` |
+| API 版本/参数校验/响应格式 | `references/api-design.md` |
+| YAML 配置/环境分离 | `references/application-config.md` |
+| 集合/Stream/枚举/异常/Hutool/JSON | `references/java-best-practices.md` |
+| SOLID/DRY/KISS/设计模式 | `references/design-principles.md` |
+| Maven/依赖管理/pom.xml | `references/maven-standards.md` |
+
+### 协同模式专用
+
+| 场景 | 文件 | 加载时机 |
+|------|------|---------|
+| git pull / 拉取同步 | `../team-collaboration/references/06-sync-flow.md` | git pull 后 |
+| 协同开发概述 | `../team-collaboration/references/01-overview.md` | 项目初始化 |
+| 项目目录结构 | `../team-collaboration/references/02-project-structure.md` | 需要了解目录 |
+| 后端工程结构 | `../team-collaboration/references/03-frontend-backend.md` | 开始开发前 |
+| status.md / 归档 | `../team-collaboration/references/05-status-mechanism.md` | 更新状态/归档 |
 
 ---
 

@@ -32,6 +32,36 @@ description: |
 
 ---
 
+## 运行模式
+
+本 skill 支持两种运行模式，按场景自动切换：
+
+| 模式 | 适用场景 | 特点 |
+|------|---------|------|
+| **独立开发** | 单会话，无协作需求 | 只加载本 skill references |
+| **协同开发** | 多会话，git 协作 | 加载 team-collaboration references |
+
+### 模式检测规则
+
+**检测协同模式**：
+- 用户明确说 "协同开发"、"多角色"、"分布式"
+- 项目根目录存在 `docs/status.md`
+- 用户触发 `/ralph-loop` 迭代循环
+
+**默认**：独立开发模式
+
+### 模式加载内容
+
+| 文档 | 独立开发 | 协同开发 |
+|------|---------|---------|
+| 本 skill references (01-06) | ✅ 加载 | ✅ 加载 |
+| `testing-collaboration.md` (测试协作) | ✅ 加载 | ✅ 加载 |
+| `sync-flow.md` (拉取同步) | ❌ 不加载 | ✅ 加载 |
+| `status-mechanism.md` (状态同步) | ❌ 不加载 | ✅ 加载 |
+| 其他 team-collaboration references | ❌ 不加载 | ✅ 按需加载 |
+
+---
+
 ## 技术栈
 
 | 分层 | 技术 |
@@ -234,6 +264,8 @@ views/module/feature/
 
 ## 协同开发文档
 
+以下文档仅在**协同开发模式**下加载：
+
 | 场景 | 文档 |
 |------|------|
 | git pull / 拉取同步 | `../team-collaboration/references/06-sync-flow.md` |
@@ -241,6 +273,9 @@ views/module/feature/
 | 项目目录结构 | `../team-collaboration/references/02-project-structure.md` |
 | 前端工程结构 | `../team-collaboration/references/03-frontend-backend.md` |
 | status.md / 归档 | `../team-collaboration/references/05-status-mechanism.md` |
+
+**测试协作**（所有模式）：
+> 测试协作详细规范 → `../team-collaboration/references/testing-collaboration.md`
 
 ## 故障排查
 
