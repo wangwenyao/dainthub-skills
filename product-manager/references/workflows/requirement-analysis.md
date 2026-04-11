@@ -10,8 +10,7 @@
 1. 需求挖掘
    ├── 用户访谈 → @../requirement-analysis.md#用户访谈
    ├── 问卷调查 → @../requirement-analysis.md#问卷调查
-   ├── 数据分析 → @../requirement-analysis.md#数据分析
-   └── 竞品分析 → @../requirement-analysis.md#竞品分析
+└── 数据分析 → @../requirement-analysis.md#数据分析
 
 2. 需求分类（KANO模型）
    ├── 基本需求（必须有，无则不满）
@@ -27,8 +26,7 @@
    └── 详细方法 → @../requirement-analysis.md#MoSCoW优先级法
 
 4. 需求结构化
-   ├── 用户故事地图 → @../requirement-analysis.md#用户故事地图
-   └── JTBD框架 → @../requirement-analysis.md#JTBD框架
+└── 用户故事地图 → @../requirement-analysis.md#用户故事地图
 
 5. 输出
    └── 需求清单（含优先级、用户价值、业务价值）
@@ -73,3 +71,11 @@
 2. 添加使用场景（如"在购物车页面点击结算"）
 3. 使用Given-When-Then格式明确验收标准
 ```
+
+---
+
+## 版本
+
+- v1.1
+- 更新: 2026-04-12
+- 修复: 删除竞品分析和 JTBD框架引用（已在 requirement-analysis.md 中删除）
