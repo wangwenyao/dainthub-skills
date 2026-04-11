@@ -6,12 +6,26 @@
 
 ## 输出格式
 
-### 双轨输出
+### 双轨输出（按一级模块分开）
 
-| 输出 | 文件 | 用途 | 格式 |
-|------|------|------|------|
-| **HTML 线框图** | `wireframes-[模块名]-v[版本].html` | 人 review/调整 | HTML + CSS |
-| **YAML 页面规格** | 嵌入 PRD 或独立 `pages-[模块名].yaml` | 前端代码生成 | YAML |
+| 输出 | 文件命名 | 用途 | 格式 |
+|------|---------|------|------|
+| **HTML 线框图** | `wireframes-[一级模块名]-v[版本].html` | 人 review/调整 | HTML + CSS |
+| **YAML 页面规格** | `pages-[一级模块名].yaml` | 前端代码生成 | YAML |
+
+**文件分开规则**：
+- 每个一级模块（如"商品管理"、"订单管理"）生成独立的 HTML 和 YAML 文件
+- 文件命名使用一级模块名，不含二级页面名
+- 每个文件包含该一级模块下的所有二级页面
+
+**示例**：
+```
+docs/wireframes/
+├── wireframes-商品管理-v1.html   # 包含：商品列表、商品分类页面
+├── wireframes-订单管理-v1.html   # 包含：订单列表、退款管理页面
+├── pages-商品管理.yaml           # 商品管理模块 YAML
+├── pages-订单管理.yaml           # 订单管理模块 YAML
+```
 
 ---
 
@@ -125,37 +139,58 @@ menu:
 
 ### Step 2：定义菜单结构
 
-确定模块层级 → 菜单分组 → 页面路由映射
+确定模块层级 → 菜单分组 → 页面路由映射 → **按一级模块分组**
 
 ```
-模块层级:
+模块层级（按一级模块分开）:
+
+商品管理模块:
 ├─ 商品管理（一级菜单）
 │   ├─ 商品列表（二级菜单 → P001）
 │   └─ 商品分类（二级菜单 → P002）
+
+订单管理模块:
 ├─ 订单管理（一级菜单）
 │   ├─ 订单列表（二级菜单 → P003）
 │   └─ 退款管理（二级菜单 → P004）
 ```
 
-### Step 3：生成 HTML 线框图
+**注意**：一级模块对应一个 HTML/YAML 文件，文件内包含该模块的所有二级页面。
 
-1. **创建 wireframes.html 文件**
-2. **写入共享 CSS 样式**（一次定义，所有页面共用）
-3. **生成布局框架**（顶部导航 + 左侧菜单 + 内容区）
-4. **按页面类型选择内容模板**
-5. **添加页面分隔符和 ID**（#p001, #p002...）
+### Step 3：按一级模块生成 HTML 线框图
 
-### Step 4：生成 YAML 页面规格
+**逐模块生成**（每个一级模块一个文件）：
 
-每个页面一段 YAML，包含：
-- page_type（list / form-modal / detail / dashboard）
-- search/table/form 配置
-- 路由和菜单映射
+| 步骤 | 操作 |
+|------|------|
+| 3.1 | 确定一级模块清单 |
+| 3.2 | 为每个一级模块创建 `wireframes-[模块名]-v[版本].html` |
+| 3.3 | 写入共享 CSS 样式（所有模块共用同一套样式） |
+| 3.4 | 生成布局框架（顶部导航 + 左侧菜单 + 内容区） |
+| 3.5 | **只包含该一级模块的页面**（菜单高亮当前模块） |
+| 3.6 | 添加页面分隔符和 ID（#p001, #p002...） |
 
-### Step 5：嵌入 PRD 或独立输出
+**菜单显示规则**：
+- 左侧菜单显示完整菜单结构（包含其他一级模块）
+- 当前一级模块的菜单项高亮显示
+- 其他一级模块的菜单项正常显示（可点击跳转）
 
-- YAML 嵌入 PRD 的"页面规格说明"章节
-- HTML 线框图独立文件，PRD 中引用路径
+### Step 4：按一级模块生成 YAML 页面规格
+
+**逐模块生成**（每个一级模块一个文件）：
+
+| 步骤 | 操作 |
+|------|------|
+| 4.1 | 为每个一级模块创建 `pages-[模块名].yaml` |
+| 4.2 | 写入模块基本信息（version, module） |
+| 4.3 | 定义该模块的菜单结构 |
+| 4.4 | 定义该模块的所有页面（pages 配置） |
+
+### Step 5：独立输出
+
+- HTML 线框图：独立文件，存放于 `docs/wireframes/` 目录
+- YAML 页面规格：独立文件，存放于 `docs/wireframes/` 目录
+- PRD 中引用所有线框图文件路径
 
 ---
 
@@ -328,26 +363,28 @@ menu:
 
 ## YAML 输出规范
 
-### 基础结构
+### 基础结构（按一级模块）
+
+每个 YAML 文件对应一个一级模块：
 
 ```yaml
-# 页面规格 - [模块名]
+# 页面规格 - [一级模块名]
 version: 1.0
-module: [模块名]
+module: [一级模块名]              # 如：商品管理
 
-# 菜单结构
+# 菜单结构（只包含本模块的菜单项）
 menu:
   structure:
-    - name: 首页
-      route: /dashboard
-      pageId: P000
-    - group: [一级菜单名]
+    - group: [一级菜单名]         # 本模块的一级菜单
       items:
         - name: [二级菜单名]
           route: [路由路径]
           pageId: [页面ID]
+        - name: [另一个二级菜单名]
+          route: [路由路径]
+          pageId: [页面ID]
 
-# 页面清单
+# 页面清单（只包含本模块的页面）
 pages:
   P001:
     name: [页面名称]
@@ -355,6 +392,47 @@ pages:
     route: [路由路径]
     config:
       ...
+  P002:
+    name: [另一个页面名称]
+    type: ...
+```
+
+### 文件组织示例
+
+假设有两个一级模块：
+
+```yaml
+# pages-商品管理.yaml
+version: 1.0
+module: 商品管理
+
+menu:
+  structure:
+    - group: 商品管理
+      items:
+        - { name: 商品列表, route: /product/list, pageId: P001 }
+        - { name: 商品分类, route: /product/category, pageId: P002 }
+
+pages:
+  P001: { ... }
+  P002: { ... }
+
+---
+
+# pages-订单管理.yaml
+version: 1.0
+module: 订单管理
+
+menu:
+  structure:
+    - group: 订单管理
+      items:
+        - { name: 订单列表, route: /order/list, pageId: P003 }
+        - { name: 退款管理, route: /order/refund, pageId: P004 }
+
+pages:
+  P003: { ... }
+  P004: { ... }
 ```
 
 ### 列表页 YAML
@@ -487,7 +565,17 @@ P000:
 
 ## 输出示例
 
-### wireframes.html 结构
+### 文件组织结构
+
+```
+docs/wireframes/
+├── wireframes-商品管理-v1.html   # 商品管理模块线框图
+├── wireframes-订单管理-v1.html   # 订单管理模块线框图
+├── pages-商品管理.yaml           # 商品管理模块 YAML
+├── pages-订单管理.yaml           # 订单管理模块 YAML
+```
+
+### wireframes-商品管理-v1.html 结构
 
 ```html
 <!DOCTYPE html>
@@ -510,7 +598,7 @@ P000:
     <div class="user-info">[用户信息]</div>
   </div>
   
-  <!-- 左侧菜单 -->
+  <!-- 左侧菜单（显示完整菜单，商品管理高亮） -->
   <div class="sidebar">
     <div class="menu-item">首页</div>
     <div class="menu-group">
@@ -518,9 +606,14 @@ P000:
       <div class="menu-item active">商品列表</div>
       <div class="menu-item">商品分类</div>
     </div>
+    <div class="menu-group">
+      <div class="menu-group-title">订单管理</div>
+      <div class="menu-item">订单列表</div>
+      <div class="menu-item">退款管理</div>
+    </div>
   </div>
   
-  <!-- 内容区 -->
+  <!-- 内容区（只包含商品管理模块的页面） -->
   <div class="main">
     
     <!-- P001 商品列表页 -->
@@ -546,9 +639,70 @@ P000:
 </html>
 ```
 
+### wireframes-订单管理-v1.html 结构
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>线框图 - 订单管理模块</title>
+  <style>
+    /* 共享样式（同上） */
+  </style>
+</head>
+<body>
+
+<!-- 布局框架 -->
+<div class="layout">
+  <!-- 顶部导航（同上） -->
+  <div class="header">...</div>
+  
+  <!-- 左侧菜单（显示完整菜单，订单管理高亮） -->
+  <div class="sidebar">
+    <div class="menu-item">首页</div>
+    <div class="menu-group">
+      <div class="menu-group-title">商品管理</div>
+      <div class="menu-item">商品列表</div>
+      <div class="menu-item">商品分类</div>
+    </div>
+    <div class="menu-group">
+      <div class="menu-group-title">订单管理</div>
+      <div class="menu-item active">订单列表</div>
+      <div class="menu-item">退款管理</div>
+    </div>
+  </div>
+  
+  <!-- 内容区（只包含订单管理模块的页面） -->
+  <div class="main">
+    
+    <!-- P003 订单列表页 -->
+    <div id="p003" class="page-divider">
+      <div class="page-title">订单列表 <span class="page-id">(P003)</span></div>
+      <div class="wireframe">
+        <!-- 订单列表内容 -->
+      </div>
+    </div>
+    
+    <!-- P004 退款管理页 -->
+    <div id="p004" class="page-divider">
+      <div class="page-title">退款管理 <span class="page-id">(P004)</span></div>
+      <div class="wireframe">
+        <!-- 退款管理内容 -->
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+</body>
+</html>
+```
+
 ---
 
 ## 版本
 
-- v1.0
-- 创建: 2026-04-11
+- v1.1
+- 更新: 2026-04-12
+- 变更: 线框图和 YAML 按一级模块分开生成，避免单文件过大
