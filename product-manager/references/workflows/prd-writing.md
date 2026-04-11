@@ -135,7 +135,7 @@ void checkout_withItemsInCart_success() {
 }
 ```
 
-**转化为前端E2E测试**（供 saas-frontend-dev/vben-frontend-dev 使用）：
+**转化为前端E2E测试**（供 vben-frontend-dev 使用）：
 ```typescript
 test('结算流程：购物车有商品时点击结算', async ({ page }) => {
     // Given

@@ -61,34 +61,7 @@ Vben Admin 5.x 前端页面开发技能，基于 Vue 3 + Vite + VxeGrid + VbenFo
 
 ---
 
-### 3. SaaS 前端开发技能
-
-**目录**: [`saas-frontend-dev/`](saas-frontend-dev/)
-
-SaaS 多租户前端开发技能，基于 Vue 3 + TypeScript + Shadcn-vue。
-
-| 特性 | 说明 |
-|------|------|
-| **框架** | Vue 3 · TypeScript · Vite |
-| **UI 组件** | Shadcn-vue · Radix Vue |
-| **样式** | Tailwind CSS 4 |
-| **状态管理** | Pinia · TanStack Query |
-| **表单** | FormKit · Zod |
-| **测试** | Vitest · Playwright |
-
-**适用场景**:
-- 企业级 SaaS 系统开发
-- 数据表格、复杂表单
-- 状态管理、API 集成
-- 组件库扩展
-
-**触发词**: `Vue 组件`、`SaaS 页面`、`shadcn`、`数据表格`、`表单`、`仪表盘`
-
-**详细文档**: [`saas-frontend-dev/SKILL.md`](saas-frontend-dev/SKILL.md)
-
----
-
-### 4. 产品经理技能
+### 3. 产品经理技能
 
 **目录**: [`product-manager/`](product-manager/)
 
@@ -115,7 +88,7 @@ SaaS 多租户前端开发技能，基于 Vue 3 + TypeScript + Shadcn-vue。
 
 ---
 
-### 5. 技术经理技能
+### 4. 技术经理技能
 
 **目录**: [`tech-manager/`](tech-manager/)
 
@@ -152,15 +125,17 @@ dainthub-skills/
 ├── README.md                           # 项目说明（本文件）
 ├── AGENTS.md                           # AI 助手开发指南
 ├── docs/                               # 分布式协同开发指南
-│   └── collaboration/
-│       ├── 01-overview.md              # 概述 + 触发指令
-│       ├── 02-project-structure.md     # 项目目录结构
-│       ├── 03-frontend-backend.md      # 前后端工程结构
-│       ├── 04-git-workflow.md          # Git 工作流
-│       ├── 05-status-mechanism.md      # 状态快照 + 归档机制
-│       ├── 06-sync-flow.md             # 拉取同步流程
-│       ├── 07-examples.md              # 协作场景示例
-│       └── 08-ai-config.md             # AI 配置 + 检查清单
+│   ├── collaboration/                  # 协同开发文档
+│   │   ├── 01-overview.md              # 概述 + 文档索引
+│   │   ├── 02-project-structure.md     # 项目目录结构
+│   │   ├── 03-frontend-backend.md      # 前后端工程结构
+│   │   ├── 04-git-workflow.md          # Git 工作流
+│   │   ├── 05-status-mechanism.md      # 状态快照 + 归档机制
+│   │   ├── 06-sync-flow.md             # 拉取同步流程
+│   │   ├── 07-examples.md              # 协作场景示例
+│   │   └── 08-ai-config.md             # AI 配置 + 检查清单
+│   └── shared/                         # 共享文档
+│       └── testing-collaboration.md    # 测试协作框架
 ├── java-backend-dev/                   # Java 后端开发技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 参考文档
@@ -170,10 +145,7 @@ dainthub-skills/
 ├── tech-manager/                       # 技术经理技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 参考文档
-├── vben-frontend-dev/                  # Vben 前端开发技能
-│   ├── SKILL.md                        # 技能主文件
-│   └── references/                     # 参考文档
-└── saas-frontend-dev/                  # SaaS 前端开发技能
+└── vben-frontend-dev/                  # Vben 前端开发技能
     ├── SKILL.md                        # 技能主文件
     └── references/                     # 参考文档
 ```
@@ -194,7 +166,7 @@ tech-manager (技术经理)
        ↓ 任务分发
    ┌────────────┴────────────┐
    ↓                         ↓
-java-backend-dev          vben/saas-frontend-dev
+java-backend-dev          vben-frontend-dev
 （后端开发）                （前端开发）
        ↓                         ↓
        └────────────┬────────────┘
@@ -224,7 +196,7 @@ java-backend-dev          vben/saas-frontend-dev
 
 | 文档 | 内容 |
 |------|------|
-| `docs/collaboration/01-overview.md` | 概述 + 触发指令 |
+| `docs/collaboration/01-overview.md` | 概述 + 文档索引 |
 | `docs/collaboration/02-project-structure.md` | 项目目录结构 |
 | `docs/collaboration/03-frontend-backend.md` | 前后端工程结构 |
 | `docs/collaboration/04-git-workflow.md` | Git 工作流 |
@@ -262,7 +234,3 @@ AI 在执行任务时会：
 ## 📄 许可证
 
 本项目采用 MIT 许可证，仅供内部开发参考使用。
-
----
-
-> 💡 **提示**: 每个技能的详细规范见各目录下的 SKILL.md 文件。

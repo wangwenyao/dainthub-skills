@@ -65,23 +65,15 @@ description: |
 
 ## 与测试 Skill 协作
 
-开发阶段调用测试能力确保代码质量：
+开发阶段与全局测试 skill 协作确保代码质量：
 
 | 开发阶段 | 调用测试能力 | 目的 |
 |---------|-------------|------|
 | **实现前** | `test-driven-development` | 先写测试，定义行为预期 |
-| **实现中** | `test-standards.md` | 遵循测试命名/结构/Mock规范 |
+| **实现中** | `test-standards.md` | 遵循测试命名/结构/Mock 规范 |
 | **实现后** | `test-generation` | 覆盖分析，补充边缘情况 |
 
-### 开发流程集成测试
-
-```
-Step 0: 影响分析 → 确定哪些代码需要测试
-Step 1: TDD 先写测试 → 调用 test-driven-development skill
-Step 2: 实现代码 → 读取 code-templates.md
-Step 3: 补充测试 → 读取 test-standards.md 边缘情况清单
-Step 4: 覆盖分析 → 调用 test-generation 检查覆盖率
-```
+> 测试协作详细规范 → `../docs/shared/testing-collaboration.md`
 
 ### 何时读取 test-standards.md
 
@@ -92,30 +84,6 @@ Step 4: 覆盖分析 → 调用 test-generation 检查覆盖率
 | 数据库操作测试 | 集成测试、H2 配置、事务回滚 |
 | 覆盖率检查 | Jacoco 配置、覆盖率标准 |
 | 边缘情况补充 | 边界条件测试清单、参数化测试 |
-
-### PRD 验收标准转化
-
-PRD 的验收标准可直接转化为测试代码：
-
-```
-PRD验收标准：
-Given 用户已登录，购物车有商品
-When 点击结算按钮
-Then 进入结算页面
-
-转化为单元测试：
-@Test
-void checkout_withItems_success() {
-    // Arrange (Given)
-    ...
-    // Act (When)
-    ...
-    // Assert (Then)
-    ...
-}
-```
-
-详细转化指引 → `product-manager/references/workflows/prd-writing.md#验收标准与测试协作`
 
 ---
 

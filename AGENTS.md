@@ -239,7 +239,6 @@ grep -r "@references" skill-name/
 | **tech-manager** | `tech-manager/` | 技术经理变更分析与任务分发 |
 | **java-backend-dev** | `java-backend-dev/` | SpringBoot 后端开发 |
 | **vben-frontend-dev** | `vben-frontend-dev/` | Vben Admin 5.x 前端开发 |
-| **saas-frontend-dev** | `saas-frontend-dev/` | Vue 3 + Shadcn-vue SaaS 开发 |
 
 ---
 
@@ -254,7 +253,7 @@ tech-manager (技术经理)
        ↓ 变更影响分析 + 接口规格 + DML脚本 + 任务分发
    ┌───┴───┐
    ↓       ↓
-java     vben/saas
+java     vben
 backend  frontend
    ↓       ↓
    └───┬───┘
