@@ -229,20 +229,42 @@ grep -r "@references" skill-name/
 
 ---
 
+## 技能列表
+
+当前项目包含以下技能：
+
+| 技能 | 目录 | 用途 |
+|------|------|------|
+| **product-manager** | `product-manager/` | 产品经理全流程工作 |
+| **tech-manager** | `tech-manager/` | 技术经理变更分析与任务分发 |
+| **java-backend-dev** | `java-backend-dev/` | SpringBoot 后端开发 |
+| **vben-frontend-dev** | `vben-frontend-dev/` | Vben Admin 5.x 前端开发 |
+| **saas-frontend-dev** | `saas-frontend-dev/` | Vue 3 + Shadcn-vue SaaS 开发 |
+
+---
+
 ## 技能协作关系
 
 ```
-product-manager (PRD)
-       ↓
-tech-manager (分析 → 分发)
-       ↓
+product-manager (产品经理)
+       ↓ PRD + 验收标准 + 线框图
+solution-expert (技术方案，外部)
+       ↓ 总体技术方案文档
+tech-manager (技术经理)
+       ↓ 变更影响分析 + 接口规格 + DML脚本 + 任务分发
    ┌───┴───┐
    ↓       ↓
-java     vben
+java     vben/saas
 backend  frontend
+   ↓       ↓
+   └───┬───┘
+       ↓ 实现验证
+tech-manager (技术经理)
+       ↓ 发现偏差
+product-manager (偏差决策)
 ```
 
-AI 助手应识别协作链路，在适当时机调用相关 Skill。
+AI 助手应识别协作链路，在适当时机调用相关 Skill.
 
 ---
 
