@@ -43,11 +43,11 @@ description: |
 
 | 场景 | 文件 | 优先级 |
 |------|------|--------|
-| git pull / 拉取同步 | 拉取同步流程 | `../docs/collaboration/06-sync-flow.md` | 每次拉取后 |
-| 协同开发概述 | 触发指令 + 文档索引 | `../docs/collaboration/01-overview.md` | 项目初始化时必须 |
-| 项目目录结构 | docs/ + backend/ 目录 | `../docs/collaboration/02-project-structure.md` | 需要了解目录时 |
-| 后端工程结构 | Spring Boot 目录结构 | `../docs/collaboration/03-frontend-backend.md` | 开始开发前 |
-| status.md / 归档 | 状态快照 + 归档机制 | `../docs/collaboration/05-status-mechanism.md` | 更新状态/归档时 |
+| git pull / 拉取同步 | 拉取同步流程 | `../team-collaboration/references/06-sync-flow.md` | 每次拉取后 |
+| 协同开发概述 | 触发指令 + 文档索引 | `../team-collaboration/references/01-overview.md` | 项目初始化时必须 |
+| 项目目录结构 | docs/ + backend/ 目录 | `../team-collaboration/references/02-project-structure.md` | 需要了解目录时 |
+| 后端工程结构 | Spring Boot 目录结构 | `../team-collaboration/references/03-frontend-backend.md` | 开始开发前 |
+| status.md / 归档 | 状态快照 + 归档机制 | `../team-collaboration/references/05-status-mechanism.md` | 更新状态/归档时 |
 | DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` | 必须 |
 | 质量门控清单（代码生成前后自检） | `quality-gates.md` | 必须 |
 | Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` | 按需 |
@@ -73,7 +73,7 @@ description: |
 | **实现中** | `test-standards.md` | 遵循测试命名/结构/Mock 规范 |
 | **实现后** | `test-generation` | 覆盖分析，补充边缘情况 |
 
-> 测试协作详细规范 → `../docs/shared/testing-collaboration.md`
+> 测试协作详细规范 → `../team-collaboration/references/testing-collaboration.md`
 
 ### 何时读取 test-standards.md
 

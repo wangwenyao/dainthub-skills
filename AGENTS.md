@@ -239,6 +239,7 @@ grep -r "@references" skill-name/
 | **tech-manager** | `tech-manager/` | 技术经理变更分析与任务分发 |
 | **java-backend-dev** | `java-backend-dev/` | SpringBoot 后端开发 |
 | **vben-frontend-dev** | `vben-frontend-dev/` | Vben Admin 5.x 前端开发 |
+| **team-collaboration** | `team-collaboration/` | 分布式协同开发指南 |
 
 ---
 

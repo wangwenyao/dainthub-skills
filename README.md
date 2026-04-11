@@ -118,24 +118,38 @@ Vben Admin 5.x 前端页面开发技能，基于 Vue 3 + Vite + VxeGrid + VbenFo
 
 ---
 
+### 5. 协同开发技能
+
+**目录**: [`team-collaboration/`](team-collaboration/)
+
+多角色分布式协同开发指南，确保不同 AI 会话之间的协作一致性。
+
+| 特性 | 说明 |
+|------|------|
+| **状态快照** | status.md 单文件全局状态 |
+| **拉取同步** | git pull 后的任务识别流程 |
+| **版本归档** | 文档归档与新版本切换 |
+| **测试协作** | 开发 skill 与测试 skill 的协作框架 |
+
+**适用场景**:
+- 多角色协作（PM → Tech Manager → 开发）
+- git pull 后需要了解项目状态
+- 更新 status.md 状态快照
+- 版本归档 / 开始新版本
+- 项目初始化时了解协作流程
+
+**触发词**: `协同开发`、`分布式协作`、`git pull同步`、`status.md更新`、`版本归档`、`拉取同步`、`测试协作`
+
+**详细文档**: [`team-collaboration/SKILL.md`](team-collaboration/SKILL.md)
+
+---
+
 ## 📁 项目结构
 
 ```
 dainthub-skills/
 ├── README.md                           # 项目说明（本文件）
 ├── AGENTS.md                           # AI 助手开发指南
-├── docs/                               # 分布式协同开发指南
-│   ├── collaboration/                  # 协同开发文档
-│   │   ├── 01-overview.md              # 概述 + 文档索引
-│   │   ├── 02-project-structure.md     # 项目目录结构
-│   │   ├── 03-frontend-backend.md      # 前后端工程结构
-│   │   ├── 04-git-workflow.md          # Git 工作流
-│   │   ├── 05-status-mechanism.md      # 状态快照 + 归档机制
-│   │   ├── 06-sync-flow.md             # 拉取同步流程
-│   │   ├── 07-examples.md              # 协作场景示例
-│   │   └── 08-ai-config.md             # AI 配置 + 检查清单
-│   └── shared/                         # 共享文档
-│       └── testing-collaboration.md    # 测试协作框架
 ├── java-backend-dev/                   # Java 后端开发技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 参考文档
@@ -145,6 +159,9 @@ dainthub-skills/
 ├── tech-manager/                       # 技术经理技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 参考文档
+├── team-collaboration/                 # 协同开发技能
+│   ├── SKILL.md                        # 技能主文件
+│   └── references/                     # 协作流程 + 测试协作
 └── vben-frontend-dev/                  # Vben 前端开发技能
     ├── SKILL.md                        # 技能主文件
     └── references/                     # 参考文档
@@ -192,18 +209,14 @@ java-backend-dev          vben-frontend-dev
 
 ### 分布式协同开发
 
-本项目包含完整的分布式协同开发指南：
+分布式协同开发指南已整合为独立技能 **team-collaboration**：
 
-| 文档 | 内容 |
-|------|------|
-| `docs/collaboration/01-overview.md` | 概述 + 文档索引 |
-| `docs/collaboration/02-project-structure.md` | 项目目录结构 |
-| `docs/collaboration/03-frontend-backend.md` | 前后端工程结构 |
-| `docs/collaboration/04-git-workflow.md` | Git 工作流 |
-| `docs/collaboration/05-status-mechanism.md` | 状态快照 + 归档机制 |
-| `docs/collaboration/06-sync-flow.md` | 拉取同步流程 |
-| `docs/collaboration/07-examples.md` | 协作场景示例 |
-| `docs/collaboration/08-ai-config.md` | AI 配置 + 检查清单 |
+- 状态快照机制（status.md）
+- 拉取同步流程
+- 版本归档机制
+- 测试协作框架
+
+详见 [`team-collaboration/SKILL.md`](team-collaboration/SKILL.md)
 
 ---
 

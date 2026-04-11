@@ -174,7 +174,7 @@ views/module/feature/
 | **组件开发后** | `test-generation` | 覆盖分析，补充交互测试 |
 | **页面流程测试** | `test-generation` | E2E 测试关键用户流程 |
 
-> 测试协作详细规范 → `../docs/shared/testing-collaboration.md`
+> 测试协作详细规范 → `../team-collaboration/references/testing-collaboration.md`
 > 测试命名/结构/Mock 规范 → `references/05-page-patterns.md`
 
 ### 测试覆盖率标准
@@ -236,11 +236,11 @@ views/module/feature/
 
 | 场景 | 文档 |
 |------|------|
-| git pull / 拉取同步 | `../docs/collaboration/06-sync-flow.md` |
-| 协同开发概述 | `../docs/collaboration/01-overview.md` |
-| 项目目录结构 | `../docs/collaboration/02-project-structure.md` |
-| 前端工程结构 | `../docs/collaboration/03-frontend-backend.md` |
-| status.md / 归档 | `../docs/collaboration/05-status-mechanism.md` |
+| git pull / 拉取同步 | `../team-collaboration/references/06-sync-flow.md` |
+| 协同开发概述 | `../team-collaboration/references/01-overview.md` |
+| 项目目录结构 | `../team-collaboration/references/02-project-structure.md` |
+| 前端工程结构 | `../team-collaboration/references/03-frontend-backend.md` |
+| status.md / 归档 | `../team-collaboration/references/05-status-mechanism.md` |
 
 ## 故障排查
 
