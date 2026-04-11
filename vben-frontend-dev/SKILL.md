@@ -29,12 +29,157 @@ description: |
 
 ## 输入参数
 
-| 参数 | 说明 | 默认推断规则 |
-|------|------|-------------|
-| **task_type** | `new_page` / `field_change` / `theme_config` / `route_add` / `modal_add` | 从需求关键词推断 |
-| **page_type** | `list` / `form` / `detail` / `dashboard` | 从需求推断（"列表页"→list，"详情页"→detail） |
-| **component_type** | `VbenForm` / `VxeGrid` / `VbenModal` / `VbenDrawer` | 从需求推断（"表格"→VxeGrid，"表单"→VbenForm） |
+| 参数 | 说明 | 优先级 |
+|------|------|--------|
+| **yaml_page_spec** | YAML 页面规格（从 PRD 提取） | 最高（直接读取） |
+| **html_wireframe** | HTML+CSS 线框图 | 中等（解析 class → Schema） |
+| **task_type** | `new_page` / `field_change` / `theme_config` / `route_add` / `modal_add` | 最低（从关键词推断） |
+| **page_type** | `list` / `form` / `detail` / `dashboard` | 最低（从关键词推断） |
+| **component_type** | `VbenForm` / `VxeGrid` / `VbenModal` / `VbenDrawer` | 最低（从关键词推断） |
 | **project_root** | Vben项目根目录 | 从当前工作目录推断 |
+
+### 输入优先级
+
+```
+YAML 页面规格 > HTML 线框图 > 关键词推断
+```
+
+### YAML → Schema 转换
+
+当输入包含 YAML 页面规格时，直接读取生成 Schema：
+
+```typescript
+// 读取 YAML 页面规格
+const pageSpec = parseYaml(input.yaml_page_spec);
+
+// 直接生成 Schema（无需推断）
+// 搜索区 → formOptions.schema
+const searchSchema = pageSpec.config.search.fields.map(f => ({
+  fieldName: f.field,
+  label: f.name,
+  component: f.component,
+  placeholder: f.placeholder,
+}));
+
+// 表格列 → gridOptions.columns
+const tableColumns = pageSpec.config.table.columns.map(c => ({
+  field: c.field,
+  title: c.title,
+  width: c.width,
+  align: c.align,
+  component: c.component,
+}));
+
+// 表单字段 → VbenForm schema
+const formSchema = pageSpec.config.form.fields.map(f => ({
+  fieldName: f.field,
+  label: f.name,
+  component: f.component,
+  rules: f.required ? 'required' : undefined,
+}));
+```
+
+### HTML 线框图解析
+
+当输入包含 HTML+CSS 线框图时，解析 class → 组件映射：
+
+```typescript
+// 从 HTML class 推断组件
+const classMap = {
+  'field input': 'Input',
+  'field select': 'Select',
+  'field date': 'DatePicker',
+  'field number': 'InputNumber',
+  'field textarea': 'TextArea',
+  'tag': 'Tag',
+  'btn btn-primary': 'Button(primary)',
+  'table': 'VxeGrid',
+  'modal': 'VbenModal',
+};
+
+// 从占位文字提取字段名
+// [商品名称] → fieldName: 'name', label: '商品名称'
+const fieldName = html.match(/\[(.*?)\]/)?.[1];
+
+// 从组件标注确认类型
+// <div class="label">组件：搜索表单</div> → search area
+const componentLabel = html.match(/组件：(\w+)/)?.[1];
+```
+
+### HTML class → 组件映射表
+
+| HTML class | Vben 组件 | Schema 配置 |
+|-----------|----------|-------------|
+| `field input` | Input | `{ component: 'Input' }` |
+| `field select` | Select / ApiSelect | `{ component: 'Select' }` |
+| `field date` | DatePicker | `{ component: 'DatePicker' }` |
+| `field number` | InputNumber | `{ component: 'InputNumber' }` |
+| `field textarea` | TextArea | `{ component: 'TextArea' }` |
+| `tag` | Tag | 列配置 `slots` |
+| `btn btn-primary` | Button(primary) | 主按钮样式 |
+| `btn` | Button(default) | 默认按钮样式 |
+| `btn btn-danger` | Button(danger) | 删除按钮 |
+| `table` | VxeGrid | `useVbenVxeGrid` |
+| `modal` | VbenModal | `useVbenModal` |
+
+### CSS 样式处理
+
+**注意**：HTML 线框图的 CSS 样式是灰色示意，不是真实样式。
+
+```css
+/* 线框图 CSS - 不应用 */
+.wireframe { border: 1px dashed #999; background: #f5f5f5; }
+.field { border: 1px solid #999; background: #fff; color: #999; }
+.btn-primary { background: #aaa; }  /* 灰色，不是真实主色 */
+
+/* 真实样式 - 使用 Vben 框架默认或 saas-ui-design 约束 */
+.btn-primary { 
+  /* 使用框架默认样式，自动符合约束 */
+}
+```
+
+线框图 CSS 只用于识别结构，不直接应用到生成的代码中。
+
+### UI 约束应用
+
+生成的代码自动应用内置约束（无需显式调用 saas-ui-design）：
+
+| 约束 | 说明 |
+|------|------|
+| 主题色格式 | 必须使用 `hsl()` 格式 |
+| 主色占比 | ≤ 5%（按钮、选中态等） |
+| 禁止渐变 | 不使用渐变背景 |
+| 禁止自定义阴影 | 使用框架预设 `shadow-*` |
+| 间距栅格 | 4px 基准 |
+
+---
+
+## 开发流程（改进版）
+
+### Step 0：读取输入（新增）
+
+```typescript
+// 检测输入类型
+if (input.yaml_page_spec) {
+  // YAML 直接读取
+  pageType = parseYaml(input.yaml_page_spec).type;
+  schema = generateSchemaFromYaml(input.yaml_page_spec);
+} else if (input.html_wireframe) {
+  // HTML 解析
+  pageType = inferPageTypeFromHtml(input.html_wireframe);
+  schema = generateSchemaFromHtml(input.html_wireframe);
+} else {
+  // 关键词推断（兜底）
+  pageType = inferPageType(input.keywords);
+}
+```
+
+### Step 1：定义 Schema
+
+根据输入类型生成 Schema：
+- YAML → 直接读取
+- HTML → class 映射
+- 关键词 → 推断
 
 ### task_type 优先级
 
@@ -229,21 +374,31 @@ rules: z.number().min(0).max(100)
 
 ### 设计原则
 
-遵循 SaaS 专业克制设计风格（Linear/Notion风格），核心原则：
-- **克制**：不用渐变、不用装饰性插图
-- **密度**：信息密度优先于呼吸感
-- **一致**：相同行为用相同视觉语言
-- **功能先行**：颜色用于传达信息，而非装饰
+遵循 SaaS 专业克制设计风格（Linear/Notion风格），内置约束自动应用：
 
-### Vben 框架特有约束
-
-| 约束 | 说明 |
+| 原则 | 说明 |
 |------|------|
-| 主题色格式 | 必须使用 `hsl()` 格式，禁止 hex 格式 |
-| 阴影规范 | 禁止自定义阴影，使用 `shadow-card` / `shadow-card-hover` / `shadow-card-elevated` |
-| 主色占比 | 页面主色占比≤5%，辅助强调色占比≤10%，中性色占比≥85% |
+| **克制** | 不用渐变、不用装饰性插图 |
+| **密度** | 信息密度优先于呼吸感 |
+| **一致** | 相同行为用相同视觉语言 |
+| **功能先行** | 颜色用于传达信息，而非装饰 |
 
-> 详细设计规范（色彩/字体/间距/交互）见 `saas-ui-design` skill
+### 内置约束
+
+| 约束 | 说明 | 自动应用 |
+|------|------|---------|
+| 主题色格式 | 必须使用 `hsl()` 格式，禁止 hex | ✅ |
+| 阴影规范 | 禁止自定义阴影，使用 `shadow-card` / `shadow-card-hover` / `shadow-card-elevated` | ✅ |
+| 主色占比 | 页面主色占比≤5%，辅助强调色占比≤10%，中性色占比≥85% | ✅ |
+| 禁止渐变 | 不使用渐变背景 | ✅ |
+
+### 线框图输入说明
+
+当输入是 HTML+CSS 线框图时：
+- 线框图的灰色样式只是结构示意
+- 生成的代码使用 Vben 框架默认样式
+- 框架样式自动符合上述约束
+- 不需要额外调用 UI 设计 skill
 
 ---
 
@@ -369,6 +524,8 @@ test('新增商品流程', async ({ page }) => {
 
 | 文档 | 内容 | 路径 |
 |------|------|------|
+| git pull / 拉取同步 | 读取 status.md（单文件替代多个 index.md） | `../docs/collaboration-guide.md#九、拉取同步流程（优化版）` |
+| 分布式协同开发 | 项目目录、git工作流、输入文档路径 | `../docs/collaboration-guide.md` |
 | 配置化能力 | 主题/布局/功能配置 | `references/01-configuration.md` |
 | 表单组件 | 完整 Form API | `references/02-form.md` |
 | 表格组件 | 完整 Grid API | `references/03-grid.md` |
@@ -432,3 +589,12 @@ test('新增商品流程', async ({ page }) => {
 禁止猜测 API → 先查文档
 遵循模式 → 一致性优于创造性
 ```
+
+---
+
+## 版本
+
+- v2.3
+- 更新: 2026-04-11
+- 新增: status.md 状态快照机制引用（AI 只读单文件）
+- v2.0: YAML 页面规格输入解析、HTML 线框图解析、输入优先级、内置 UI 约束

@@ -43,6 +43,8 @@ description: |
 
 | 场景 | 文件 | 优先级 |
 |------|------|--------|
+| git pull / 拉取同步 | 读取 status.md（单文件替代多个 index.md） | `../docs/collaboration-guide.md#九、拉取同步流程（优化版）` | 每次拉取后 |
+| 分布式协同开发（项目目录、git工作流） | `../docs/collaboration-guide.md` | 项目初始化时必须 |
 | DO/VO/Mapper/Service/Controller 模板 | `code-templates.md` | 必须 |
 | 质量门控清单（代码生成前后自检） | `quality-gates.md` | 必须 |
 | Mapper/SQL/索引/批量操作/N+1 | `data-layer.md` | 按需 |
@@ -292,3 +294,11 @@ com.dainthub.{project}.module.{module}
 | **ErrorCode** | interface(字段默认 `public static final`) · 错误码 = `1` + 模块3位码 + 业务序号3位 |
 | **Service** | 单条查询返回 `Optional<DO>`(C-ARCH-004) · `@Transactional(rollbackFor=Exception.class)` · 唯一性校验用 `exist{Entity}Name` |
 | **Controller** | 入参/出参只用 VO(C-ARCH-001) · `@PreAuthorize` 权限注解 |
+
+---
+
+## 版本
+
+- v1.3
+- 更新: 2026-04-11
+- 新增: status.md 状态快照机制引用（AI 只读单文件）

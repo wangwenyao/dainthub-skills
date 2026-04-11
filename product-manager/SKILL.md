@@ -1,11 +1,11 @@
 ---
 name: product-manager
-description: Use when 用户需要写PRD、写需求文档、需求评审、功能设计、产品规划、用户故事，或提到：帮我梳理需求、整理功能点、写产品方案、这个功能怎么设计、帮我想想产品逻辑、产品需求文档。
+description: Use when 用户需要写PRD、写需求文档、需求评审、功能设计、产品规划、用户故事，或提到：帮我梳理需求、整理功能点、写产品方案、这个功能怎么设计、帮我想想产品逻辑、产品需求文档、生成线框图、页面原型、设计页面结构、处理偏差反馈、技术反馈、偏差决策、接受技术建议。
 ---
 
 # Product Manager Skill
 
-B端产品经理能力体系，从需求发现到PRD交付。
+B端产品经理能力体系，从需求发现到PRD交付（含页面线框图）。
 
 ---
 
@@ -16,15 +16,19 @@ B端产品经理能力体系，从需求发现到PRD交付。
 | 用户意图 | 执行流程 | 立即读取 |
 |---------|---------|---------|
 | 写PRD / 写需求文档 / 帮我写产品需求 | 流程三：PRD编写 | `workflows/prd-writing.md` |
+| 生成线框图 / 页面原型 / 设计页面结构 | 线框图生成 | `workflows/wireframe-generation.md` |
 | 评审PRD / 检查需求文档 | 流程四：需求评审 | `workflows/review.md` |
 | 分析需求 / 排优先级 / 梳理需求 | 流程一：需求分析 | `workflows/requirement-analysis.md` |
 | 设计产品方案 / 规划功能 / 产品逻辑 | 流程二：产品设计 | `workflows/product-design.md` |
+| 处理偏差反馈 / 接收技术反馈 / 偏差决策 | 流程五：偏差反馈处理 | `workflows/deviation-handling.md` |
+| git pull / 拉取同步 / 检查偏差报告 | 拉取同步流程（优先读取 status.md） | `../docs/collaboration-guide.md#九、拉取同步流程（优化版）` |
+| 项目初始化 / 协同开发 / 输出物存放位置 | 分布式协同指南 | `../docs/collaboration-guide.md` |
 
 识别用户意图后，立即读取对应的 workflow 文件并开始执行。
 
 ---
 
-## 四大流程
+## 五大流程
 
 ### 流程一：需求分析
 读取 `@references/workflows/requirement-analysis.md` 执行完整流程。
@@ -41,6 +45,27 @@ B端产品经理能力体系，从需求发现到PRD交付。
 ### 流程四：需求评审
 读取 `@references/workflows/review.md` 执行完整流程。
 执行完整性/清晰度/合理性/边界/风险逐项检查时读取 `@references/review-checklist.md`。
+
+### 流程五：偏差反馈处理
+读取 `@references/workflows/deviation-handling.md` 执行完整流程。
+接收 tech-manager 偏差反馈报告 → 评估产品影响 → 做出产品决策 → 更新 PRD → 生成决策通知。
+
+---
+
+## 页面线框图生成
+
+**输出双轨格式：**
+- **wireframes.html**：HTML+CSS 线框图（产品经理review/调整）
+- **pages.yaml**：YAML 页面规格（前端代码生成）
+
+**线框图原则：**
+- 灰色边框、浅灰填充、占位文字
+- 不使用真实颜色和图标
+- 只表达布局结构和交互流程
+- 统一的顶部导航 + 左侧菜单布局
+- 菜单支持跳转到指定模块页面
+
+读取 `@references/workflows/wireframe-generation.md` 执行完整流程。
 
 ---
 
@@ -75,19 +100,46 @@ B端产品经理能力体系，从需求发现到PRD交付。
 
 ## 协同Skill
 
-编写页面原型时，引用 `saas-ui-design` skill 获取色彩Token、字体规范、组件选型标准。
+**页面线框图生成**：不需要 UI 设计 skill。
+- 线框图只表达结构，不涉及 UI 视觉
+- 前端 skill（vben-frontend-dev）直接读取 YAML → 代码
+- UI 样式由前端 skill 内置约束处理
 
-编写验收标准时，为开发阶段测试提供输入：
+**验收标准转化**：
 - 验收标准 → `test-driven-development` 的测试场景
 - 用户旅程 → E2E 测试流程
 - 业务规则 → Service 层单元测试
 
 详细转化指引 → `@references/workflows/prd-writing.md#验收标准与测试协作`
 
+**偏差反馈处理**：与 tech-manager 协作
+- 接收 tech-manager 的偏差反馈报告（实现验证阶段发现）
+- 评估产品影响（用户体验/业务价值/MVP范围）
+- 做出产品决策（接受偏差/坚持原需求/协商调整）
+- 更新 PRD 对应章节并标注决策结果
+- 生成决策通知反馈给 tech-manager
+
+详细流程 → `@references/workflows/deviation-handling.md`
+
+**完整协作链路**：
+```
+product-manager → PRD → tech-manager → 变更分析 → 任务分发
+                                         ↓
+                               前后端开发（并行）
+                                         ↓
+                               tech-manager → 实现验证
+                                         ↓
+                               发现偏差 → 偏差反馈报告
+                                         ↓
+                               product-manager → 偏差决策
+                                         ↓
+                               更新PRD → 决策通知 → tech-manager
+```
+
 ---
 
 ## 版本
 
-- v1.6
-- 更新: 2026-04-02
-- 优化: 删除PRD类型分类、简化流程、章节重排
+- v2.4
+- 更新: 2026-04-11
+- 新增: status.md 状态快照机制引用（AI 只读单文件）
