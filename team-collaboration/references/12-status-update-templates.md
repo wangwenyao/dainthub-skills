@@ -303,10 +303,3 @@ function processStatusUpdate(skillOutput) {
 }
 ```
 
----
-
-## 版本
-
-- v1.0
-- 更新: 2026-04-12
-- 变更: 新增状态更新模板

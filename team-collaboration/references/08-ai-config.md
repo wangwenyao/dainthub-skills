@@ -92,9 +92,3 @@ java-backend-dev                   vben-frontend-dev
                  docs/decisions/ + docs/prd/ + docs/status.md 更新
 ```
 
----
-
-## 版本
-
-- v2.0
-- 更新: 2026-04-11

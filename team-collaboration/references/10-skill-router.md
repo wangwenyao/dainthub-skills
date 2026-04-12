@@ -142,10 +142,3 @@ function findParallelTasks(status) {
 | 全部阻塞 | 所有待处理项类型为"偏差决策"且无决策 |
 | 达到上限 | 循环次数 > maxIterations |
 
----
-
-## 版本
-
-- v1.0
-- 更新: 2026-04-12
-- 变更: 新增 skill 路由规则

@@ -316,10 +316,4 @@ views/module/feature/
 - [ ] 无 TypeScript 错误
 - [ ] 页面正确渲染
 
----
 
-## 版本
-
-- v3.0
-- 更新: 2026-04-11
-- 变更: SKILL.md 瘦身，提取输入解析到 references/07-input-parsing.md，测试协作引用共享文档

@@ -277,10 +277,3 @@ function detectConflict(sessionId, task) {
 | 等待 | 等待其他会话完成后 git pull |
 | 协调 | 手动沟通，分配任务顺序 |
 
----
-
-## 版本
-
-- v1.0
-- 更新: 2026-04-12
-- 变更: 新增阻塞处理规范

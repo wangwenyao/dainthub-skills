@@ -144,9 +144,3 @@ backend/
 | `client_add` | Client · DTO |
 | `config_change` | application.yaml |
 
----
-
-## 版本
-
-- v2.0
-- 更新: 2026-04-11

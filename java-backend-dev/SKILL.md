@@ -309,10 +309,4 @@ com.dainthub.{project}.module.{module}
 | **Service** | 单条查询返回 `Optional<DO>`(C-ARCH-004) · `@Transactional(rollbackFor=Exception.class)` · 唯一性校验用 `exist{Entity}Name` |
 | **Controller** | 入参/出参只用 VO(C-ARCH-001) · `@PreAuthorize` 权限注解 |
 
----
 
-## 版本
-
-- v1.4
-- 更新: 2026-04-11
-- 变更: 协同开发指南拆分为多个小文件，按需加载

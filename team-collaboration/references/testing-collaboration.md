@@ -86,9 +86,4 @@ test('新增商品流程', async ({ page }) => {
 | java-backend-dev | `references/test-standards.md` | Service ≥ 80% |
 | vben-frontend-dev | `references/05-page-patterns.md` | 业务组件 ≥ 70%，Composables ≥ 80% |
 
----
 
-## 版本
-
-- v1.0
-- 更新: 2026-04-11

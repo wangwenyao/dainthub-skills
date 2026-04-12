@@ -185,10 +185,3 @@ while (status.md 有待处理项) {
 | `12-status-update-templates.md` | 状态更新模板 | skill 完成后 |
 | `testing-collaboration.md` | 测试协作框架 | 开发过程中 |
 
----
-
-## 版本
-
-- v1.2
-- 更新: 2026-04-12
-- 变更: 新增 skill 路由(10)、阻塞处理(11)、状态更新模板(12)

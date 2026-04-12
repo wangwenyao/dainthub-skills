@@ -477,11 +477,3 @@ P-action:
       fields:
         - { name: [字段], field: [字段名], component: TextArea, required: false }
 ```
-
-## 版本
-
-- v3.0
-- 更新: 2026-04-12
-- 精简: 所有模板减少冗余示例，提高信息密度
-- 移除: CSS 部分统一到 wireframe-generation.md
-- 优化: 操作弹窗只保留通用模板，去掉具体示例
