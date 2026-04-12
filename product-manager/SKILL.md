@@ -326,7 +326,7 @@ Then [预期结果]
 - 前端 skill（vben-frontend-dev）直接读取 YAML → 代码
 
 **验收标准转化**：
-- 验收标准 → `test-driven-development` 的测试场景
+- 验收标准可转化为测试场景
 - 用户旅程 → E2E 测试流程
 - 业务规则 → Service 层单元测试
 
