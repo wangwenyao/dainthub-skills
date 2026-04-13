@@ -180,7 +180,7 @@ while (status.md 有待处理项) {
 | `07-examples.md` | 协作场景示例 | 了解完整流程 |
 | `08-ai-config.md` | AI 配置 + 检查清单 | 项目初始化 |
 | `09-iteration-workflow.md` | 迭代循环工作流 | 批量开发 |
-| `10-skill-router.md` | skill 路由规则 | 循环执行时 |
+| `10-skill-router.md` | 角色→Skill映射 + 路由规则 | 循环执行时 / 了解角色职责 |
 | `11-blocking-handler.md` | 阻塞处理规范 | 遇到阻塞时 |
 | `12-status-update-templates.md` | 状态更新模板 | skill 完成后 |
 | `testing-collaboration.md` | 测试协作框架 | 开发过程中 |

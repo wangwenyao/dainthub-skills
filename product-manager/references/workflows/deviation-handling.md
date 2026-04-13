@@ -279,3 +279,52 @@
 ☐ 开发者执行项是否明确？
 ☐ PRD 更新记录是否完整？
 ```
+
+---
+
+## 协同模式：状态更新
+
+**仅在协同开发模式下执行**（检测条件：项目根目录存在 `docs/status.md`）。
+
+### 偏差决策后的状态更新
+
+决策完成后，需更新 `docs/status.md`：
+
+**更新内容**：
+1. 将偏差反馈项从"待处理项汇总"移除
+2. 在"下一步任务"中添加 tech-manager 的执行项
+
+**更新模板**（参考 `../team-collaboration/references/12-status-update-templates.md`）：
+
+```markdown
+## 待处理项汇总（更新后）
+| 类型 | 模块 | 文件路径 | 处理角色 | 状态 |
+|------|------|---------|---------|------|
+| 偏差决策 | product | docs/reports/deviation-product.md | product-manager | ✅ 已决策 |
+
+## 下一步任务（新增）
+| 角色 | 任务 | 输入文件 | 输出文件 |
+|------|------|---------|---------|
+| tech-manager | 通知开发者执行 | docs/decisions/decision-product.md | 执行确认 |
+```
+
+### 状态更新流程
+
+```
+决策完成
+    ↓
+读取 ../team-collaboration/references/05-status-mechanism.md
+    ↓
+更新 docs/status.md
+    ├── 移除偏差反馈项
+    ├── 标记决策已完成
+    ├── 添加 tech-manager 下一步任务
+    ↓
+git commit -m "偏差决策完成: {模块名}"
+```
+
+### 详细规范
+
+> 状态更新详细规范 → `../team-collaboration/references/05-status-mechanism.md`
+> 
+> 状态更新模板 → `../team-collaboration/references/12-status-update-templates.md`
