@@ -240,6 +240,7 @@ grep -r "@references" skill-name/
 | **java-backend-dev** | `java-backend-dev/` | SpringBoot 后端开发 |
 | **vben-frontend-dev** | `vben-frontend-dev/` | Vben Admin 5.x 前端开发 |
 | **team-collaboration** | `team-collaboration/` | 分布式协同开发指南 |
+| **qa-engineer** | `qa-engineer/` | QA测试工程师：测试计划、测试用例设计、E2E测试、缺陷管理、质量度量 |
 
 ---
 
@@ -250,6 +251,8 @@ product-manager (产品经理)
        ↓ PRD + 验收标准 + 线框图
 solution-expert (技术方案，外部)
        ↓ 总体技术方案文档
+qa-engineer (测试工程师)
+       ↓ 测试计划 + 测试用例设计
 tech-manager (技术经理)
        ↓ 变更影响分析 + 接口规格 + DML脚本 + 任务分发
    ┌───┴───┐
@@ -257,10 +260,10 @@ tech-manager (技术经理)
 java     vben
 backend  frontend
    ↓       ↓
-   └───┬───┘
-       ↓ 实现验证
-tech-manager (技术经理)
-       ↓ 发现偏差
+qa-engineer (执行测试 + E2E测试 + 缺陷记录)
+   ↓
+tech-manager (实现验证)
+   ↓ 发现偏差
 product-manager (偏差决策)
 ```
 
