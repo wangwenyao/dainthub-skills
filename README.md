@@ -144,36 +144,6 @@ Vben Admin 5.x 前端页面开发技能，基于 Vue 3 + Vite + VxeGrid + VbenFo
 
 ---
 
-### 6. QA 测试工程师技能
-
-**目录**: [`qa-engineer/`](qa-engineer/)
-
-系统测试设计与质量保证能力，填补 vibe coding 场景下的质量保证缺口。
-
-| 特性 | 说明 |
-|------|------|
-| **测试计划** | 测试范围定义、优先级矩阵、资源估算 |
-| **测试用例设计** | 边界值、状态迁移、正交实验、等价类划分 |
-| **E2E测试** | Playwright 自动化测试设计与执行 |
-| **缺陷管理** | 缺陷生命周期管理、缺陷记录追踪 |
-| **质量度量** | 质量指标定义、覆盖率分析、质量报告 |
-| **测试报告** | 测试执行汇总、缺陷统计、上线评估 |
-
-**适用场景**:
-- 编写测试计划、确定测试范围
-- 设计测试用例（系统性方法论）
-- E2E 自动化测试（Playwright）
-- 缺陷管理、缺陷追踪
-- 生成测试报告、质量度量分析
-
-**触发词**: `测试计划`、`测试用例设计`、`测试覆盖率`、`缺陷管理`、`测试报告`、`E2E测试`、`Playwright`、`质量度量`
-
-**不适用**: 单元测试规范（由 java-backend-dev 处理）、纯开发实现
-
-**详细文档**: [`qa-engineer/SKILL.md`](qa-engineer/SKILL.md)
-
----
-
 ## 📁 项目结构
 
 ```
@@ -192,12 +162,9 @@ dainthub-skills/
 ├── team-collaboration/                 # 协同开发技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 协作流程 + 测试协作
-├── vben-frontend-dev/                  # Vben 前端开发技能
-│   ├── SKILL.md                        # 技能主文件
-│   └── references/                     # 参考文档
-└── qa-engineer/                        # QA 测试工程师技能
+└── vben-frontend-dev/                  # Vben 前端开发技能
     ├── SKILL.md                        # 技能主文件
-    └── references/                     # 测试设计 + Playwright + 缺陷管理
+    └── references/                     # 参考文档
 ```
 
 ---
@@ -208,10 +175,6 @@ dainthub-skills/
 product-manager (产品经理)
        ↓ PRD + 验收标准 + 线框图
        ↓ YAML页面规格
-        
-qa-engineer (测试工程师)
-       ↓ 测试计划 + 测试用例设计
-       ↓ test-plan.md + test-cases.md
         
 tech-manager (技术经理)
        ↓ 变更影响分析
@@ -225,15 +188,11 @@ java-backend-dev          vben-frontend-dev
        ↓                         ↓
        └────────────┬────────────┘
                     ↓
-              qa-engineer (执行测试 + E2E测试 + 缺陷记录)
-                    ↓
               tech-manager 实现验证
                     ↓
             ┌───────┴───────┐
             ↓               ↓
         ✅ 通过          ❌ 不通过
-                            ↓
-                     缺陷修复循环 → qa-engineer 验证
                             ↓
                      偏差反馈 → product-manager 确认
                             ↓
@@ -243,12 +202,10 @@ java-backend-dev          vben-frontend-dev
 ### 协作流程说明
 
 1. **产品阶段**: product-manager 输出 PRD + 线框图 + YAML页面规格
-2. **测试设计阶段**: qa-engineer 输出测试计划 + 测试用例设计
-3. **技术阶段**: tech-manager 进行变更分析，生成接口规格和数据库脚本
-4. **开发阶段**: 并行启动前后端开发，基于 OpenAPI 和 DML 脚本协作
-5. **测试阶段**: qa-engineer 执行测试 + E2E测试 + 记录缺陷
-6. **验证阶段**: tech-manager 对照 PRD 验证实现，如有偏差反馈给产品确认
-7. **闭环阶段**: product-manager 评估偏差影响并做出决策
+2. **技术阶段**: tech-manager 进行变更分析，生成接口规格和数据库脚本
+3. **开发阶段**: 并行启动前后端开发，基于 OpenAPI 和 DML 脚本协作
+4. **验证阶段**: tech-manager 对照 PRD 验证实现，如有偏差反馈给产品确认
+5. **闭环阶段**: product-manager 评估偏差影响并做出决策
 
 ### 分布式协同开发
 
