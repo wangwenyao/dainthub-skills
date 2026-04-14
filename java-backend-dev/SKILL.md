@@ -1,9 +1,10 @@
 ---
 name: java-backend-dev
+version: 1.0
 description: |
-  单体 SpringBoot 后端开发（Spring Boot 3 + MyBatis Plus + MySQL 8）。
+  Use when 单体 SpringBoot 后端开发（Spring Boot 3 + MyBatis Plus + MySQL 8）。
   触发：新建模块/实体CRUD/字段变更/接口开发/SQL优化/缓存/定时任务/外部调用。
-  纯后端，不含前端。
+  不适用：前端代码、纯运维/CI/CD、非 SpringBoot 技术栈。
 ---
 
 # 后端代码开发技能
@@ -57,6 +58,36 @@ description: |
 
 ---
 
+## 快速路由
+
+识别用户意图后，立即读取对应的参考文档并执行。
+
+| 用户意图 | 执行操作 | 立即读取 |
+|---------|---------|---------|
+| 新建模块 / 实体 CRUD | 新建功能模块 | `references/code-templates.md` + `references/ddl-templates.md` |
+| 加字段 / 删字段 / 改字段 | 字段变更 | `references/data-layer.md` + `references/ddl-templates.md` |
+| 新增接口 / 修改接口 | 接口开发 | `references/api-design.md` + `references/code-templates.md` |
+| SQL 优化 / N+1 | 性能优化 | `references/data-layer.md` + `references/service-layer.md` |
+| 缓存策略 / Redis | 缓存调整 | `references/service-layer.md` |
+| 定时任务 | 任务调度 | `references/service-layer.md` |
+| 外部服务调用 | 外部调用 | `references/service-layer.md`（Client 模式） |
+| 表单校验 / 响应格式 | API 规范 | `references/api-design.md` |
+| 并发安全 / 分布式锁 | 并发问题 | `references/concurrency.md` |
+| 写测试 | 单元/集成测试 | `references/test-standards.md` |
+| YAML 配置变更 | 配置调整 | `references/application-config.md` |
+| 代码质量问题 | 设计原则 | `references/design-principles.md` + `references/java-best-practices.md` |
+
+### 协同模式专用
+
+| 用户意图 | 立即读取 |
+|---------|---------|
+| git pull / 拉取同步 / 检查变更 | `@../team-collaboration/references/06-sync-flow.md` |
+| 项目初始化 / 协同开发 / 分布式协作 | `@../team-collaboration/references/01-overview.md` |
+| 后端工程结构 | `@../team-collaboration/references/03-frontend-backend.md` |
+| status.md / 归档 / 状态更新 | `@../team-collaboration/references/05-status-mechanism.md` |
+
+---
+
 ## 技术栈
 
 | 分层 | 技术 |
@@ -78,7 +109,7 @@ description: |
 | DO/VO/Mapper/Service/Controller 模板 | `references/code-templates.md` | 必须 |
 | 质量门控清单（代码生成前后自检） | `references/quality-gates.md` | 必须 |
 | 单元测试/集成测试/Mock | `references/test-standards.md` | **实现前后必须** |
-| 测试协作框架（与全局测试 skill 协作） | `../team-collaboration/references/testing-collaboration.md` | 开发过程中 |
+| 测试协作框架（与全局测试 skill 协作） | `@../team-collaboration/references/testing-collaboration.md` | 开发过程中 |
 
 ### 按需（所有模式）
 
@@ -98,11 +129,11 @@ description: |
 
 | 场景 | 文件 | 加载时机 |
 |------|------|---------|
-| git pull / 拉取同步 | `../team-collaboration/references/06-sync-flow.md` | git pull 后 |
-| 协同开发概述 | `../team-collaboration/references/01-overview.md` | 项目初始化 |
-| 项目目录结构 | `../team-collaboration/references/02-project-structure.md` | 需要了解目录 |
-| 后端工程结构 | `../team-collaboration/references/03-frontend-backend.md` | 开始开发前 |
-| status.md / 归档 | `../team-collaboration/references/05-status-mechanism.md` | 更新状态/归档 |
+| git pull / 拉取同步 | `@../team-collaboration/references/06-sync-flow.md` | git pull 后 |
+| 协同开发概述 | `@../team-collaboration/references/01-overview.md` | 项目初始化 |
+| 项目目录结构 | `@../team-collaboration/references/02-project-structure.md` | 需要了解目录 |
+| 后端工程结构 | `@../team-collaboration/references/03-frontend-backend.md` | 开始开发前 |
+| status.md / 归档 | `@../team-collaboration/references/05-status-mechanism.md` | 更新状态/归档 |
 
 ---
 
@@ -116,7 +147,7 @@ description: |
 | **实现中** | `test-standards.md` | 遵循测试命名/结构/Mock 规范 |
 | **实现后** | `test-generation` | 覆盖分析，补充边缘情况 |
 
-> 测试协作详细规范 → `../team-collaboration/references/testing-collaboration.md`
+> 测试协作详细规范 → `@../team-collaboration/references/testing-collaboration.md`
 
 ### 何时读取 test-standards.md
 

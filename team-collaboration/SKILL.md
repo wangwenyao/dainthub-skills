@@ -1,8 +1,9 @@
 ---
 name: team-collaboration
+version: 1.0
 description: |
-  分布式协同开发指南，用于多角色协作场景。
-  触发：协同开发/分布式协作/git pull同步/status.md更新/版本归档/拉取同步/项目初始化/测试协作。
+  Use when 多角色分布式协同开发，确保不同 AI 会话之间的协作一致性。
+  触发：协同开发/分布式协作/git pull同步/status.md更新/版本归档/拉取同步/项目初始化/测试协作/迭代循环。
   不适用：单角色独立开发、非 git 协作场景。
 ---
 
@@ -164,6 +165,38 @@ while (status.md 有待处理项) {
 ```
 → `team-collaboration/references/06-sync-flow.md`
 ```
+
+---
+
+## 约束总表
+
+### 协作流程约束 (C-TC-PROC)
+
+| ID | 规则 |
+|----|------|
+| C-TC-PROC-001 | git pull 后必须读取 status.md 确认待处理项，不得跳过 |
+| C-TC-PROC-002 | 任务完成后必须更新 status.md，不得遗漏任何待处理项的状态 |
+| C-TC-PROC-003 | 版本归档由用户显式触发，AI 不得自动归档 |
+| C-TC-PROC-004 | 迭代循环中遇到阻塞必须暂停并询问用户，不得自动跳过 |
+| C-TC-PROC-005 | Skill 路由必须按照 `10-skill-router.md` 定义的映射表，不得自行推断 |
+
+### 状态管理约束 (C-TC-STATUS)
+
+| ID | 规则 |
+|----|------|
+| C-TC-STATUS-001 | status.md 是唯一的全局状态文件，不得使用其他文件存储状态 |
+| C-TC-STATUS-002 | status.md 中的模块状态必须使用预定义的状态值（✅ 完成 / 🔄 进行中 / ⏸️ 阻塞 / ❌ 不通过 / ➖ 未开始） |
+| C-TC-STATUS-003 | 归档操作必须移动所有当前版本文档到 `archive/v{版本}/` 目录 |
+| C-TC-STATUS-004 | 状态更新必须遵循 `12-status-update-templates.md` 中的模板格式 |
+
+### 执行信号（违反 = 执行失败）
+
+| 信号 | 说明 |
+|------|------|
+| git pull 后未读取 status.md | 跳过了状态同步步骤 |
+| 任务完成后未更新 status.md | 状态不同步，后续角色无法感知 |
+| 阻塞时自动跳过 | 未询问用户决策 |
+| 路由到错误的 Skill | 任务执行角色不匹配 |
 
 ---
 

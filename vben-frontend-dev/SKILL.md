@@ -1,7 +1,8 @@
 ---
 name: vben-frontend-dev
+version: 1.0
 description: |
-  Vben Admin 5.x 前端页面开发（Vue 3 + Vite + VxeGrid + VbenForm）。
+  Use when Vben Admin 5.x 前端页面开发（Vue 3 + Vite + VxeGrid + VbenForm）。
   触发：列表页/表单页/详情页/主题配置/路由配置/Vben组件/VxeGrid表格/VbenModal弹窗/VbenDrawer抽屉。
   不适用：非Vben框架、纯后端、React/Angular项目、纯样式设计。
 ---
@@ -59,6 +60,32 @@ description: |
 | `sync-flow.md` (拉取同步) | ❌ 不加载 | ✅ 加载 |
 | `status-mechanism.md` (状态同步) | ❌ 不加载 | ✅ 加载 |
 | 其他 team-collaboration references | ❌ 不加载 | ✅ 按需加载 |
+
+---
+
+## 快速路由
+
+识别用户意图后，立即读取对应的参考文档并执行。
+
+| 用户意图 | 执行操作 | 立即读取 |
+|---------|---------|---------|
+| 新建列表页 / 新建表单页 / 新建详情页 | 新建页面 | `references/05-page-patterns.md` + `references/03-grid.md` 或 `references/02-form.md` |
+| VbenForm 表单问题 | 表单开发 | `references/02-form.md` |
+| VxeGrid 表格问题 | 表格开发 | `references/03-grid.md` |
+| VbenModal / VbenDrawer 弹窗 | 弹窗开发 | `references/04-modal.md` |
+| 路由配置 / 权限配置 | 路由设置 | `references/06-routing.md` |
+| 主题 / 布局 / 偏好配置 | 主题配置 | `references/01-configuration.md` |
+| YAML 页面规格 / HTML 线框图输入 | 输入解析 | `references/07-input-parsing.md` |
+| 字段变更 / 表格列调整 | 字段修改 | `references/03-grid.md`（列定义）+ 对应 API 文件 |
+
+### 协同模式专用
+
+| 用户意图 | 立即读取 |
+|---------|---------|
+| git pull / 拉取同步 / 检查变更 | `@../team-collaboration/references/06-sync-flow.md` |
+| 项目初始化 / 协同开发 / 分布式协作 | `@../team-collaboration/references/01-overview.md` |
+| 前端工程结构 | `@../team-collaboration/references/03-frontend-backend.md` |
+| status.md / 归档 / 状态更新 | `@../team-collaboration/references/05-status-mechanism.md` |
 
 ---
 
@@ -204,7 +231,7 @@ views/module/feature/
 | **组件开发后** | `test-generation` | 覆盖分析，补充交互测试 |
 | **页面流程测试** | `test-generation` | E2E 测试关键用户流程 |
 
-> 测试协作详细规范 → `../team-collaboration/references/testing-collaboration.md`
+> 测试协作详细规范 → `@../team-collaboration/references/testing-collaboration.md`
 > 测试命名/结构/Mock 规范 → `references/05-page-patterns.md`
 
 ### 测试覆盖率标准
@@ -268,14 +295,14 @@ views/module/feature/
 
 | 场景 | 文档 |
 |------|------|
-| git pull / 拉取同步 | `../team-collaboration/references/06-sync-flow.md` |
-| 协同开发概述 | `../team-collaboration/references/01-overview.md` |
-| 项目目录结构 | `../team-collaboration/references/02-project-structure.md` |
-| 前端工程结构 | `../team-collaboration/references/03-frontend-backend.md` |
-| status.md / 归档 | `../team-collaboration/references/05-status-mechanism.md` |
+| git pull / 拉取同步 | `@../team-collaboration/references/06-sync-flow.md` |
+| 协同开发概述 | `@../team-collaboration/references/01-overview.md` |
+| 项目目录结构 | `@../team-collaboration/references/02-project-structure.md` |
+| 前端工程结构 | `@../team-collaboration/references/03-frontend-backend.md` |
+| status.md / 归档 | `@../team-collaboration/references/05-status-mechanism.md` |
 
 **测试协作**（所有模式）：
-> 测试协作详细规范 → `../team-collaboration/references/testing-collaboration.md`
+> 测试协作详细规范 → `@../team-collaboration/references/testing-collaboration.md`
 
 ## 故障排查
 
