@@ -1,6 +1,7 @@
-version: 1
+version: 8.8
 principle: narrowest-safe-scope
-# Stage is selected by stage-router.yaml; this file only governs permission boundaries.
+# Stage 由 routing/stage-router.yaml 选择；本文件是每个 Stage 写入权限的唯一权威定义。
+# SKILL.md 的「权限基线」表是本文件的投影，由 scripts/run_evals.py 保证一致。
 
 stages:
   audit:
@@ -26,7 +27,7 @@ stages:
   component:
     triggers: [component design, improve component, table, form, navigation component]
     write_mode: design-artifacts
-    default_allowed: [target-component, component-contract, scoped-tokens]
+    default_allowed: [target-component, component-contract, scoped-token]
     default_forbidden: [product-ia, unrelated-components, unrelated-pages]
   implementation:
     triggers: [implement, code the design, build page, apply design spec]

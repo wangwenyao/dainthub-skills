@@ -4,6 +4,9 @@
 
 只依据真实浏览器渲染判断视觉质量，不根据源代码想象结果。
 
+审查流程、三层审查、缺陷分级与评分停止条件见 `stages/visual-qa.md`。
+本文件只补充取证工具与采样范围，不重复流程定义——两处各写一份必然漂移。
+
 ## Browser abstraction
 
 可使用环境中现有的任意浏览器自动化能力，例如：
@@ -37,35 +40,3 @@
 - Loading
 - Error
 - Responsive
-
-## 三层审查
-
-### Macro
-
-构图、层级、密度、方向感、节奏、主要视觉重量。
-
-### Meso
-
-Table、Card、Filter Bar、Chart、Toolbar、Sidebar、Form、Dialog。
-
-### Micro
-
-字体、间距、对齐、Icon、Border、状态、Focus、Shadow、Motion。
-
-## 缺陷等级
-
-```text
-P0 task-blocking
-P1 workflow-degrading
-P2 visual / consistency defect
-P3 optional enhancement
-```
-
-## 迭代规则
-
-```text
-找 Top 3
-→ 修最高影响项
-→ 重新渲染
-→ 比较 Before / After
-```

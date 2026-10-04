@@ -15,7 +15,9 @@
 
 ## Context Budget
 
-常规 1–3K tokens。只加载当前组件真正需要的 Pack / Profile。
+只加载当前组件真正需要的 Pack / Profile：先读 Contract、状态、密度与可访问性相关的
+资料，其余留到确实需要时再读。不要因为“可能相关”就整包读进来——把组件做对靠的是
+准确的契约，不是更多的资料。
 
 ## 输入
 
@@ -122,7 +124,7 @@ Table、Filter、Toolbar、Metric Group、分析控件必须明确：
 
 默认只输出：
 
-- Component Contract
+- Component Contract（按 `templates/component-contract-deep.yaml` 的字段结构）
 - selection decision
 - implementation notes
 

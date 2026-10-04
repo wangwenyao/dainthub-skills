@@ -25,7 +25,7 @@ Motion 原则
 
 `design-direction.md`
 
-至少包含：
+按 `templates/design-direction.md` 的章节结构输出。至少包含：
 
 - 方向描述
 - Do / Don't

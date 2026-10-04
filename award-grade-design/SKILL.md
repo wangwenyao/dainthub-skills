@@ -1,9 +1,18 @@
 ---
 name: award-grade-design
-description: 面向高密度信息系统的设计、交互、设计系统、组件工程实现与浏览器视觉 QA。用于 SaaS、BI、经营分析、CRM/CDP/MA、数据平台、AI 工作台、运营平台、科研软件等场景；支持界面审计、Design Direction、Design System、页面/组件设计、根据设计契约实现 UI、视觉 QA 和局部优化。仅在任务涉及界面设计质量或用户明确指定本 Skill 时使用；不要用于纯营销官网文案或与 UI 无关的普通前端开发。
+version: 8.8.0
+description: >
+  面向高密度信息系统的界面设计质量工程：界面审计、Design Direction、Design System、
+  页面与组件设计、按设计契约实现 UI、真实浏览器视觉 QA、局部品质优化。
+  触发：界面审计/UI 审查/检查界面问题/设计方向/设计系统/Design Token/组件契约/组件设计/
+  页面设计/仪表盘设计/BI 看板/经营分析界面/后台管理系统/高密度表格与筛选器/设计走查/
+  视觉 QA/截图审查/界面不够精致/再高级一点/提升界面品质/根据设计稿实现页面/设计一致性审查。
+  边界：与 saas-ui-design 分工——本 Skill 负责“做到什么质量、如何验收”，saas-ui-design
+  负责“遵循哪套视觉规范”；两者可能同时命中，此时 Stage 与 Scope 以本 Skill 为准。
+  不适用：纯营销官网文案、与 UI 无关的普通前端开发、只改后端/接口/数据层。
 ---
 
-# Award-Grade Design v8.7
+# Award-Grade Design v8.8
 
 ## 目标
 
@@ -51,9 +60,26 @@ Stage 选择优先级：
 5. 最小充分 Stage
 ```
 
-路由时不得只凭单个宽泛词（例如“页面”“设计”“实现”）决定 Stage。优先使用“动作 + 对象”的完整短语；当强动作短语与普通目标词冲突时，以强动作短语为准。显式组件目标（如 DataTable、组件、筛选器）优先于泛化页面词。
+路由时不得只凭单个宽泛词（例如“页面”“设计”“实现”）决定 Stage。优先使用“动作 + 对象”的完整短语；当强动作短语与普通目标词冲突时，以强动作短语为准。显式组件目标（如 DataTable、组件、筛选器）优先于泛化页面词。机器可读形式见 `routing/stage-router.yaml`，人读说明见 `templates/stage-selection.md`。
 
 不得因为进入某个 Stage 就自动执行后续 Stage。完成当前 Stage 的验收条件后停止。
+
+## 多 Stage 推进
+
+默认行为是单 Stage：完成即停，由用户决定下一步。
+
+当用户明确要求端到端交付（例如“把这个后台做出来”“从设计到实现”）时，按价值链推进，
+但每一轮仍然只做一个 Stage，并在每轮结束时交代：
+
+```text
+已完成 Stage 与产出
+下一 Stage 及需要用户确认的点
+Scope 是否仍然成立
+```
+
+推进顺序与交接物见 `references/design-spec-agent-protocol.md`。任何时候发现需求或
+Scope 变了，先停在当前 Stage 重新确认，不要带着旧 Scope 往下走——那正是 Design Drift
+最常见的起点。
 
 ## Scope Contract
 
@@ -67,6 +93,8 @@ scope:
   forbidden: [product-ia, unrelated-pages, unrelated-components]
   write_mode: design-artifacts
 ```
+
+完整契约（含 context / outputs / acceptance）见 `templates/stage-scope-contract.yaml`。
 
 禁止静默扩大 Scope。发现越界依赖时，记录 dependency/deviation，不得顺手修改。
 
@@ -82,6 +110,9 @@ scope:
 | implementation | code |
 | visual-qa | read-only |
 | optimization | patch |
+
+机器权威定义在 `routing/scope-router.yaml`；本表是它的投影，由 Eval 门禁保证一致。
+要改权限，改 `scope-router.yaml`，不要只改这张表。
 
 ## Context Routing
 
@@ -170,11 +201,21 @@ Design System Consistency ≥ 7.5
 
 **Schemas**：`schemas/design-spec.json`、`schemas/page-dsl.example.yaml`
 
+**Templates**：`templates/` 定义各 Stage 的产出结构。每个 Stage 必须按
+`routing/resource-map.yaml` 为该 Stage 指定的模板输出，不要自创章节——结构稳定
+才能跨轮次、跨页面比较。
+
+**Governance**：`references/stage-governance.md`
+
+**端到端流程**：`references/design-spec-agent-protocol.md`（Stage / Scope 优先级高于该流程）
+
+**Host 接口元数据**：`agents/openai.yaml`
+
 **技术 Profile**：`profiles/vue3-antdv-tailwind/`
 
 **Stage 深度资料**：按 `routing/resource-map.yaml` 加载，不要全量读取。
 
-**Eval**：`evals/evolution-policy.yaml` 定义发布门禁；`scripts/run_evals.py` 是统一确定性回归入口。
+**Eval**：`evals/evolution-policy.yaml` 定义发布门禁；`evals/trigger-evals.json` 是触发质量回归集；`scripts/run_evals.py` 是统一确定性回归入口。
 
 ## Eval-Driven Evolution
 
@@ -196,16 +237,13 @@ Qualitative Evals
 python scripts/run_evals.py <skill-dir>
 ```
 
-必须覆盖：
+它逐项检查 Package Hygiene、Resource Routing、Stage Routing、Scope Safety、
+Profile Selection 与 Context Budget；退出码非 0 即不得发布。
 
-- Stage Routing：正向、歧义、负向触发。
-- Scope Safety：不得扩大到未授权页面、组件、IA 或代码。
-- Profile Selection：不得因弱信号误激活技术 Profile。
-- Resource Routing：所选 Stage 的必要资源必须存在，且不得要求全量加载。
-- Package Hygiene：目录名与 frontmatter 一致、无 `__pycache__`、无重复 canonical schema、无发布版本残留。
-- Context Budget：Core 保持精简，Stage 规则通过渐进式加载获取。
+完整检查项、定性覆盖要求与失败记录格式见 `evals/evolution-policy.yaml`。
+那里是门禁的唯一权威定义，本文件不重复清单，避免两处漂移。
 
-每个真实失败都要记录：
+每个真实失败都要落成一条 failure record：
 
 ```text
 prompt
@@ -221,3 +259,8 @@ regression case
 ## 完成规则
 
 当前 Stage 的 acceptance criteria 通过后立即停止。不要把一次局部任务升级成完整 redesign。完成重大修改后，必须通过 Eval release gate 后再发布新版本。
+
+## 版本
+
+- v8.8
+- 更新: 2026-10-04

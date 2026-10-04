@@ -1,6 +1,9 @@
-version: 2
+version: 8.8
 principle: load-only-what-current-stage-needs
 
+# 路径必须可直接解析：不要使用 {tech} 一类占位符，否则加载方无法定位文件。
+# 只有一个 Profile 时直接写全路径；出现第二个 Profile 时，为每个 Profile 建一份
+# profiles/<tech>/resource-map.patch.yaml，由 SKILL.md 的技术 Profile 步骤合并。
 stages:
   audit:
     stage: stages/audit.md
@@ -8,6 +11,8 @@ stages:
       - references/acceptance-criteria.md
       - references/design-review-rubric.md
       - references/high-density-notes.md
+    templates:
+      - templates/design-audit.md
     optional:
       benchmark: references/award-benchmarks.md
   direction:
@@ -16,6 +21,8 @@ stages:
       - packs/product-context.md
       - references/award-benchmarks.md
       - references/design-direction-guidance.md
+    templates:
+      - templates/design-direction.md
   design-system:
     stage: stages/design-system.md
     resources:
@@ -23,6 +30,12 @@ stages:
       - references/design-token-contract.md
       - references/component-contract.md
       - references/framework-neutral-architecture.md
+      - references/design-spec-lint-rules.md
+      - profiles/vue3-antdv-tailwind/token-architecture.md
+    templates:
+      - templates/design-system-brief.md
+      - templates/design-specification.yaml
+      - templates/design-specification.md
   page:
     stage: stages/page.md
     resources:
@@ -31,12 +44,17 @@ stages:
       - references/page-archetype-contract.md
       - references/page-archetypes.md
       - references/page-design-dsl.md
-      - schemas/page-dsl.example.yaml
       - references/design-spec-schema.md
+      - references/design-spec-lint-rules.md
+      - schemas/page-dsl.schema.json
+      - schemas/page-dsl.example.yaml
+    templates:
+      - templates/design-specification.yaml
     optional:
       data_viz: packs/data-viz.md
       ai_workspace: packs/ai-workspace.md
       motion: packs/motion.md
+      end_to_end: references/design-spec-agent-protocol.md
   component:
     stage: stages/component.md
     resources:
@@ -44,22 +62,31 @@ stages:
       - references/component-contract.md
       - references/design-token-contract.md
       - references/component-deep-review.md
+    templates:
+      - templates/component-contract-deep.yaml
     optional_profile_resources:
-      - profiles/{tech}/component-selection-matrix.md
-      - profiles/{tech}/component-contract-patterns.md
-      - profiles/{tech}/ant-design-vue-guidance.md
+      - profiles/vue3-antdv-tailwind/component-selection-matrix.md
+      - profiles/vue3-antdv-tailwind/component-contract-patterns.md
+      - profiles/vue3-antdv-tailwind/component-strategy.md
+      - profiles/vue3-antdv-tailwind/ant-design-vue-guidance.md
+      - profiles/vue3-antdv-tailwind/data-intensive-ui.md
+      - profiles/vue3-antdv-tailwind/loading.md
   implementation:
     stage: stages/implementation.md
     resources:
       - references/design-to-code-protocol.md
       - references/implementation-deep-review.md
       - references/design-spec-schema.md
+    templates:
+      - templates/implementation-plan-deep.md
     profile_resources:
-      - profiles/{tech}/architecture.md
-      - profiles/{tech}/component-implementation-playbook.md
-      - profiles/{tech}/antdv-theme-mapping.md
-      - profiles/{tech}/tailwind-implementation.md
-      - profiles/{tech}/implementation-checklist.md
+      - profiles/vue3-antdv-tailwind/architecture.md
+      - profiles/vue3-antdv-tailwind/component-implementation-playbook.md
+      - profiles/vue3-antdv-tailwind/antdv-theme-mapping.md
+      - profiles/vue3-antdv-tailwind/tailwind-implementation.md
+      - profiles/vue3-antdv-tailwind/tailwind-guidance.md
+      - profiles/vue3-antdv-tailwind/implementation-checklist.md
+      - profiles/vue3-antdv-tailwind/quality-gates.yaml
   visual-qa:
     stage: stages/visual-qa.md
     resources:
@@ -67,6 +94,11 @@ stages:
       - references/visual-defect-catalog.md
       - references/design-review-rubric.md
       - references/acceptance-criteria.md
+    templates:
+      - templates/visual-qa-report.md
+    optional_profile_resources:
+      - profiles/vue3-antdv-tailwind/browser-qa.md
+      - profiles/vue3-antdv-tailwind/anti-template-check.md
     optional:
       data_viz: packs/data-viz.md
       ai_workspace: packs/ai-workspace.md
@@ -77,6 +109,11 @@ stages:
       - references/visual-qa-protocol.md
       - references/design-review-rubric.md
       - references/acceptance-criteria.md
+    templates:
+      - templates/visual-qa-report.md
 
 profile_selection:
-  vue3-antdv-tailwind: detect package.json / lockfile / source conventions; do not activate from a single weak signal.
+  active: vue3-antdv-tailwind
+  detect: 见 profiles/vue3-antdv-tailwind/profile.yaml 的 activation 规则；
+    必须命中 required_any 且 supporting 匹配数达到 min_supporting_matches，
+    不得因为单独出现 TypeScript / Vite / Tailwind 就激活。

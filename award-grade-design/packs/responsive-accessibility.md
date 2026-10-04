@@ -1,17 +1,44 @@
 # Pack: responsive-accessibility
 
-Responsive 不是简单缩放，而是根据空间变化执行：
+## Responsive 是任务重组，不是缩放
+
+空间不足时，必须明确执行哪一种变换：
 
 ```text
-preserve / collapse / reorder / stack / substitute / hide / move-to-overflow
+preserve           保持结构，仅调整尺寸
+collapse           收起为可展开的次级区域
+reorder            按任务优先级重排
+stack              改为纵向堆叠
+substitute         换成更适合窄屏的形态（表格 → 列表）
+hide               仅用于确实不承载任务的装饰
+move-to-overflow   移入溢出菜单 / 抽屉
 ```
 
-Accessibility 至少考虑：
+选择依据是“这个空间下用户还能不能完成任务”，不是“看起来挤不挤”。
 
-- 语义
-- accessible name
-- keyboard
-- focus-visible
-- 对比度和非颜色提示
-- reduced-motion
-- 错误提示与状态反馈
+- 不要用等比缩放糊弄过去：缩到一定程度，文字和点击目标会同时失效。
+- 宽表优先 `substitute` 或 `move-to-overflow`，不要把横向滚动当作唯一方案。
+- 关键状态与主操作在窄屏必须仍然可见，不能全部折进菜单。
+
+## Accessibility 底线
+
+- 语义：能用原生元素就用原生元素，其次才是补 ARIA。
+- accessible name：图标按钮、表格行操作必须有可读名称。
+- 键盘：所有可交互元素可达、可操作，焦点顺序符合阅读顺序。
+- `focus-visible` 必须清晰可见，不能被容器裁掉或与背景混同。
+- 对比度：正文文本 4.5:1，大号文本与 UI 组件边界 3:1（WCAG 1.4.3 / 1.4.11）。
+- 点击目标：至少 24×24 CSS px（WCAG 2.2 SC 2.5.8）；高频操作应更大。
+- 非颜色提示：状态不能只靠颜色区分，要同时有文字、图标或形状。
+- 错误提示：与字段关联，说明如何修复，不能只给一个红框。
+- 动效：尊重 `prefers-reduced-motion`。
+
+## 常见退化
+
+```text
+只在桌面验证过
+用 max-width 断点掩盖布局问题
+把键盘用户排除在快捷操作之外
+错误状态只有颜色没有文案
+```
+
+响应式与可访问性都在质量硬门槛里，不是加分项。

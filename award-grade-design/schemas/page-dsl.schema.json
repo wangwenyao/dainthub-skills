@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dainthub.local/skills/award-grade-design/page-dsl.schema.json",
+  "title": "Award-Grade Design — Page DSL",
+  "description": "Page DSL 是 schemas/design-spec.json 中 screens[] 单个元素的投影。required 必须与 screens[].required 一致，字段名不得另起同义词。",
+  "type": "object",
+  "required": ["id", "purpose", "primary_task", "information_hierarchy", "states", "responsive"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string"},
+    "purpose": {"type": "string"},
+    "primary_task": {"type": "string"},
+    "archetype": {"type": "string"},
+    "primary_action": {"type": "string"},
+    "density": {"enum": ["comfortable", "standard", "compact"]},
+    "information_hierarchy": {"type": "array", "items": {"type": "string"}},
+    "composition": {"type": ["string", "object", "array"]},
+    "components": {"type": "array"},
+    "states": {"type": "array"},
+    "responsive": {"type": ["string", "object", "array"]},
+    "motion": {"type": ["string", "object", "array"]},
+    "accessibility": {"type": ["string", "object", "array"]},
+    "data_viz": {"type": ["string", "object", "array", "null"]}
+  }
+}

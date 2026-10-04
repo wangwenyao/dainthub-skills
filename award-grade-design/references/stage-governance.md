@@ -6,16 +6,18 @@
 
 ## Stage 权限
 
-| Stage | 权限 |
-|---|---|
-| audit | read-only |
-| direction | artifact-only |
-| design-system | design-artifacts |
-| page | design-artifacts |
-| component | design-artifacts |
-| implementation | code |
-| visual-qa | read-only |
-| optimization | patch |
+每个 Stage 的默认写入权限由 `routing/scope-router.yaml` **唯一**定义：
+
+```text
+read-only         只能产出报告
+artifact-only     只能产出设计资产
+design-artifacts  可以写设计资产，不写业务代码
+code              可以改业务代码
+patch             可以做局部补丁
+```
+
+本文件不再重复权限表——重复的权限声明会漂移，而权限漂移的后果是越权修改。
+需要查看某个 Stage 当前允许做什么，读 `routing/scope-router.yaml`。
 
 ## 越界规则
 

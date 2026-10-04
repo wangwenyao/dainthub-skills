@@ -1,15 +1,20 @@
-page:
-  id: revenue-operations
-  archetype: analytical-dashboard
-  purpose: "Enable a regional manager to understand revenue health, isolate exceptions, and open the highest-impact action."
-  density: compact
-  hierarchy:
-    - period-context
-    - revenue-signal
-    - variance
-    - exception
-    - action
-  primary_action: "Open highest-impact exception"
+# Page DSL 是 schemas/design-spec.json 中 screens[] 单个元素的投影。
+# Schema：schemas/page-dsl.schema.json
+# 字段名必须与 screens[] 一致，不要另起同义词（例如不要用 hierarchy 代替
+# information_hierarchy，否则校验会失败，Design Spec 与 Page DSL 会各说各话）。
+id: revenue-operations
+archetype: analytical-dashboard
+purpose: "Enable a regional manager to understand revenue health, isolate exceptions, and open the highest-impact action."
+primary_task: "Isolate the highest-impact revenue exception and act on it."
+primary_action: "Open highest-impact exception"
+density: compact
+
+information_hierarchy:
+  - period-context
+  - revenue-signal
+  - variance
+  - exception
+  - action
 
 composition:
   shell: persistent-navigation

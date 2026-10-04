@@ -1,0 +1,97 @@
+version: 8.8
+policy: eval-first
+scope: >
+  本文件定义 award-grade-design 的发布门禁。任何会改变触发、Stage 路由、
+  Scope、Resource Map、Technology Profile 或核心执行规则的修改，都必须先更新
+  对应 Eval，再修改实现。
+
+# ---------------------------------------------------------------------------
+# Track 1 — 确定性门禁。必须 100% 通过，无例外。
+# ---------------------------------------------------------------------------
+deterministic:
+  entry: scripts/run_evals.py
+  invocation: python scripts/run_evals.py <skill-dir>
+  exit_code: 0 means all checks passed
+  checks:
+    package-hygiene.name-matches-directory: 目录名必须等于 frontmatter 的 name。
+    package-hygiene.frontmatter-fields: name 与 description 必须存在，description 不超过 500 字符。
+    package-hygiene.no-pycache: 不得提交 __pycache__。
+    package-hygiene.no-release-residue: 不得在 skill 目录内残留发布包（.zip / .skill）。
+    package-hygiene.single-canonical-schema: design-spec schema 只允许一个副本。
+    package-hygiene.version-section: SKILL.md 必须有 `## 版本` 章节且含 `更新: YYYY-MM-DD`。
+    package-hygiene.readme-listing: 若上级存在 README.md，必须登记本 skill；独立安装时跳过。
+    resource-routing.references-resolve: 所有被引用的资源路径必须真实存在；路径中不得留有未解析的 {} 占位符。
+    resource-routing.no-orphan-resources: >
+      agents/ evals/ packs/ profiles/ references/ routing/ schemas/ scripts/ stages/ templates/
+      下的每个文件都必须被引用，或在下面的 orphan_allowlist 中登记。
+    resource-routing.stage-coverage: 每个 Stage 都必须有 stages/<stage>.md。
+    resource-routing.no-eager-full-load: >
+      单个 Stage 的常驻资源（resources / templates / profile_resources）不得超过 12 项，
+      条件资源（optional / optional_profile_resources）不得超过 12 项，
+      防止 Stage 退化成全量加载。
+    stage-routing.stage-sets-consistent: stage-router、scope-router、resource-map 与 stages/ 目录的 Stage 集合必须完全一致。
+    consistency.write-mode-projection: >
+      SKILL.md 的「权限基线」表必须与 scope-router.yaml 的 write_mode 完全一致。
+      scope-router 是权限的唯一权威，SKILL.md 是它的安全投影；两者漂移意味着模型读到的
+      权限与路由实际执行的权限不是同一个。
+    consistency.implementation-strategies: >
+      定义实现策略词表的文件必须六项齐全
+      （REUSE / CONFIGURE / WRAP / EXTEND / REPLACE / CREATE）。
+      少一项，映射结果就无法被下一阶段归类。
+    consistency.version-sync: >
+      SKILL.md（H1 + frontmatter）、profile.yaml、三个 router 与 evals/evolution-policy.yaml
+      的版本号必须一致。
+    schemas.page-dsl-alignment: page-dsl.schema.json 的 required 必须与 design-spec.json 的 screens[].required 相同。
+    schemas.template-matches-schema: >
+      templates/design-specification.yaml 的顶层与二级字段都必须被 design-spec.json 声明，
+      且不得缺少 required 字段。
+    evals.trigger-set: evals/trigger-evals.json 必须存在、字段完整，且正例与负例各不少于 8 条。
+    scope-safety.forbidden-declared: 每个 Stage 都必须声明非空的 default_forbidden。
+    profile-selection.activation-guard: 每个 Profile 必须同时具备 required_any 与 min_supporting_matches >= 2，防止弱信号误激活。
+    context-budget.core-lean: SKILL.md 不超过 300 行 / 14000 字符。
+
+# 有意保留、不被任何文件引用的资产登记在此。加任何一条都需要给出理由。
+# 空列表是健康状态：默认没有任何允许的孤儿资产。
+orphan_allowlist: []
+
+# ---------------------------------------------------------------------------
+# Track 2 — 定性门禁。需要模型或人工审查，无法脚本化。
+# 发布前必须留下可追踪的评分记录，不接受「看起来没问题」。
+# ---------------------------------------------------------------------------
+qualitative:
+  required_evidence:
+    - 每条评分必须关联 page / viewport / state / observed behavior / user impact / confidence。
+    - 重大 redesign 必须留下 100 分内部综合模型评分与硬门槛判定结果。
+    - 环境不具备浏览器渲染能力时，视觉项必须标为「未验证」，不得记为通过。
+  coverage:
+    stage_routing: >
+      正向触发、歧义输入、负向触发各至少一例。回归集见 evals/trigger-evals.json；
+      负例刻意与 saas-ui-design / saas-frontend-dev / product-manager 争抢，
+      不要用明显无关的样本来刷分。
+    scope_safety: 至少一例「用户只说优化一个组件」但上下文鼓励扩大范围的诱导测试。
+    implementation_fidelity: 至少一例「实现结果偏离 Design Direction」的可检出测试。
+    visual_qa: 至少一例已知存在 P0 的页面，验证能被判定为 P0 而非通过。
+
+# ---------------------------------------------------------------------------
+# 失败记录格式。每个真实失败都必须落成一条，不允许只改自然语言描述。
+# ---------------------------------------------------------------------------
+failure_record:
+  fields:
+    - prompt
+    - expected_behavior
+    - actual_behavior
+    - failure_class
+    - minimal_fix
+    - regression_case
+  rule: >
+    不要通过不断追加自然语言来掩盖系统性问题。优先修复 Router、Scope Contract、
+    Resource Map、Profile detection 或确定性脚本，并把新发现的问题补进上一节的
+    deterministic.checks 或 qualitative.coverage。
+
+# ---------------------------------------------------------------------------
+# 发布门禁
+# ---------------------------------------------------------------------------
+release_gate:
+  - deterministic 全部通过
+  - qualitative 覆盖项均有评分记录
+  - SKILL.md 顶部版本号与本文件 version 已同步更新（由 consistency.version-sync 强制）

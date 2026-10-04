@@ -28,9 +28,14 @@ Context → Signal → Explanation → Exception → Action
 
 ## 产出
 
-- `<page-id>.page.yaml`
+- `<page-id>.page.yaml`（Schema：`schemas/page-dsl.schema.json`；示例：`schemas/page-dsl.example.yaml`）
 - 页面 Design Notes
 - 关键交互与状态说明
+
+写进 Design Specification 时按 `templates/design-specification.yaml` 的对应章节，
+整体结构与 `schemas/design-spec.json` 对齐；Page DSL 是 `screens[]` 的投影，
+字段名必须一致，不要另起同义词。产出后按 `references/design-spec-lint-rules.md`
+自检一遍再交付。
 
 ## 限制
 

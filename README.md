@@ -207,6 +207,36 @@ SaaS 多租户前端开发技能，基于 Vue 3 + TypeScript + Shadcn-vue。
 
 ---
 
+### 9. 高阶界面设计质量技能
+
+**目录**: [`award-grade-design/`](award-grade-design/)
+
+面向高密度信息系统的界面设计质量工程，把界面做到高效、清晰、精致、有辨识度。
+
+| 特性 | 说明 |
+|------|------|
+| **Stage 体系** | audit · direction · design-system · page · component · implementation · visual-qa · optimization |
+| **Scope Contract** | 每个 Stage 有明确权限边界，禁止静默扩大范围 |
+| **质量门槛** | 100 分内部模型 + 硬门槛（P0=0、Task Efficiency ≥ 8.0 等） |
+| **视觉 QA** | 以真实浏览器渲染为证据；无浏览器能力时必须标记“未验证” |
+| **技术 Profile** | Vue 3 + Ant Design Vue + Tailwind 参考实现 |
+| **Eval 门禁** | `scripts/run_evals.py` 确定性检查，退出码非 0 不得发布 |
+
+**适用场景**:
+- 界面审计与设计走查
+- 确定 Design Direction 与 Design System
+- 页面 / 组件设计与组件契约
+- 根据设计契约实现 UI
+- 浏览器视觉 QA 与局部品质优化
+
+**触发词**: `界面审计`、`UI 审查`、`设计方向`、`设计系统`、`Design Token`、`组件契约`、`页面设计`、`仪表盘设计`、`高密度表格`、`视觉 QA`、`截图审查`、`提升界面品质`
+
+**与相邻技能的分工**: 与 `saas-ui-design`（视觉规范）配合——本技能负责“做到什么质量、如何验收”；`saas-frontend-dev`、`vben-frontend-dev` 负责代码实现。
+
+**详细文档**: [`award-grade-design/SKILL.md`](award-grade-design/SKILL.md)
+
+---
+
 ## 📁 项目结构
 
 ```
@@ -227,6 +257,17 @@ dainthub-skills/
 ├── saas-ui-design/                     # SaaS UI 设计技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 参考文档
+├── award-grade-design/                 # 高阶界面设计质量技能
+│   ├── SKILL.md                        # 技能主文件
+│   ├── stages/                         # 8 个 Stage 的执行规则
+│   ├── routing/                        # Stage / Scope / Resource 路由
+│   ├── packs/                          # 场景化设计指导
+│   ├── profiles/                       # 技术栈实现指导
+│   ├── references/                     # 参考文档
+│   ├── schemas/                        # Design Spec 与 Page DSL 的机器 Schema
+│   ├── templates/                      # 各 Stage 的产出结构
+│   ├── evals/                          # 发布门禁与触发回归集
+│   └── scripts/                        # 确定性回归入口
 ├── tech-manager/                       # 技术经理技能
 │   ├── SKILL.md                        # 技能主文件
 │   └── references/                     # 参考文档

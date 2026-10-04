@@ -14,7 +14,8 @@
 
 ## Context Budget
 
-常规 2–5K tokens。只有复杂页面或深层问题才增加上下文。
+先读 Design Spec、Page / Component Contract 与 Technology Profile；仓库现有约定在
+“第一步：识别仓库事实”里按需探查。只有遇到深层问题才扩大读取范围。
 
 ## 输入顺序
 
@@ -47,14 +48,15 @@ Design Spec
 每个设计对象必须映射为：
 
 ```text
-REUSE
-EXTEND
-WRAP
-REPLACE
-CREATE
+REUSE     → 现有实现满足 Contract
+CONFIGURE → 只需配置即可满足
+WRAP      → 用产品层包装 vendor 能力
+EXTEND    → 在现有实现上增加受控能力
+REPLACE   → 现有实现与 Contract 冲突
+CREATE    → 缺少合适基础能力
 ```
 
-并记录理由。
+并记录理由。策略的完整定义见 `references/design-to-code-protocol.md`。
 
 ## Vue 3 + TypeScript + Vite + Ant Design Vue + Tailwind Profile
 
@@ -125,3 +127,8 @@ real browser validation（若环境可用则必须执行；不可用时标记为
 - Implementation Mapping
 - 必要的 deviation 记录
 - 验证结果
+
+Mapping、Token Mapping、State Mapping 与验证清单按
+`templates/implementation-plan-deep.md` 的结构输出；逐项过一遍
+`profiles/vue3-antdv-tailwind/implementation-checklist.md` 与
+`profiles/vue3-antdv-tailwind/quality-gates.yaml` 再声明完成。

@@ -1,46 +1,41 @@
-version: 4
+version: 8.8
 principle: explicit-stage-first-then-action-object-scoring
+
+# 本文件只负责“选哪个 Stage”。每个 Stage 的权限（write_mode）由
+# routing/scope-router.yaml 唯一定义，不要在 signal 权重文件里重复声明权限。
 stages:
   audit:
     strong_triggers: ["审计界面", "检查现有 UI", "检查哪里不合理", "现状审查", "先分析问题，不要改代码", "分析这个页面的问题", "assess interface quality"]
     action_signals: ["审计", "检查", "review", "assess", "找问题", "哪里不合理", "分析问题", "分析"]
     target_signals: ["UI", "界面", "页面", "dashboard", "Dashboard", "interface"]
-    write_mode: read-only
   direction:
     strong_triggers: ["只确定设计方向", "设计方向", "品牌视觉方向", "define look and feel", "art direction"]
     action_signals: ["确定", "define", "制定"]
     target_signals: ["设计方向", "视觉方向", "设计语言", "品牌视觉", "art direction", "look and feel"]
-    write_mode: artifact-only
   design-system:
     strong_triggers: ["建立设计系统", "建立全局 Design Token", "design system", "design tokens", "component contracts"]
     action_signals: ["建立", "定义", "create", "define"]
     target_signals: ["设计系统", "Design Token", "design tokens", "Theme", "主题", "component contracts", "组件契约"]
-    write_mode: design-artifacts
   page:
     strong_triggers: ["设计这一页", "只设计这一页", "页面规范", "page specification", "page DSL", "Dashboard 设计", "dashboard design"]
     action_signals: ["设计", "specify", "design"]
     target_signals: ["页面", "page", "screen", "dashboard", "Dashboard", "页面族", "Page Spec"]
-    write_mode: design-artifacts
   component:
     strong_triggers: ["只优化 DataTable", "优化 DataTable 组件", "设计组件契约", "组件设计", "组件重构", "component design", "reusable component"]
     action_signals: ["设计", "优化", "重构", "design", "optimize", "refactor"]
     target_signals: ["组件", "component", "DataTable", "data table", "table", "table component", "filter bar", "form component", "筛选器", "表格", "表格组件"]
-    write_mode: design-artifacts
   implementation:
     strong_triggers: ["根据已经批准的 Page Spec 实现页面", "根据 Page Spec 实现", "根据 Design Spec 实现", "实现这个 Design Spec", "根据设计实现页面", "实现页面", "开发页面", "implement design", "code from spec", "build page from design"]
     action_signals: ["实现", "开发", "落地", "implement", "build", "develop", "code"]
     target_signals: ["页面", "page", "UI", "Design Spec", "Page Spec", "组件", "component"]
-    write_mode: code
   visual-qa:
     strong_triggers: ["只审查当前页面截图", "只审查截图", "视觉 QA", "screenshot review", "visual audit", "award-grade scoring"]
     action_signals: ["审查", "QA", "review", "评分", "score", "回归审查"]
     target_signals: ["截图", "screenshot", "浏览器渲染", "visual", "P0-P3"]
-    write_mode: read-only
   optimization:
     strong_triggers: ["这个页面已经不错，再做三处最有价值的局部提升", "只做局部优化", "提升当前页面", "refine this page"]
     action_signals: ["优化", "提升", "polish", "refine", "improve"]
     target_signals: ["页面", "UI", "screen", "当前页面", "局部"]
-    write_mode: patch
 precedence:
   - explicit_user_stage
   - explicit_target_type
