@@ -1,0 +1,90 @@
+page:
+  id: revenue-operations
+  archetype: analytical-dashboard
+  purpose: "Enable a regional manager to understand revenue health, isolate exceptions, and open the highest-impact action."
+  density: compact
+  hierarchy:
+    - period-context
+    - revenue-signal
+    - variance
+    - exception
+    - action
+  primary_action: "Open highest-impact exception"
+
+composition:
+  shell: persistent-navigation
+  zones:
+    - id: context
+      role: orientation
+      importance: high
+      size: compact
+    - id: summary
+      role: signal
+      importance: dominant
+      size: medium
+    - id: trend
+      role: analysis
+      importance: high
+      size: large
+    - id: exceptions
+      role: exception
+      importance: high
+      size: large
+    - id: next-action
+      role: action
+      importance: high
+      size: compact
+
+components:
+  - id: period-selector
+    contract: filter-bar
+    density: compact
+  - id: revenue-kpi
+    contract: metric-card
+    emphasis: high
+  - id: revenue-trend
+    contract: analytical-chart
+  - id: exception-table
+    contract: data-table
+    density: compact
+  - id: exception-drawer
+    contract: detail-panel
+
+states:
+  - default
+  - loading
+  - partial
+  - empty
+  - error
+  - keyboard-focus
+  - selected
+
+responsive:
+  desktop:
+    strategy: preserve-hierarchy
+    viewport: 1440
+  tablet:
+    strategy: collapse-secondary-navigation
+    viewport: 1024
+  mobile:
+    strategy: stack-by-task-priority
+    viewport: 390
+    transformations:
+      - "Move filters into a dedicated filter sheet"
+      - "Convert exception table to prioritized list"
+      - "Keep top KPI and exception action above the fold"
+
+motion:
+  principle: purposeful-only
+  transitions:
+    - target: exception-drawer
+      purpose: continuity
+      style: spatial-slide
+    - target: revenue-trend
+      purpose: feedback
+      style: restrained-reveal
+
+data_viz:
+  purpose: "Explain direction and variance rather than decorate the dashboard"
+  primary_encoding: position-and-line
+  annotation: "Highlight material variance and threshold crossings"

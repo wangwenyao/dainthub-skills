@@ -1,0 +1,32 @@
+profile:
+  id: vue3-antdv-tailwind
+  version: 8.7.0
+  purpose: 面向高密度信息系统的 Vue 3 + TypeScript + Vite + Ant Design Vue + Tailwind CSS 参考实现
+    Profile。
+  activation:
+    required_any:
+    - Vue 3
+    - vue@3
+    supporting_any:
+    - TypeScript
+    - Vite
+    - Ant Design Vue
+    - ant-design-vue
+    - Tailwind CSS
+    - tailwindcss
+    min_supporting_matches: 2
+    note: 必须同时满足 Vue 3 + 至少两个 supporting signals；不要因为单独出现 TypeScript/Vite/Tailwind
+      就激活。
+  authority:
+    core_skill: design-quality
+    profile: implementation-guidance
+    ui_library: behavioral-foundation
+    tailwind: layout-and-visual-composition
+    product_tokens: visual-authority
+  principles:
+  - 不得把组件库默认视觉当成产品视觉语言。
+  - Product Tokens 必须独立于 Ant Design Vue Token 与 Tailwind utility 名称。
+  - 优先使用 Token 映射与组合，而不是散落的 CSS override。
+  - Ant Design Vue 负责成熟的交互行为与语义基础能力。
+  - Custom Components 负责差异化业务模式。
+  - 最终视觉判断以真实浏览器渲染与截图为准。

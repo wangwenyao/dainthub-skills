@@ -1,0 +1,4 @@
+interface:
+  display_name: "Award-Grade Design"
+  short_description: "面向高密度信息系统的设计、组件工程实现与浏览器视觉质量审查"
+  default_prompt: "使用 award-grade-design，先按最小充分 Stage 工作，并严格遵守 Scope 边界；重大修改前先更新并通过对应 Eval。"

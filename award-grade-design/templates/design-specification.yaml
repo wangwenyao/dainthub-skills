@@ -1,0 +1,63 @@
+spec_version: 1.0.0
+product:
+  name: ""
+  type: ""
+  business_context: ""
+  target_users: []
+  jobs_to_be_done: []
+  constraints: []
+
+experience:
+  goals: []
+  principles: []
+  success_metrics: []
+  anti_goals: []
+
+information_architecture:
+  navigation: {}
+  hierarchy: []
+  objects: []
+  journeys: []
+
+art_direction:
+  concept: ""
+  mood: ""
+  visual_pillars: []
+  typography: {}
+  color: {}
+  shape: {}
+  surface: {}
+  imagery: {}
+  iconography: {}
+
+system:
+  tokens: []
+  components: []
+  patterns: []
+  density_modes:
+    - standard
+    - compact
+
+screens: []
+
+implementation:
+  reuse: []
+  extend: []
+  replace: []
+  create: []
+  integration_notes: []
+
+qa:
+  viewports:
+    - {width: 1440, height: 900}
+    - {width: 1280, height: 800}
+    - {width: 1024, height: 768}
+    - {width: 390, height: 844}
+  critical_flows: []
+  defect_thresholds:
+    unresolved_p0: 0
+    unresolved_p1_critical_flow: 0
+  acceptance_criteria: []
+  evidence: []
+
+exceptions: []

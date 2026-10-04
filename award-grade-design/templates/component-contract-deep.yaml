@@ -1,0 +1,44 @@
+component:
+  id: ""
+  name: ""
+  layer: "foundation|pattern|domain|page-local"
+  purpose: ""
+  non_goals: []
+  decision: "reuse|configure|wrap|extend|replace|create"
+
+anatomy: []
+
+api:
+  props: []
+  emits: []
+  slots: []
+
+variants: []
+density: ["comfortable", "standard", "compact"]
+states: []
+
+interaction:
+  keyboard: []
+  focus: ""
+
+responsive:
+  rules: []
+
+accessibility:
+  role: ""
+  name: ""
+  announcements: []
+
+motion:
+  enter: ""
+  exit: ""
+  reduced_motion: ""
+
+performance:
+  notes: []
+
+testing:
+  required: []
+
+examples: []
+ant_examples: []

@@ -1,0 +1,82 @@
+version: 2
+principle: load-only-what-current-stage-needs
+
+stages:
+  audit:
+    stage: stages/audit.md
+    resources:
+      - references/acceptance-criteria.md
+      - references/design-review-rubric.md
+      - references/high-density-notes.md
+    optional:
+      benchmark: references/award-benchmarks.md
+  direction:
+    stage: stages/direction.md
+    resources:
+      - packs/product-context.md
+      - references/award-benchmarks.md
+      - references/design-direction-guidance.md
+  design-system:
+    stage: stages/design-system.md
+    resources:
+      - packs/design-system.md
+      - references/design-token-contract.md
+      - references/component-contract.md
+      - references/framework-neutral-architecture.md
+  page:
+    stage: stages/page.md
+    resources:
+      - packs/high-density.md
+      - packs/responsive-accessibility.md
+      - references/page-archetype-contract.md
+      - references/page-archetypes.md
+      - references/page-design-dsl.md
+      - schemas/page-dsl.example.yaml
+      - references/design-spec-schema.md
+    optional:
+      data_viz: packs/data-viz.md
+      ai_workspace: packs/ai-workspace.md
+      motion: packs/motion.md
+  component:
+    stage: stages/component.md
+    resources:
+      - packs/design-system.md
+      - references/component-contract.md
+      - references/design-token-contract.md
+      - references/component-deep-review.md
+    optional_profile_resources:
+      - profiles/{tech}/component-selection-matrix.md
+      - profiles/{tech}/component-contract-patterns.md
+      - profiles/{tech}/ant-design-vue-guidance.md
+  implementation:
+    stage: stages/implementation.md
+    resources:
+      - references/design-to-code-protocol.md
+      - references/implementation-deep-review.md
+      - references/design-spec-schema.md
+    profile_resources:
+      - profiles/{tech}/architecture.md
+      - profiles/{tech}/component-implementation-playbook.md
+      - profiles/{tech}/antdv-theme-mapping.md
+      - profiles/{tech}/tailwind-implementation.md
+      - profiles/{tech}/implementation-checklist.md
+  visual-qa:
+    stage: stages/visual-qa.md
+    resources:
+      - references/visual-qa-protocol.md
+      - references/visual-defect-catalog.md
+      - references/design-review-rubric.md
+      - references/acceptance-criteria.md
+    optional:
+      data_viz: packs/data-viz.md
+      ai_workspace: packs/ai-workspace.md
+      motion: packs/motion.md
+  optimization:
+    stage: stages/optimization.md
+    resources:
+      - references/visual-qa-protocol.md
+      - references/design-review-rubric.md
+      - references/acceptance-criteria.md
+
+profile_selection:
+  vue3-antdv-tailwind: detect package.json / lockfile / source conventions; do not activate from a single weak signal.

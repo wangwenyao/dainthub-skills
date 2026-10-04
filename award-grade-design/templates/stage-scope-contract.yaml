@@ -1,0 +1,31 @@
+scope:
+  stage: component
+  targets:
+    - DataTable
+  allowed:
+    - component
+    - scoped-token
+  forbidden:
+    - product-ia
+    - unrelated-pages
+    - unrelated-components
+    - backend
+  write_mode: design-artifacts
+
+context:
+  packs:
+    - core
+    - design-system
+  references:
+    - component-contract
+  profile:
+    - profiles/vue3-antdv-tailwind/profile.yaml
+
+outputs:
+  - component-contract
+  - recommendations
+
+acceptance:
+  - states are defined
+  - density behavior is defined
+  - accessibility behavior is defined

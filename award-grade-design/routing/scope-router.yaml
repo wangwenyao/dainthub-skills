@@ -1,0 +1,52 @@
+version: 1
+principle: narrowest-safe-scope
+# Stage is selected by stage-router.yaml; this file only governs permission boundaries.
+
+stages:
+  audit:
+    triggers: [audit, review current UI, assess quality, find problems]
+    write_mode: read-only
+    default_allowed: [report]
+    default_forbidden: [code, tokens, unrelated-pages]
+  direction:
+    triggers: [design direction, visual direction, art direction, define look and feel]
+    write_mode: artifact-only
+    default_allowed: [design-direction]
+    default_forbidden: [application-code]
+  design-system:
+    triggers: [design system, tokens, theme, component contracts, spacing, typography system]
+    write_mode: design-artifacts
+    default_allowed: [tokens, contracts, theme]
+    default_forbidden: [unrelated-pages, business-logic]
+  page:
+    triggers: [design page, page specification, dashboard design, page DSL]
+    write_mode: design-artifacts
+    default_allowed: [target-page, page-spec, related-components]
+    default_forbidden: [unrelated-pages, product-ia]
+  component:
+    triggers: [component design, improve component, table, form, navigation component]
+    write_mode: design-artifacts
+    default_allowed: [target-component, component-contract, scoped-tokens]
+    default_forbidden: [product-ia, unrelated-components, unrelated-pages]
+  implementation:
+    triggers: [implement, code the design, build page, apply design spec]
+    write_mode: code
+    default_allowed: [declared-targets]
+    default_forbidden: [silent-design-changes, unrelated-features, product-ia]
+  visual-qa:
+    triggers: [visual QA, screenshot review, visual audit, score UI]
+    write_mode: read-only
+    default_allowed: [report]
+    default_forbidden: [code, silent-redesign]
+  optimization:
+    triggers: [polish, improve, refine, make better, raise quality]
+    write_mode: patch
+    default_allowed: [top-impact-local-fixes]
+    default_forbidden: [product-ia, broad-redesign, unrelated-pages]
+
+scope_shorthand:
+  single_component: {stage: component, write_mode: design-artifacts}
+  single_page: {stage: page, write_mode: design-artifacts}
+  visual_only: {stage: visual-qa, write_mode: read-only}
+  code_only: {stage: implementation, write_mode: code}
+  polish_only: {stage: optimization, write_mode: patch}

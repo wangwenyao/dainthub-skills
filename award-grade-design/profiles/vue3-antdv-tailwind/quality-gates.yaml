@@ -1,0 +1,20 @@
+quality_gates:
+  component:
+    required:
+      - contract_defined
+      - reuse_decision_recorded
+      - critical_states_defined
+      - responsive_behavior_defined
+      - accessibility_defined
+      - no_unjustified_wrapper
+  implementation:
+    required:
+      - design_spec_version_identified
+      - scope_confirmed
+      - token_mapping_confirmed
+      - typecheck
+      - lint_when_available
+      - tests_when_available
+      - build_when_available
+      - browser_validation_when_available
+      - deviations_recorded
