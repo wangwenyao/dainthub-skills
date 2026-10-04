@@ -32,6 +32,6 @@ motion.fast / normal
 ## 规则
 
 - 优先语义命名。
-- 重复出现的任意值应考虑提取 Token。
+- 重复出现三次以上的任意值应考虑提取 Token。
 - 不要直接用 vendor token 定义产品品牌语言。
 - 不要为单个页面创造大量一次性 Token。

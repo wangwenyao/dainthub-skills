@@ -44,7 +44,7 @@ comfortable / standard / compact
 Dashboard 推荐结构：
 
 ```text
-Context → Signal → Explanation → Exception → Action
+Context → Signal → Comparison → Explanation → Exception → Action
 ```
 
 ## Table / Filter / Toolbar

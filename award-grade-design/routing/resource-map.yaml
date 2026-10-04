@@ -1,8 +1,8 @@
-version: 8.9
+version: 9.0
 principle: load-only-what-current-stage-needs
 
-# 全局资源不绑定单一 Stage：references/stage-governance.md 由 audit / implementation
-# 常驻加载；references/design-spec-agent-protocol.md 在用户明确要求端到端交付时经
+# 全局资源不绑定单一 Stage：references/stage-governance.md 由 audit / implementation /
+# optimization 常驻加载；references/design-spec-agent-protocol.md 在用户明确要求端到端交付时经
 # SKILL.md「多 Stage 推进」加载，不重复挂到每个 Stage。
 
 # 路径必须可直接解析：不要使用 {tech} 一类占位符，否则加载方无法定位文件。
@@ -36,11 +36,12 @@ stages:
       - references/component-contract.md
       - references/framework-neutral-architecture.md
       - references/design-spec-lint-rules.md
-      - profiles/vue3-antdv-tailwind/token-architecture.md
     templates:
       - templates/design-system-brief.md
       - templates/design-specification.yaml
       - templates/design-specification.md
+    profile_resources:
+      - profiles/vue3-antdv-tailwind/token-architecture.md
   page:
     stage: stages/page.md
     resources:
@@ -82,6 +83,7 @@ stages:
       - references/design-to-code-protocol.md
       - references/implementation-deep-review.md
       - references/design-spec-schema.md
+      - references/stage-governance.md
     templates:
       - templates/implementation-plan-deep.md
     profile_resources:
@@ -115,6 +117,7 @@ stages:
       - references/visual-defect-catalog.md
       - references/design-review-rubric.md
       - references/acceptance-criteria.md
+      - references/stage-governance.md
     templates:
       - templates/visual-qa-report.md
       - templates/optimization-report.md

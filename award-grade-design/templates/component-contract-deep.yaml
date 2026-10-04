@@ -9,9 +9,10 @@ component:
 anatomy: []
 
 api:
-  props: []
-  emits: []
-  slots: []
+  # 中立命名；具体框架词汇（如 Vue 的 props / emits / slots）由 Profile 资料映射。
+  inputs: []
+  events: []
+  composition_points: []
 
 variants: []
 density: ["comfortable", "standard", "compact"]
@@ -29,6 +30,8 @@ accessibility:
   name: ""
   announcements: []
 
+content_constraints: []
+
 motion:
   enter: ""
   exit: ""
@@ -41,6 +44,7 @@ testing:
   required: []
 
 examples: []
+anti_examples: []
 
 # 框架无关的示例引用；具体组件库的示例放到对应 Profile 的资料里，不写在本模板。
 library_examples: []

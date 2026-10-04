@@ -36,7 +36,7 @@ Design Spec
 - TypeScript 配置
 - 路由与状态方案
 - 组件库与版本
-- CSS / Tailwind 方案
+- CSS / 样式方案（utility CSS、预处理器等）
 - 图表方案
 - 测试 / Lint / Build 命令
 - 现有目录和命名规范
@@ -58,16 +58,9 @@ CREATE    → 缺少合适基础能力
 
 并记录理由。策略的完整定义见 `references/design-to-code-protocol.md`。
 
-## Vue 3 + TypeScript + Vite + Ant Design Vue + Tailwind Profile
-
-当项目命中该 Profile：
-
-- Vue 3 采用 Composition API 与 `<script setup lang="ts">`。
-- Props、Emits、Domain Model 应保持强类型。
-- Ant Design Vue 承担成熟的交互与语义基础能力。
-- Tailwind 承担布局、视觉编排、响应式和局部状态。
-- Product Tokens 是视觉权威，不直接以第三方 Theme API 定义产品语言。
-- 业务级组件应该拥有语义化 API，不要把整套 vendor props 直接暴露出去。
+命中技术 Profile 后的工程基线（状态组织方式 / 类型策略 / 组件库与 utility CSS
+的分工）由 Profile 资料提供，按 `routing/resource-map.yaml` 的
+`profile_resources` 加载，不在本 Stage 重复维护。
 
 ## 实现顺序
 
@@ -130,6 +123,6 @@ real browser validation（若环境可用则必须执行；不可用时标记为
 - 验证结果
 
 Mapping、Token Mapping、State Mapping 与验证清单按
-`templates/implementation-plan-deep.md` 的结构输出；逐项过一遍
-`profiles/vue3-antdv-tailwind/implementation-checklist.md` 与
-`profiles/vue3-antdv-tailwind/quality-gates.yaml` 再声明完成。
+`templates/implementation-plan-deep.md` 的结构输出；命中技术 Profile 时，逐项过一遍
+该 Profile 的 implementation checklist 与 quality gates（见
+`routing/resource-map.yaml` 的 `profile_resources`）再声明完成。

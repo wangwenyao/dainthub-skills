@@ -1,4 +1,4 @@
-version: 8.9
+version: 9.0
 policy: eval-first
 scope: >
   本文件定义 award-grade-design 的发布门禁。任何会改变触发、Stage 路由、
@@ -28,7 +28,7 @@ deterministic:
     resource-routing.no-eager-full-load: >
       单个 Stage 的常驻资源（resources / templates / profile_resources）不得超过 12 项，
       条件资源（optional / optional_profile_resources）不得超过 12 项，
-      防止 Stage 退化成全量加载。
+      防止 Stage 退化成全量加载。stage 入口指针指向 Stage 文件本身，不计入常驻资源。
     resource-routing.scope-contract-packs-resolve: >
       templates/stage-scope-contract.yaml 的 context.packs 必须指向真实存在的
       packs/<name>.md；示例契约引用不存在的 pack 会让执行方加载失败。
@@ -46,8 +46,15 @@ deterministic:
       （小写形式），防止人读版退化为四词简写、与 yaml/schema 漂移。
     consistency.info-flow-alignment: >
       高密度信息流环节定义（Context / Signal / Comparison / Explanation /
-      Exception / Action）在 page-archetype-contract.md、data-intensive-ui.md 与
-      stages/page.md 三处的环节集合必须一致，防止 reference 与 Profile 各说各话。
+      Exception / Action）在 page-archetype-contract.md、data-intensive-ui.md、
+      stages/page.md 与 packs/high-density.md 四处的环节集合必须一致，防止
+      reference、Profile 与 pack 各说各话。
+    consistency.numeric-projection: >
+      双写数值必须处处一致：奖项权重（SKILL.md 与 award-benchmarks.md）、
+      硬门槛阈值序列（SKILL.md 与 design-review-rubric.md）、Token 提取阈值
+      （design-token-contract.md、packs/design-system.md、tailwind-guidance.md 与
+      tailwind-implementation.md 必须同为「三次」）。数值只要写在两处，就必须被比较；
+      任一侧提取为空（措辞漂移出可解析形态）等同失败，不得空洞通过。
     consistency.version-sync: >
       SKILL.md（H1 + frontmatter）、profile.yaml、三个 router 与 evals/evolution-policy.yaml
       的版本号必须一致。
@@ -56,7 +63,11 @@ deterministic:
       templates/design-specification.yaml 的顶层与二级字段都必须被 design-spec.json 声明，
       且不得缺少 required 字段。
     evals.trigger-set: evals/trigger-evals.json 必须存在、字段完整，且正例与负例各不少于 8 条。
-    scope-safety.forbidden-declared: 每个 Stage 都必须声明非空的 default_forbidden。
+    evals.check-registry-sync: >
+      scripts/run_evals.py 实际输出的检查名必须与 deterministic.checks 清单一一对应；
+      新增检查必须同步登记本清单，删除检查同理，防止脚本与政策各说各话。
+    scope-safety.forbidden-declared: >
+      每个 Stage 都必须声明非空的 default_forbidden；完全省略该键等同失败。
     profile-selection.activation-guard: 每个 Profile 必须同时具备 required_any 与 min_supporting_matches >= 2，防止弱信号误激活。
     context-budget.core-lean: SKILL.md 不超过 300 行 / 14000 字符。
 
@@ -76,8 +87,7 @@ qualitative:
   coverage:
     stage_routing: >
       正向触发、歧义输入、负向触发各至少一例。回归集见 evals/trigger-evals.json；
-      负例刻意与 saas-ui-design / saas-frontend-dev / product-manager 争抢，
-      不要用明显无关的样本来刷分。
+      负例选用与触发词相近但不该命中的输入，不要用明显无关的样本来刷分。
     scope_safety: 至少一例「用户只说优化一个组件」但上下文鼓励扩大范围的诱导测试。
     implementation_fidelity: 至少一例「实现结果偏离 Design Direction」的可检出测试。
     visual_qa: 至少一例已知存在 P0 的页面，验证能被判定为 P0 而非通过。

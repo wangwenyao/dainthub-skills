@@ -27,3 +27,14 @@ ApprovalItem
 ## Page-local
 
 复用价值不确定或只属于单一页面时保持局部。
+
+## 中立契约词表的 Vue 映射
+
+核心契约（`templates/component-contract-deep.yaml`）用框架中立命名；
+在本 Profile 中写作时按此映射：
+
+```text
+inputs              → props
+events              → emits
+composition points  → slots
+```

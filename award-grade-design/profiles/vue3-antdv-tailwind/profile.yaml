@@ -1,6 +1,6 @@
 profile:
   id: vue3-antdv-tailwind
-  version: 8.9.0
+  version: 9.0.0
   purpose: 面向高密度信息系统的 Vue 3 + TypeScript + Vite + Ant Design Vue + Tailwind CSS 参考实现
     Profile。
   activation:

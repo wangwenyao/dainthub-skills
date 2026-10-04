@@ -37,6 +37,7 @@ viewport
 state
 observed behavior
 user impact
+confidence
 ```
 
 ## 分数区间

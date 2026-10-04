@@ -1,4 +1,4 @@
-version: 8.9
+version: 9.0
 principle: explicit-stage-first-then-action-object-scoring
 
 # 本文件只负责“选哪个 Stage”。每个 Stage 的权限（write_mode）由
@@ -6,8 +6,8 @@ principle: explicit-stage-first-then-action-object-scoring
 stages:
   audit:
     strong_triggers: ["审计界面", "检查现有 UI", "检查哪里不合理", "现状审查", "先分析问题，不要改代码", "分析这个页面的问题", "assess interface quality"]
-    action_signals: ["审计", "检查", "review", "assess", "找问题", "哪里不合理", "分析问题", "分析"]
-    target_signals: ["UI", "界面", "页面", "dashboard", "Dashboard", "interface"]
+    action_signals: ["审计", "检查", "review", "assess", "找问题", "哪里不合理", "分析问题", "分析", "设计走查", "一致性审查"]
+    target_signals: ["UI", "界面", "页面", "dashboard", "Dashboard", "interface", "后台", "后台管理系统"]
   direction:
     strong_triggers: ["只确定设计方向", "设计方向", "品牌视觉方向", "define look and feel", "art direction"]
     action_signals: ["确定", "define", "制定"]

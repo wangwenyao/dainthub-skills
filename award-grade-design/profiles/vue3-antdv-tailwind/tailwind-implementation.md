@@ -20,4 +20,4 @@ preserve / collapse / reorder / stack / substitute / hide / move-to-overflow
 
 ## 任意值
 
-重复的任意值应触发 Token 提取或组件化。
+重复出现三次以上的任意值应触发 Token 提取或组件化（与 `references/design-token-contract.md` 的阈值一致）。

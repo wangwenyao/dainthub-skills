@@ -27,7 +27,7 @@
 ## 必须定义的图状态
 
 ```text
-empty / loading / partial / error / no-permission
+empty / loading / partial / error / permission-denied
 ```
 
 以及：

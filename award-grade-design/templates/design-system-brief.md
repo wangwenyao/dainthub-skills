@@ -4,6 +4,11 @@
 
 ## Token 层级
 
+## Theme Strategy
+
+> Token 如何组装成可用 Theme（明暗模式、品牌应用范围、第三方 Theme API 的适配边界）；
+> Product Token 是权威，组件库 Theme 只是适配层。
+
 ## Typography
 
 ## Color 语义

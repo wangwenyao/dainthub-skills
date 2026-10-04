@@ -34,6 +34,14 @@ Motion 原则
 - 典型页面示例 → 典型页面示例
 - 后续 Design System 应如何承接 → 后续 Design System 应如何承接
 
+## 停止条件
+
+```text
+必须定义的八项有任何缺项 → 未完成：补齐后再交付
+方向与任务效率冲突（为风格牺牲层级、密度或可扫描性）→ 未完成：回到「高密度系统原则」修订
+八项齐备，且 Do / Don't 含明确 Anti-pattern → 停止：Token 与组件承接交给 design-system Stage
+```
+
 ## 限制
 
 本 Stage 不修改 application code。

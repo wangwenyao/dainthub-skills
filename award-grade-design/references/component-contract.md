@@ -2,24 +2,10 @@
 
 ## 必备内容
 
-```text
-purpose
-scope / non-goals
-anatomy
-props
-emits
-slots
-variants
-density
-states
-interaction
-responsive
-accessibility
-motion
-performance
-testing
-examples / anti-examples
-```
+字段清单以 `stages/component.md` 的「Component Contract 必须包含」为唯一权威，
+本文件不重复维护副本——重复的清单会漂移，而契约字段漂移会让产出缺项。
+机器结构见 `templates/component-contract-deep.yaml`，命名保持框架中立
+（inputs / events / composition points），具体框架词汇由技术 Profile 映射。
 
 ## Contract 原则
 

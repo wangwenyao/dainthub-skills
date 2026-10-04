@@ -1,18 +1,16 @@
 ---
 name: award-grade-design
-version: 8.9.0
+version: 9.0.0
 description: >
   面向高密度信息系统的界面设计质量工程：界面审计、Design Direction、Design System、
   页面与组件设计、按设计契约实现 UI、真实浏览器视觉 QA、局部品质优化。
   触发：界面审计/UI 审查/检查界面问题/设计方向/设计系统/Design Token/组件契约/组件设计/
   页面设计/仪表盘设计/BI 看板/经营分析界面/后台管理系统/高密度表格与筛选器/设计走查/
   视觉 QA/截图审查/界面不够精致/再高级一点/提升界面品质/根据设计稿实现页面/设计一致性审查。
-  边界：与 saas-ui-design 分工——本 Skill 负责“做到什么质量、如何验收”，saas-ui-design
-  负责“遵循哪套视觉规范”；两者可能同时命中，此时 Stage 与 Scope 以本 Skill 为准。
   不适用：纯营销官网文案、与 UI 无关的普通前端开发、只改后端/接口/数据层。
 ---
 
-# Award-Grade Design v8.9
+# Award-Grade Design v9.0
 
 ## 目标
 
@@ -265,8 +263,18 @@ regression case
 
 ## 版本
 
-- v8.9
+- v9.0
 - 更新: 2026-10-04
-- v8.8 → v8.9：修复模板与 Stage 契约断裂（direction / optimization / design-specification.md）、
-  坏 pack 引用、框架泄漏字段；收敛信息流定义与 viewport 矩阵单一权威；补 activation 语义
-  与评分合成公式；门禁新增 md 模板策略词表、信息流一致性、scope-contract packs 解析检查。
+- v8.9 → v9.0：充实 design-spec-agent-protocol 的推进顺序 / 交接物 / 相位映射；收敛
+  packs 信息流与 Token 提取阈值的双写漂移（含 tailwind-implementation 第四处）；组件契约
+  词表中立化（inputs / events / composition points）并在 Profile 补 Vue 映射，模板补
+  content constraints 与 anti-examples 承载字段，density 三档 / 审计五字段 / Theme Strategy
+  章节补齐；implementation 删除框架专节改 Profile 指针、组件库策略中立化，design-system 的
+  Profile 资源改为确认技术栈后加载并补指针句，交接物清单与协议统一为五项；implementation
+  补登记 stage-governance（optimization 同），optimization Stage 输出点名登记模板；audit /
+  direction / design-system / component / optimization 五个 Stage 补可判定停止条件；门禁修复
+  常驻计数把 stage 指针计入的偏差，scope-safety 覆盖省略 / 空值 forbidden，信息流检查覆盖
+  packs，数值检查改 fail-closed 并新增资源条目形态校验，新增数值投影一致与检查名注册表同步
+  两项检查（条件性检查豁免、注册表自身断言）；触发回归集补 4 条正例，stage-router 补
+  设计走查 / 一致性审查信号；视觉 QA 报告补下一轮 Top 3 章节；清除与其他 skill 的关联表述
+  （description 边界、触发负例与 policy 措辞），本 Skill 独立适用。

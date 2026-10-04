@@ -19,7 +19,7 @@
 ```text
 <script setup lang="ts">
 Composition API
-强类型 Props / Emits
+强类型 Props / Emits / Domain Model
 computed 优先于重复 mutable state
 副作用放到明确的 composable / lifecycle 边界
 ```

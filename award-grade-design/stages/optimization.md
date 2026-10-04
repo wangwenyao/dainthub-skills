@@ -28,6 +28,19 @@
 - 影响范围
 - 是否产生 design drift
 
+报告按 `templates/optimization-report.md` 的结构输出；第 5 步的局部 Visual QA 按
+`templates/visual-qa-report.md` 的结构输出，与 visual-qa Stage 保持同一格式，
+保证跨轮次可比。
+
+## 停止条件
+
+```text
+Top 3 收益问题未选定 → 未完成：先完成问题排序
+浏览器可用而修改后的局部 Visual QA 未执行 → 未完成：执行第 5 步后再评估
+产生未记录的 design drift → 未完成：记录 deviation 并更新对应设计资产
+局部修改完成、drift 为「无」或已记录、局部 QA 通过 → 停止：不扩大优化范围
+```
+
 ## 限制
 
 不得把局部优化演变成 broad redesign（与 `references/stage-governance.md` 的关键原则一致）。

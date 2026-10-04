@@ -162,7 +162,7 @@ Accessibility
 
 ### Viewports
 
-> 默认四档与 `templates/design-specification.yaml` 的 `qa.viewports` 一致。
+> 默认四档与 `templates/design-specification.yaml` 的 `qa.viewports` 一致；其中 390×844 为「产品支持移动端时保留」。
 
 -
 

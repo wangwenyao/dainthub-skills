@@ -70,9 +70,9 @@ examples / anti-examples
 - 稳定的业务概念优先抽成 domain component。
 - 复用价值不确定时保持 page-local。
 
-## Ant Design Vue 策略
+## 组件库选择策略
 
-Ant Design Vue 是行为基础设施，不是最终视觉语言。
+组件库是行为基础设施，不是最终视觉语言。
 
 判断：
 
@@ -83,6 +83,10 @@ Ant Design Vue 是行为基础设施，不是最终视觉语言。
   ├─ 行为不足 → CREATE / REPLACE
   └─ 一次性组合 → 保持 page-local
 ```
+
+具体组件库下的选择顺序与映射规则由技术 Profile 提供（如
+`profiles/vue3-antdv-tailwind/component-strategy.md`），确认技术栈后按
+`routing/resource-map.yaml` 加载。
 
 ## 状态完整性
 
@@ -131,6 +135,15 @@ Table、Filter、Toolbar、Metric Group、分析控件必须明确：
 - implementation notes
 
 本阶段默认不改业务代码；只有 Scope 明确包含代码实现，或显式切换到 `implementation` Stage 时才进入代码变更。
+
+## 停止条件
+
+```text
+Contract 缺必备字段（含 content constraints 与 examples / anti-examples）→ 未完成：补齐后再交付
+selection decision 未记录六项策略（REUSE / CONFIGURE / WRAP / EXTEND / REPLACE / CREATE）之一的理由 → 未完成：补齐选择理由
+Contract 必备字段齐备、selection decision 已记录六选一理由、implementation notes
+未引入页面特例依赖 → 停止：默认不进入代码修改
+```
 
 ## 限制
 

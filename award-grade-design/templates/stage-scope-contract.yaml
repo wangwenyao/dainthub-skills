@@ -23,7 +23,8 @@ context:
 
 outputs:
   - component-contract
-  - recommendations
+  - selection-decision
+  - implementation-notes
 
 acceptance:
   - states are defined
