@@ -1,6 +1,6 @@
 ---
 name: award-grade-design
-version: 9.1.0
+version: 9.1
 description: >
   面向高密度信息系统的界面设计质量工程：界面审计、Design Direction、Design System、
   页面与组件设计、按设计契约实现 UI、真实浏览器视觉 QA、局部品质优化。
@@ -272,6 +272,6 @@ regression case
 
 ## 版本
 
-- 当前版本: v9.1.0
+- 当前版本: v9.1
 - 更新: 2026-10-04
 - 详细历史见 `CHANGELOG.md`
