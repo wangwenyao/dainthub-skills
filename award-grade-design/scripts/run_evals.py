@@ -153,6 +153,26 @@ MAX_ALWAYS_LOADED_PER_STAGE = 12
 MAX_CONDITIONAL_PER_STAGE = 12
 MIN_TRIGGER_CASES_PER_CLASS = 8
 
+# The vision-degradation contract. Observed failure class (v9.0): browser
+# automation available, model endpoint rejects image input -- "a screenshot
+# exists" was treated as "visual verification possible". These sentences and
+# section headings are the load-bearing fail-closed vocabulary; a rewording
+# that drops one is a regression, not a style change. Kind is only for the
+# failure message.
+EVIDENCE_CHANNEL_RULES = (
+    ("禁令", "SKILL.md", "不得宣称视觉验收通过"),
+    ("禁令", "stages/visual-qa.md", "不得宣称视觉验收通过"),
+    ("禁令", "stages/implementation.md", "不得宣称视觉验收通过"),
+    ("禁令", "templates/optimization-report.md", "不得宣称视觉验收通过"),
+    ("章节", "references/visual-qa-protocol.md", "## 能力判定与运行模式"),
+    ("章节", "references/visual-qa-protocol.md", "## 盲查取证通道"),
+    ("章节", "references/design-review-rubric.md", "## 无视觉通道时的评分姿态"),
+    ("章节", "references/visual-defect-catalog.md", "## 渠道可验证性"),
+    ("章节", "templates/visual-qa-report.md", "## 证据渠道"),
+    ("章节", "templates/visual-qa-report.md", "## 人工复核移交"),
+    ("指针", "stages/visual-qa.md", "能力判定与运行模式"),
+)
+
 RESULTS: list[tuple[str, str, bool, str]] = []
 
 
@@ -1005,6 +1025,24 @@ def check_context_budget(root: Path) -> None:
     )
 
 
+def check_evidence_channel_failclosed(root: Path) -> None:
+    """The no-vision degradation contract must stay fail-closed everywhere."""
+    problems: list[str] = []
+    for kind, relative, needle in EVIDENCE_CHANNEL_RULES:
+        path = root / relative
+        if not path.is_file():
+            problems.append(f"{relative}(缺失)")
+            continue
+        if needle not in read_text(path):
+            problems.append(f"{relative} 缺{kind}「{needle}」")
+    record(
+        "consistency.evidence-channel-failclosed",
+        "error",
+        not problems,
+        "视觉降级 fail-closed 措辞缺失: " + "; ".join(problems) if problems else "",
+    )
+
+
 # --- entry point -------------------------------------------------------------
 
 
@@ -1033,6 +1071,7 @@ def main(argv: list[str]) -> int:
     check_scope_safety(root)
     check_profile_selection(root)
     check_context_budget(root)
+    check_evidence_channel_failclosed(root)
     check_registry_sync(root)
 
     failures = 0

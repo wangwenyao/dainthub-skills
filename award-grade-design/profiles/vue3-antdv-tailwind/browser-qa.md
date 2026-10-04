@@ -14,3 +14,7 @@ Console warnings / errors
 ```
 
 默认优先真实浏览器截图，而不是只看源码。
+
+截图供用户或有视觉通道的模型查看；模型视觉通道不可用时按
+`references/visual-qa-protocol.md` 的「盲查取证通道」执行——上面清单全部可经文本
+渠道验证，不得跳过。

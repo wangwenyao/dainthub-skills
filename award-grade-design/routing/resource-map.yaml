@@ -1,4 +1,4 @@
-version: 9.0
+version: 9.1
 principle: load-only-what-current-stage-needs
 
 # 全局资源不绑定单一 Stage：references/stage-governance.md 由 audit / implementation /
@@ -20,6 +20,7 @@ stages:
       - templates/design-audit.md
     optional:
       benchmark: references/award-benchmarks.md
+      vision_degradation: references/visual-qa-protocol.md
   direction:
     stage: stages/direction.md
     resources:
@@ -94,6 +95,8 @@ stages:
       - profiles/vue3-antdv-tailwind/tailwind-guidance.md
       - profiles/vue3-antdv-tailwind/implementation-checklist.md
       - profiles/vue3-antdv-tailwind/quality-gates.yaml
+    optional:
+      vision_degradation: references/visual-qa-protocol.md
   visual-qa:
     stage: stages/visual-qa.md
     resources:

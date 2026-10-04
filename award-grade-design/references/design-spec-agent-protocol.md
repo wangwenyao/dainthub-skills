@@ -32,7 +32,7 @@ audit（可选，先诊断）
 | audit | `design-audit.md` | `templates/design-audit.md` |
 | direction | `design-direction.md` | `templates/design-direction.md` |
 | design-system | Design System Brief + Design Specification + Tokens + Component Contracts + Theme Strategy（Theme Strategy 是 Brief 的章节） | `templates/design-system-brief.md` / `templates/design-specification.yaml` |
-| page | `<page-id>.page.yaml`，或 Design Specification 的 `screens[]` | `schemas/page-dsl.schema.json` |
+| page | `<page-id>.page.yaml`，或 Design Specification 的 `screens[]` | `schemas/page-dsl.schema.json`；写 `screens[]` 时按 `templates/design-specification.yaml` |
 | component | Component Contract + selection decision + implementation notes | `templates/component-contract-deep.yaml` |
 | implementation | 实现代码 + Implementation Mapping + deviation 记录 + 验证结果 | `templates/implementation-plan-deep.md` |
 | visual-qa | `visual-qa-report.md` | `templates/visual-qa-report.md` |

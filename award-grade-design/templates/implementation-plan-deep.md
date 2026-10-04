@@ -34,6 +34,7 @@
 - build:
 - browser:
 - responsive:
+- visual_review: model-viewed / programmatic-only / not-verifiable（分别对应：视觉渠道已复核 / 渲染结论标「视觉未复核」 / 标「未验证」）
 
 ## Deviations
 

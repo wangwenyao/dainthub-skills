@@ -1,4 +1,4 @@
-version: 9.0
+version: 9.1
 principle: narrowest-safe-scope
 # Stage 由 routing/stage-router.yaml 选择；本文件是每个 Stage 写入权限的唯一权威定义。
 # SKILL.md 的「权限基线」表是本文件的投影，由 scripts/run_evals.py 保证一致。

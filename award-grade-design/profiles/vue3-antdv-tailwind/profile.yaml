@@ -1,6 +1,6 @@
 profile:
   id: vue3-antdv-tailwind
-  version: 9.0.0
+  version: 9.1.0
   purpose: 面向高密度信息系统的 Vue 3 + TypeScript + Vite + Ant Design Vue + Tailwind CSS 参考实现
     Profile。
   activation:
@@ -33,4 +33,4 @@ profile:
   - 优先使用 Token 映射与组合，而不是散落的 CSS override。
   - Ant Design Vue 负责成熟的交互行为与语义基础能力。
   - Custom Components 负责差异化业务模式。
-  - 最终视觉判断以真实浏览器渲染与截图为准。
+  - 最终视觉判断以真实浏览器渲染与截图为准；模型无法查看图像时按 references/visual-qa-protocol.md 的「盲查取证通道」降级取证，感知判断移交用户。

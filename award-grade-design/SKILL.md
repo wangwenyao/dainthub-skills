@@ -1,6 +1,6 @@
 ---
 name: award-grade-design
-version: 9.0.0
+version: 9.1.0
 description: >
   面向高密度信息系统的界面设计质量工程：界面审计、Design Direction、Design System、
   页面与组件设计、按设计契约实现 UI、真实浏览器视觉 QA、局部品质优化。
@@ -10,7 +10,7 @@ description: >
   不适用：纯营销官网文案、与 UI 无关的普通前端开发、只改后端/接口/数据层。
 ---
 
-# Award-Grade Design v9.0
+# Award-Grade Design v9.1
 
 ## 目标
 
@@ -168,9 +168,18 @@ Design System Consistency ≥ 7.5
 
 只有目标明确包含创新时，Innovation ≥ 6.5 才作为硬门槛。
 
+视觉通道不可用时，感知类维度的硬门槛在 Gate Status 标「DEFERRED（无视觉通道）」，按
+`references/design-review-rubric.md` 的「无视觉通道时的评分姿态」交用户裁决，不得静默估分。
+
 ## Visual QA 原则
 
-视觉 QA 以真实浏览器渲染为证据。若具备浏览器自动化能力，`implementation` 完成后必须进行真实渲染验证；若当前环境没有浏览器能力，只能标记为“未验证”，不得宣称视觉验收通过。
+视觉 QA 以真实浏览器渲染为证据。浏览器自动化能力与模型视觉通道是两项独立能力，分开
+判定；运行模式（完整 / 盲查 / 未验证）与探测规则见 `references/visual-qa-protocol.md`
+的「能力判定与运行模式」，盲查取证通道见同文件「盲查取证通道」。自动化可用且视觉通道
+可用时，`implementation` 完成后必须进行真实渲染验证并做像素审查；自动化可用而视觉通道
+不可用（如端点拒绝图片输入）时，转入盲查模式：文本渠道取证，截图归档移交用户，感知项
+标「未验证（需视觉通道）」；自动化不可用时本地渲染项只能标「未验证」（用户提供的、
+模型可读的截图仍可作证）。任何模式下不得宣称视觉验收通过。
 
 ## Design Drift
 
@@ -263,18 +272,6 @@ regression case
 
 ## 版本
 
-- v9.0
+- 当前版本: v9.1.0
 - 更新: 2026-10-04
-- v8.9 → v9.0：充实 design-spec-agent-protocol 的推进顺序 / 交接物 / 相位映射；收敛
-  packs 信息流与 Token 提取阈值的双写漂移（含 tailwind-implementation 第四处）；组件契约
-  词表中立化（inputs / events / composition points）并在 Profile 补 Vue 映射，模板补
-  content constraints 与 anti-examples 承载字段，density 三档 / 审计五字段 / Theme Strategy
-  章节补齐；implementation 删除框架专节改 Profile 指针、组件库策略中立化，design-system 的
-  Profile 资源改为确认技术栈后加载并补指针句，交接物清单与协议统一为五项；implementation
-  补登记 stage-governance（optimization 同），optimization Stage 输出点名登记模板；audit /
-  direction / design-system / component / optimization 五个 Stage 补可判定停止条件；门禁修复
-  常驻计数把 stage 指针计入的偏差，scope-safety 覆盖省略 / 空值 forbidden，信息流检查覆盖
-  packs，数值检查改 fail-closed 并新增资源条目形态校验，新增数值投影一致与检查名注册表同步
-  两项检查（条件性检查豁免、注册表自身断言）；触发回归集补 4 条正例，stage-router 补
-  设计走查 / 一致性审查信号；视觉 QA 报告补下一轮 Top 3 章节；清除与其他 skill 的关联表述
-  （description 边界、触发负例与 policy 措辞），本 Skill 独立适用。
+- 详细历史见 `CHANGELOG.md`
