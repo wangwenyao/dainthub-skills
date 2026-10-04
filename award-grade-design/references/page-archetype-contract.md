@@ -17,5 +17,5 @@ error / recovery
 
 ```text
 analytical-dashboard
-Context → Signal → Explanation → Exception → Action
+Context → Signal → Comparison → Explanation → Exception → Action
 ```

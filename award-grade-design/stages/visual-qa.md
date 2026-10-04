@@ -30,21 +30,13 @@ page / viewport / state / observed behavior / user impact / confidence
 
 ## 采样矩阵
 
-Viewport：
-
-```text
-1440 × 900
-1280 × 800
-1024 × 768
-390 × 844（产品支持移动端时）
-```
-
-应根据产品真实设备矩阵调整，不要机械照搬。
+Viewport 采样矩阵的唯一权威定义在 `references/visual-qa-protocol.md` 的「默认截图矩阵」；
+本 Stage 不重复维护副本，按产品真实设备矩阵调整即可。
 
 代表性状态至少覆盖：
 
 ```text
-default / loading / empty / error / success / focus / long-content / narrow-width
+default / loading / empty / error / success / focus-visible / long-content / narrow-width
 ```
 
 页面采样范围见 `references/visual-qa-protocol.md`。

@@ -25,14 +25,14 @@ Motion 原则
 
 `design-direction.md`
 
-按 `templates/design-direction.md` 的章节结构输出。至少包含：
+按 `templates/design-direction.md` 的章节结构输出。下列 Stage 要求与模板章节的对应关系：
 
-- 方向描述
-- Do / Don't
-- 核心视觉语言
-- 与现有产品的差异点
-- 典型页面示例
-- 后续 Design System 应如何承接
+- 方向描述 → 设计人格 + 一句话设计主张
+- Do / Don't → Do / Don't（含必须拒绝的 Anti-pattern）
+- 核心视觉语言 → Typography / Color / Shape / Surface / Iconography / 信息密度策略
+- 与现有产品的差异点 → 与现有产品的差异点
+- 典型页面示例 → 典型页面示例
+- 后续 Design System 应如何承接 → 后续 Design System 应如何承接
 
 ## 限制
 

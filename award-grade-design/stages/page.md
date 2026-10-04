@@ -21,7 +21,7 @@
 优先形成：
 
 ```text
-Context → Signal → Explanation → Exception → Action
+Context → Signal → Comparison → Explanation → Exception → Action
 ```
 
 而不是机械堆叠 Card。
@@ -29,8 +29,8 @@ Context → Signal → Explanation → Exception → Action
 ## 产出
 
 - `<page-id>.page.yaml`（Schema：`schemas/page-dsl.schema.json`；示例：`schemas/page-dsl.example.yaml`）
-- 页面 Design Notes
-- 关键交互与状态说明
+- 页面 Design Notes 与关键交互 / 状态说明：写入 Page DSL 的对应字段，或 Design
+  Specification 的 `screens[]`（composition / motion / accessibility），不另起无模板的独立文档
 
 写进 Design Specification 时按 `templates/design-specification.yaml` 的对应章节，
 整体结构与 `schemas/design-spec.json` 对齐；Page DSL 是 `screens[]` 的投影，

@@ -1,52 +1,71 @@
 # Design Specification
 
-## 1. Product Context
+> 本模板是 `templates/design-specification.yaml`（机器权威，对齐 `schemas/design-spec.json`）的人读投影。
+> 字段名必须与 Schema 一致，不得另起同义词；章节顺序即 Schema 顶层字段顺序。
 
-### Product
-- Name:
-- Type:
-- Business context:
+## spec_version
+
+- 设计规格版本（`X.Y.Z`），每次发布递增。
+
+## 1. Product Context → `product`
+
+### Name / Type / Business context
 
 ### Target users
+
 - Primary:
 - Secondary:
 
 ### Jobs to be done
+
 1.
 2.
 3.
 
 ### Constraints
+
 -
 
-## 2. Experience Goals
+## 2. Experience Goals → `experience`
 
 ### Goals
+
 -
 
 ### Principles
+
+-
+
+### Success metrics
+
 -
 
 ### Anti-goals
+
 -
 
-## 3. Information Architecture
+## 3. Information Architecture → `information_architecture`
 
 ### Navigation
 
-### Object / domain hierarchy
+### Hierarchy
 
-### Primary journeys
+### Objects
+
+### Journeys
 
 ```text
 Entry → Task → Decision → Action → Feedback → Next action
 ```
 
-## 4. Design Direction
+## 4. Design Direction → `art_direction`
 
 ### Concept
 
+### Mood
+
 ### Visual pillars
+
 1.
 2.
 3.
@@ -57,13 +76,13 @@ Entry → Task → Decision → Action → Feedback → Next action
 
 ### Shape
 
-### Surface / depth
-
-### Iconography
+### Surface
 
 ### Imagery / data visualization direction
 
-## 5. Design Tokens
+### Iconography
+
+## 5. Design Tokens → `system.tokens`
 
 ### Color
 
@@ -81,7 +100,7 @@ Entry → Task → Decision → Action → Feedback → Next action
 
 ### Density
 
-## 6. Component Contracts
+## 6. Component Contracts → `system.components` / `system.patterns`
 
 For each key component:
 
@@ -99,59 +118,76 @@ Motion
 Accessibility
 ```
 
-## 7. Page / Screen Specifications
+## 7. Screen Specifications → `screens[]`
 
-### [Screen ID]
+> 字段名与 `schemas/design-spec.json` 的 `screens[]` 一致；`required` 字段不得缺省。
 
-**Purpose:**
+### Screen: {id}
 
-**Primary task:**
+**archetype:**
 
-**Primary action:**
+**purpose:**
 
-**Information hierarchy:**
+**primary_task:**
 
-**Composition:**
+**primary_action:**
 
-**Components:**
+**density:**
 
-**States:**
+**information_hierarchy:**
 
-**Responsive transformation:**
+**composition:**
 
-**Motion:**
+**components:**
 
-**Accessibility:**
+**states:**
 
-**Data visualization:**
+**responsive:**
 
-## 8. Implementation Mapping
+**motion:**
 
-| Design element | Reuse / Extend / Replace / Create | Current implementation | Notes |
+**accessibility:**
+
+**data_viz:**
+
+## 8. Implementation Mapping → `implementation`
+
+> 策略词表为六项：reuse / configure / wrap / extend / replace / create，与 Schema 一致。
+
+| Design element | Strategy (reuse/configure/wrap/extend/replace/create) | Current implementation | Notes |
 |---|---|---|---|
 | | | | |
 
-## 9. Visual QA Plan
-
-### Critical screens
--
+## 9. QA Plan → `qa`
 
 ### Viewports
+
+> 默认四档与 `templates/design-specification.yaml` 的 `qa.viewports` 一致。
+
 -
 
-### Critical states
+### Critical flows
+
 -
 
-### Review passes
--
+### Defect thresholds
 
-## 10. Acceptance Criteria
+- unresolved_p0: 0
+- unresolved_p1_critical_flow: 0
+
+### Acceptance criteria
 
 - [ ]
 - [ ]
 - [ ]
 
-## 11. Exceptions / Deviations
+### Evidence
+
+-
+
+## 10. Exceptions / Deviations → `exceptions`
+
+> 每条包含 decision / reason / impact / follow_up。
 
 | Decision | Reason | Impact | Follow-up |
 |---|---|---|---|

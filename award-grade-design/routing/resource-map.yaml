@@ -1,5 +1,9 @@
-version: 8.8
+version: 8.9
 principle: load-only-what-current-stage-needs
+
+# 全局资源不绑定单一 Stage：references/stage-governance.md 由 audit / implementation
+# 常驻加载；references/design-spec-agent-protocol.md 在用户明确要求端到端交付时经
+# SKILL.md「多 Stage 推进」加载，不重复挂到每个 Stage。
 
 # 路径必须可直接解析：不要使用 {tech} 一类占位符，否则加载方无法定位文件。
 # 只有一个 Profile 时直接写全路径；出现第二个 Profile 时，为每个 Profile 建一份
@@ -11,6 +15,7 @@ stages:
       - references/acceptance-criteria.md
       - references/design-review-rubric.md
       - references/high-density-notes.md
+      - references/stage-governance.md
     templates:
       - templates/design-audit.md
     optional:
@@ -107,10 +112,12 @@ stages:
     stage: stages/optimization.md
     resources:
       - references/visual-qa-protocol.md
+      - references/visual-defect-catalog.md
       - references/design-review-rubric.md
       - references/acceptance-criteria.md
     templates:
       - templates/visual-qa-report.md
+      - templates/optimization-report.md
 
 profile_selection:
   active: vue3-antdv-tailwind

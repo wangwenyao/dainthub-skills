@@ -2,23 +2,25 @@
 
 Design Specification 是设计与开发之间的稳定契约。
 
-## 必须包含
+## 顶层结构
+
+机器 Schema（`schemas/design-spec.json`）声明 8 个顶层 required 字段：
 
 ```text
-Product
-Experience
-Information Architecture
-Art Direction
-Tokens
-Component Contracts
-Pages / Journeys
-Responsive
-Interaction / Motion
-Accessibility
-Implementation Mapping
-QA
-Exceptions
+spec_version
+product                  产品上下文（含目标用户 / JTBD / 约束）
+experience               目标 / 原则 / 成功指标 / 反目标
+information_architecture 导航 / 层级 / 对象 / 旅程
+art_direction            概念 / 气质 / 视觉支柱 / Typography / Color / Shape / Surface
+system                   Tokens / Component Contracts / Patterns / Density
+screens[]                页面规格（responsive / motion / accessibility / states 在此层）
+qa                       Viewports / Critical flows / Acceptance criteria / Evidence
 ```
+
+`implementation`（六策略映射）与 `exceptions`（deviation 记录）是 Schema 声明的可选顶层字段。
+概念词 "Pages / Journeys"、"Responsive"、"Interaction / Motion"、"Accessibility" 分属
+`information_architecture` 与 `screens[]` 内的字段，不是独立顶层章节——按概念清单填写
+会过不了校验，以 `schemas/design-spec.json` 的字段名为准。
 
 ## 机器结构
 

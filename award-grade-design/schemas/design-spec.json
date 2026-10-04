@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://dainthub.local/skills/award-grade-design/design-spec.schema.json",
+  "$id": "https://dainthub.local/skills/award-grade-design/design-spec.json",
   "title": "Award-Grade Design Specification",
   "description": "Design Specification 的唯一机器 Schema。screens[] 的形状与 schemas/page-dsl.schema.json 必须保持一致。",
   "type": "object",

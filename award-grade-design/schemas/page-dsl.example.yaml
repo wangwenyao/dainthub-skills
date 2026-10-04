@@ -61,7 +61,7 @@ states:
   - partial
   - empty
   - error
-  - keyboard-focus
+  - focus-visible
   - selected
 
 responsive:

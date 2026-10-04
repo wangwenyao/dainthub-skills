@@ -97,7 +97,9 @@ empty / error / success / partial / readonly
 long-content
 ```
 
-高复杂度或数据密集组件再增加：`selected / expanded / collapsed / permission-denied / partial / dense / skeleton / success`。
+高复杂度或数据密集组件在基础清单之上，强制增加：`permission-denied / dense`；
+基础清单中的 `selected / expanded / collapsed / partial / skeleton / success` 在这两类组件中
+从「按需考虑」变为「必须实现」。
 
 ## 高密度组件
 

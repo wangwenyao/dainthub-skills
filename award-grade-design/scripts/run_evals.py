@@ -66,6 +66,25 @@ STRATEGY_KEY_SITES = (
     "schemas/design-spec.json",
     "templates/design-specification.yaml",
 )
+# The human-readable mirror of the spec template drifts more easily than the
+# machine-checked yaml: nothing forces it to keep the full vocabulary, so a
+# "Reuse / Extend / Replace / Create" shorthand can creep back in unnoticed.
+STRATEGY_LOWERCASE_SITES = (
+    "templates/design-specification.md",
+)
+
+# The high-density information flow. The reference, the profile and the stage
+# file each state it; if the segment sets diverge, a Page DSL author cannot tell
+# which version is authoritative. Missing definition in any listed file also fails.
+INFO_FLOW_FILES = (
+    "references/page-archetype-contract.md",
+    "profiles/vue3-antdv-tailwind/data-intensive-ui.md",
+    "stages/page.md",
+)
+INFO_FLOW_ANCHOR = "Context"
+
+# Example scope contract's context.packs entries must resolve to real pack files.
+SCOPE_CONTRACT_TEMPLATE = "templates/stage-scope-contract.yaml"
 
 # Files that must all carry the same release version.
 VERSION_PATTERNS = (
@@ -452,6 +471,88 @@ def check_stage_routing(root: Path) -> None:
     record("stage-routing.stage-sets-consistent", "error", not detail, detail)
 
 
+def check_info_flow(root: Path) -> None:
+    """The information-flow segment set must agree everywhere it is defined."""
+
+    def segments(text: str) -> set[str]:
+        out: set[str] = set()
+        # Arrow lists come in both shapes: one line per segment ("Context\n→
+        # Signal") and a single line ("Context → Signal"). Join wrapped arrows
+        # first so both parse to the same segment set.
+        text = text.replace("\n→", " → ")
+        for line in text.splitlines():
+            if INFO_FLOW_ANCHOR in line and "→" in line:
+                for part in line.split("→"):
+                    part = part.strip().strip("`*").strip()
+                    if part:
+                        out.add(part)
+        return out
+
+    per_file: dict[str, set[str]] = {}
+    missing: list[str] = []
+    for relative in INFO_FLOW_FILES:
+        path = root / relative
+        if not path.is_file():
+            missing.append(f"{relative}(缺失)")
+            continue
+        found = segments(read_text(path))
+        if not found:
+            missing.append(f"{relative}(未找到信息流定义)")
+            continue
+        per_file[relative] = found
+    drift = {
+        name: sorted(found)
+        for name, found in per_file.items()
+        if per_file and found != next(iter(per_file.values()))
+    }
+    ok = not missing and not drift
+    detail = ""
+    if missing:
+        detail = "; ".join(missing)
+    elif drift:
+        detail = f"信息流环节集不一致: {drift}"
+    record(
+        "consistency.info-flow-alignment",
+        "error",
+        ok,
+        detail,
+    )
+
+
+def check_scope_contract_packs(root: Path) -> None:
+    """context.packs in the example scope contract must point at real packs."""
+
+    path = root / SCOPE_CONTRACT_TEMPLATE
+    if not path.is_file():
+        record(
+            "resource-routing.scope-contract-packs-resolve",
+            "error",
+            False,
+            f"{SCOPE_CONTRACT_TEMPLATE} 缺失",
+        )
+        return
+    inside = False
+    offenders: list[str] = []
+    for line in read_text(path).splitlines():
+        if re.match(r"^  packs:\s*$", line):
+            inside = True
+            continue
+        if inside:
+            if line.strip() and not line.lstrip().startswith("-"):
+                inside = False
+                continue
+            m = re.match(r"^\s+-\s+(\S+)\s*$", line)
+            if m:
+                if not (root / "packs" / f"{m.group(1)}.md").is_file():
+                    offenders.append(m.group(1))
+    record(
+        "resource-routing.scope-contract-packs-resolve",
+        "error",
+        not offenders,
+        "context.packs 指向不存在的 pack: " + ", ".join(offenders) if offenders else "",
+    )
+
+
 def check_consistency(root: Path) -> None:
     """Cross-file invariants: one authority per fact, everything else a projection."""
     scope = root / "routing" / "scope-router.yaml"
@@ -507,6 +608,15 @@ def check_consistency(root: Path) -> None:
                 for t in STRATEGY_TOKENS
                 if not re.search(rf"^\s+{t.lower()}:", text, re.M)
             ]
+        if absent:
+            problems.append(f"{relative} 缺 {absent}")
+    for relative in STRATEGY_LOWERCASE_SITES:
+        path = root / relative
+        if not path.is_file():
+            problems.append(f"{relative}(缺失)")
+            continue
+        text = read_text(path)
+        absent = [t.lower() for t in STRATEGY_TOKENS if t.lower() not in text]
         if absent:
             problems.append(f"{relative} 缺 {absent}")
     record(
@@ -716,6 +826,8 @@ def main(argv: list[str]) -> int:
     check_resource_routing(root)
     check_stage_routing(root)
     check_consistency(root)
+    check_info_flow(root)
+    check_scope_contract_packs(root)
     check_schemas(root)
     check_evals(root)
     check_scope_safety(root)

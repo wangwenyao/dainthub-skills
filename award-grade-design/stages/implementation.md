@@ -95,6 +95,7 @@ Tokens / Theme
 - 设计 Token
 
 确有工程原因需要变化时，记录 deviation；重要变化需要更新 Design Spec。
+越界处理与权限规则见 `references/stage-governance.md`。
 
 ## 验证
 

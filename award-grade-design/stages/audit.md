@@ -25,8 +25,7 @@
 
 `design-audit.md`
 
-按 `templates/design-audit.md` 的章节结构输出，不要自创章节——审计结果的结构
-稳定，跨页面、跨轮次的对比才有意义。每一项按“问题 → 证据 → 影响 → 优先级 →
+按 `templates/design-audit.md` 的章节结构输出。每一项按“问题 → 证据 → 影响 → 优先级 →
 建议”记录，证据必须落到具体 page / viewport / state。
 
 不直接改代码。

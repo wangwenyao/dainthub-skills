@@ -1,9 +1,11 @@
 profile:
   id: vue3-antdv-tailwind
-  version: 8.8.0
+  version: 8.9.0
   purpose: 面向高密度信息系统的 Vue 3 + TypeScript + Vite + Ant Design Vue + Tailwind CSS 参考实现
     Profile。
   activation:
+    matching: case-insensitive substring over 项目事实（package.json、配置文件、依赖清单）
+    counting: distinct-signals
     required_any:
     - Vue 3
     - vue@3
@@ -16,7 +18,9 @@ profile:
     - tailwindcss
     min_supporting_matches: 2
     note: 必须同时满足 Vue 3 + 至少两个 supporting signals；不要因为单独出现 TypeScript/Vite/Tailwind
-      就激活。
+      就激活。required_any 是单信号多拼写（Vue 3 / vue@3 同一信号）；supporting_any 中
+      Ant Design Vue 与 ant-design-vue、Tailwind CSS 与 tailwindcss 各为同一信号的两个拼写，
+      计数按去重后的语义信号数，不按字符串命中数。
   authority:
     core_skill: award-grade-design
     profile: implementation-guidance

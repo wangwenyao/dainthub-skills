@@ -1,6 +1,6 @@
 ---
 name: award-grade-design
-version: 8.8.0
+version: 8.9.0
 description: >
   面向高密度信息系统的界面设计质量工程：界面审计、Design Direction、Design System、
   页面与组件设计、按设计契约实现 UI、真实浏览器视觉 QA、局部品质优化。
@@ -12,7 +12,7 @@ description: >
   不适用：纯营销官网文案、与 UI 无关的普通前端开发、只改后端/接口/数据层。
 ---
 
-# Award-Grade Design v8.8
+# Award-Grade Design v8.9
 
 ## 目标
 
@@ -63,6 +63,9 @@ Stage 选择优先级：
 路由时不得只凭单个宽泛词（例如“页面”“设计”“实现”）决定 Stage。优先使用“动作 + 对象”的完整短语；当强动作短语与普通目标词冲突时，以强动作短语为准。显式组件目标（如 DataTable、组件、筛选器）优先于泛化页面词。机器可读形式见 `routing/stage-router.yaml`，人读说明见 `templates/stage-selection.md`。
 
 不得因为进入某个 Stage 就自动执行后续 Stage。完成当前 Stage 的验收条件后停止。
+
+唯一例外：optimization Stage 收尾的局部 Visual QA 属于该 Stage 内的第 5 步动作
+（见 `stages/optimization.md`），不构成跨 Stage 自动推进。
 
 ## 多 Stage 推进
 
@@ -199,7 +202,7 @@ Design System Consistency ≥ 7.5
 
 **Routing**：`routing/stage-router.yaml`、`routing/scope-router.yaml`、`routing/resource-map.yaml`
 
-**Schemas**：`schemas/design-spec.json`、`schemas/page-dsl.example.yaml`
+**Schemas**：`schemas/design-spec.json`、`schemas/page-dsl.schema.json`、`schemas/page-dsl.example.yaml`
 
 **Templates**：`templates/` 定义各 Stage 的产出结构。每个 Stage 必须按
 `routing/resource-map.yaml` 为该 Stage 指定的模板输出，不要自创章节——结构稳定
@@ -262,5 +265,8 @@ regression case
 
 ## 版本
 
-- v8.8
+- v8.9
 - 更新: 2026-10-04
+- v8.8 → v8.9：修复模板与 Stage 契约断裂（direction / optimization / design-specification.md）、
+  坏 pack 引用、框架泄漏字段；收敛信息流定义与 viewport 矩阵单一权威；补 activation 语义
+  与评分合成公式；门禁新增 md 模板策略词表、信息流一致性、scope-contract packs 解析检查。

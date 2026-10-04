@@ -1,4 +1,4 @@
-version: 8.8
+version: 8.9
 principle: explicit-stage-first-then-action-object-scoring
 
 # 本文件只负责“选哪个 Stage”。每个 Stage 的权限（write_mode）由

@@ -30,4 +30,4 @@
 
 ## 限制
 
-不得把局部优化偷偷升级为 broad redesign。
+不得把局部优化演变成 broad redesign（与 `references/stage-governance.md` 的关键原则一致）。

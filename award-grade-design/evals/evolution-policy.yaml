@@ -1,4 +1,4 @@
-version: 8.8
+version: 8.9
 policy: eval-first
 scope: >
   本文件定义 award-grade-design 的发布门禁。任何会改变触发、Stage 路由、
@@ -29,6 +29,9 @@ deterministic:
       单个 Stage 的常驻资源（resources / templates / profile_resources）不得超过 12 项，
       条件资源（optional / optional_profile_resources）不得超过 12 项，
       防止 Stage 退化成全量加载。
+    resource-routing.scope-contract-packs-resolve: >
+      templates/stage-scope-contract.yaml 的 context.packs 必须指向真实存在的
+      packs/<name>.md；示例契约引用不存在的 pack 会让执行方加载失败。
     stage-routing.stage-sets-consistent: stage-router、scope-router、resource-map 与 stages/ 目录的 Stage 集合必须完全一致。
     consistency.write-mode-projection: >
       SKILL.md 的「权限基线」表必须与 scope-router.yaml 的 write_mode 完全一致。
@@ -38,6 +41,13 @@ deterministic:
       定义实现策略词表的文件必须六项齐全
       （REUSE / CONFIGURE / WRAP / EXTEND / REPLACE / CREATE）。
       少一项，映射结果就无法被下一阶段归类。
+    consistency.md-template-strategy-vocabulary: >
+      人读模板 templates/design-specification.md 的策略枚举必须含全部六项策略
+      （小写形式），防止人读版退化为四词简写、与 yaml/schema 漂移。
+    consistency.info-flow-alignment: >
+      高密度信息流环节定义（Context / Signal / Comparison / Explanation /
+      Exception / Action）在 page-archetype-contract.md、data-intensive-ui.md 与
+      stages/page.md 三处的环节集合必须一致，防止 reference 与 Profile 各说各话。
     consistency.version-sync: >
       SKILL.md（H1 + frontmatter）、profile.yaml、三个 router 与 evals/evolution-policy.yaml
       的版本号必须一致。

@@ -16,13 +16,13 @@
     {"query": "this admin dashboard looks like a stock Ant Design template, audit it and tell me what actually reads as generic", "should_trigger": true},
     {"query": "review the screenshot of our BI tool and score the visual quality, I care about density and scannability", "should_trigger": true},
     {"query": "帮我把这个 PRD 的验收标准补全，顺便看看需求有没有漏", "should_trigger": false},
-    {"query": "这个接口返回 500 了，帮我看看后端日志和事务边界", "should_trigger": false},
+    {"query": "用 Tailwind 把我们营销站的 hero 区块做得更有冲击力，滚动时加渐入动效", "should_trigger": false},
     {"query": "帮我把官网首页的宣传文案写得更吸引人，要那种很有冲击力的感觉", "should_trigger": false},
     {"query": "我们要做一个产品发布落地页，要有滚动视差和 3D 效果，越炫越好", "should_trigger": false},
     {"query": "saas-ui-design 里主色占比不超过 5% 那条规范在哪个文件，我要引用一下", "should_trigger": false},
     {"query": "帮我把这个 Vue 组件的 bug 修了，computed 依赖没收集到", "should_trigger": false},
-    {"query": "这个列表页加个导出 Excel 的功能，再加个批量删除", "should_trigger": false},
-    {"query": "帮我写条 SQL 把订单表和退款表按用户关联查出来", "should_trigger": false},
+    {"query": "评审一下我们 SaaS 产品的信息架构文档，看导航结构合不合理，先不涉及界面改版", "should_trigger": false},
+    {"query": "这个列表页加个导出 Excel 的功能，界面沿用现有样式，主要是把接口和前端逻辑接上", "should_trigger": false},
     {"query": "ant-design-vue 从 3.x 升到 4.x 有哪些破坏性变更，要怎么迁移", "should_trigger": false},
     {"query": "帮我评审一下这份技术方案文档的架构章节写得合不合理", "should_trigger": false}
   ]

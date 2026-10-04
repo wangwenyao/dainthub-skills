@@ -41,4 +41,6 @@ testing:
   required: []
 
 examples: []
-ant_examples: []
+
+# 框架无关的示例引用；具体组件库的示例放到对应 Profile 的资料里，不写在本模板。
+library_examples: []

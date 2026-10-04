@@ -18,6 +18,10 @@
 
 ## Layout Grammar
 
+## 信息密度策略
+
+> 目标对象的典型视口要承载多少信息、如何分组与分层，明确 comfortable / standard / compact 的适用范围。
+
 ## Surface / Material
 
 ## Shape Language
@@ -36,7 +40,25 @@
 
 ## Performance 优先级
 
-## 必须拒绝的 Anti-pattern
+## Do / Don't
+
+### Do
+
+### Don't
+
+> 必须拒绝的 Anti-pattern 归入 Don't 侧，逐条写明拒绝理由。
+
+## 与现有产品的差异点
+
+> 相对现状，哪些视觉与体验决策发生了改变，改变的意图是什么。
+
+## 典型页面示例
+
+> 列出 2-3 个最能体现方向的页面（或页面族），说明该方向在每个页面上的具体表现。
+
+## 后续 Design System 应如何承接
+
+> 指出本方向中的哪些决策应固化为 Token、哪些应固化为 Component Contract，给 design-system Stage 的输入。
 
 ## 一句话设计主张
 

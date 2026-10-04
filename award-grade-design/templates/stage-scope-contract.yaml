@@ -14,7 +14,7 @@ scope:
 
 context:
   packs:
-    - core
+    - high-density
     - design-system
   references:
     - component-contract

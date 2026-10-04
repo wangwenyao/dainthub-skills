@@ -1,7 +1,9 @@
-version: 8.8
+version: 8.9
 principle: narrowest-safe-scope
 # Stage 由 routing/stage-router.yaml 选择；本文件是每个 Stage 写入权限的唯一权威定义。
 # SKILL.md 的「权限基线」表是本文件的投影，由 scripts/run_evals.py 保证一致。
+# 各 Stage 的 triggers 只是权限适用范围的摘要，非权威触发词表；触发判定以
+# routing/stage-router.yaml 的 strong_triggers / signals 为准。
 
 stages:
   audit:
